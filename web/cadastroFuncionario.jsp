@@ -10,51 +10,51 @@
 </jsp:include>
 <div class="container mt-4">
     <h3>Cadastro de Funcionário</h3>
-    <form>
+    <form method="post" action="FuncionarioController">
         <div class="form-group">
             <label for="inputCodigo">Código</label>
-            <input type="number" class="form-control" id="inputCodigo" placeholder="0" readonly="true">
+            <input type="number" class="form-control" name="inputCodigo" id="inputCodigo" placeholder="0" readonly="true">
         </div>
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="inputNome">Nome</label>
-                <input type="text" class="form-control" id="inputNome" placeholder="Nome" required="true">
+                <input type="text" class="form-control" name="inputNome" id="inputNome" placeholder="Nome" required="true">
             </div>
             <div class="form-group col-md-6">
                 <label for="inputTelefone">Telefone</label>
-                <input type="text" class="form-control" id="inputTelefone" placeholder="(12) 1234-1234" required="true">
+                <input type="text" class="form-control" name="inputTelefone" id="inputTelefone" placeholder="(12) 1234-1234" required="true">
             </div>
         </div>
         <div class="form-group">
             <label for="inputCPF">CPF</label>
-            <input type="text" class="form-control" id="inputCPF" placeholder="023.078.530-14" required="true">
+            <input type="text" class="form-control" name="inputCPF" id="inputCPF" placeholder="023.078.530-14" required="true">
         </div>
         <div class="form-row">
             <div class="form-group col-md-8">
                 <label for="inputRua">Rua</label>
-                <input type="text" class="form-control" id="inputNome" placeholder="Rua Principal">
+                <input type="text" class="form-control" name="inputNome" id="inputNome" placeholder="Rua Principal">
             </div>
             <div class="form-group col-md-4">
                 <label for="inputNumero">Número</label>
-                <input type="number" class="form-control" id="inputNumero" placeholder="1234">
+                <input type="number" class="form-control" name="inputNumero" id="inputNumero" placeholder="1234">
             </div>
         </div>
         <div class="form-group">
             <label for="inputEndereco">Complemento</label>
-            <input type="text" class="form-control" id="inputEndereco" placeholder="Apartamento 123">
+            <input type="text" class="form-control" name="inputEndereco" id="inputEndereco" placeholder="Apartamento 123">
         </div>
         <div class="form-group">
             <label for="inputTelefone">Telefone</label>
-            <input type="text" class="form-control" id="inputTelefone" placeholder="(32) 1234-1234">
+            <input type="text" class="form-control" name="inputTelefone" id="inputTelefone" placeholder="(32) 1234-1234">
         </div>
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="inputCidade">Cidade</label>
-                <input type="text" class="form-control" id="inputCidade">
+                <input type="text" class="form-control" name="inputCidade" id="inputCidade">
             </div>
             <div class="form-group col-md-4">
                 <label for="inputEstado">Estado</label>
-                <select id="inputEstado" class="form-control">
+                <select name="inputEstado" id="inputEstado" class="form-control">
                     <option selected>Escolha...</option>
                     <option>...</option>
                 </select>
@@ -71,8 +71,8 @@
                 </select>
             </div>
         </div>
-        <button type="submit" class="btn btn-primary">Salvar</button>
-        <button type="submit" class="btn btn-danger">Excluir</button>
+        <button type="submit" name="salvar" class="btn btn-primary">Salvar</button>
+        <button type="submit" name="excluir" class="btn btn-danger">Excluir</button>
         <a type="submit" class="btn btn-warning" onclick="location.reload(true)">Cancelar</a>
     </form>
 </div>

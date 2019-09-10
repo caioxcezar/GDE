@@ -6,15 +6,15 @@ package model;
  */
 public abstract class Pessoa {
     private String nome, telefone;
-    private int numero, codigo;
-    private String rua, bairro, cidade, cep, complemento;
+    private int numero, codigo, cep;
+    private String rua, bairro, cidade, complemento;
 
     public Pessoa(String nome, String telefone) {
         this.nome = nome;
         this.telefone = telefone;
     }
 
-    public Pessoa(String nome, String telefone, int numero, String rua, String bairro, String cidade, String cep, String complemento) {
+    public Pessoa(String nome, String telefone, int numero, String rua, String bairro, String cidade, int cep, String complemento) {
         this.nome = nome;
         this.telefone = telefone;
         this.numero = numero;
@@ -90,12 +90,12 @@ public abstract class Pessoa {
         this.cidade = cidade;
     }
 
-    public String getCep() {
+    public int getCep() {
         return cep;
     }
 
-    public void setCep(String cep) {
+    public void setCep(int cep) {
         this.cep = cep;
     }
-    
+
 }

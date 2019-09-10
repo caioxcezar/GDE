@@ -1,20 +1,21 @@
 package model;
 
 import java.sql.Date;
-import java.util.ArrayList;
+import java.util.Set;
 
 /**
  *
  * @author ccezar
  */
 public class Pedido {
+
     private int codigo;
-    private ArrayList<Produto> produtos;
+    private Set<Produto> produtos;
     private Cliente cliente;
     private double valor;
     private Date data;
 
-    public Pedido(ArrayList<Produto> produtos, Cliente cliente, double valor, Date data) {
+    public Pedido(Set<Produto> produtos, Cliente cliente, double valor, Date data) {
         this.produtos = produtos;
         this.cliente = cliente;
         this.valor = valor;
@@ -29,11 +30,19 @@ public class Pedido {
         this.codigo = id;
     }
 
-    public ArrayList<Produto> getProdutos() {
+    public int getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(int codigo) {
+        this.codigo = codigo;
+    }
+
+    public Set<Produto> getProdutos() {
         return produtos;
     }
 
-    public void setProdutos(ArrayList<Produto> produtos) {
+    public void setProdutos(Set<Produto> produtos) {
         this.produtos = produtos;
     }
 
@@ -60,5 +69,5 @@ public class Pedido {
     public void setData(Date data) {
         this.data = data;
     }
-    
+
 }

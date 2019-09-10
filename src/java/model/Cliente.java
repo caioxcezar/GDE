@@ -12,7 +12,7 @@ public class Cliente extends Pessoa {
         this.cnpj = cnpj;
     }
 
-    public Cliente(int cnpj, String nome, String telefone, int numero, String rua, String bairro, String cidade, String cep, String complemento) {
+    public Cliente(int cnpj, String nome, String telefone, int numero, String rua, String bairro, String cidade, int cep, String complemento) {
         super(nome, telefone, numero, rua, bairro, cidade, cep, complemento);
         this.cnpj = cnpj;
     }
