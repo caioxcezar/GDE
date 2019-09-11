@@ -27,20 +27,21 @@ public class FuncionarioDao {
         Connection conn = null;
         PreparedStatement p = null;
         String sql = "INSERT INTO gde.funcionarios_tb "
-                + "(nome_func,telefone_func,cpf_func,rua_func,numero_func,complemento_func,bairro_func,cep_func,cod_cargo) "
+                + "(cod_func, nome_func,telefone_func,cpf_func,rua_func,numero_func,complemento_func,bairro_func,cep_func,cod_cargo) "
                 + "VALUES ('?','?','?','?','?','?','?','?','?');";
         try {
             conn = DataBaseLocator.getInstance().getConnection();
             p = conn.prepareStatement(sql);
-            p.setString(0, funcionario.getNome());
-            p.setString(1, funcionario.getTelefone());
-            p.setInt(2, funcionario.getCpf());
-            p.setString(3, funcionario.getRua());
-            p.setInt(4, funcionario.getNumero());
-            p.setString(5, funcionario.getComplemento());
-            p.setString(6, funcionario.getBairro());
-            p.setInt(7, funcionario.getCep());
-            p.setInt(8, funcionario.getCargo().getCodigo());
+            p.setInt(0, funcionario.getCodigo());
+            p.setString(1, funcionario.getNome());
+            p.setString(2, funcionario.getTelefone());
+            p.setInt(3, funcionario.getCpf());
+            p.setString(4, funcionario.getRua());
+            p.setInt(5, funcionario.getNumero());
+            p.setString(6, funcionario.getComplemento());
+            p.setString(7, funcionario.getBairro());
+            p.setInt(8, funcionario.getCep());
+            p.setInt(9, funcionario.getCargo().getCodigo());
             p.execute();
         } finally {
             DaoUtils.closeResources(conn, p);
@@ -73,7 +74,7 @@ public class FuncionarioDao {
             while (rs.next()) {
                 Funcionario c = new Funcionario(
                         rs.getInt("cpf_func"),
-                        CargoDao.getInstance().getCargo(rs.getInt("cargo_func")),
+                        CargoDao.getInstance().get(rs.getInt("cargo_func")),
                         rs.getString("nome_func"),
                         rs.getString("telefone_func"),
                         rs.getInt("numero_func"),
@@ -91,7 +92,7 @@ public class FuncionarioDao {
         }
     }
 
-    public Funcionario getFuncionario(int codFunc) throws SQLException, ClassNotFoundException {
+    public Funcionario get(int codFunc) throws SQLException, ClassNotFoundException {
         Connection conn = null;
         PreparedStatement p = null;
         ResultSet rs = null;
@@ -103,7 +104,7 @@ public class FuncionarioDao {
             rs = p.executeQuery();
             return new Funcionario(
                     rs.getInt("cpf_func"),
-                    CargoDao.getInstance().getCargo(rs.getInt("cargo_func")),
+                    CargoDao.getInstance().get(rs.getInt("cargo_func")),
                     rs.getString("nome_func"),
                     rs.getString("telefone_func"),
                     rs.getInt("numero_func"),
@@ -159,7 +160,7 @@ public class FuncionarioDao {
             while (rs.next()) {
                 funcionarios.add(new Funcionario(
                         rs.getInt("cpf_func"),
-                        CargoDao.getInstance().getCargo(rs.getInt("cargo_func")),
+                        CargoDao.getInstance().get(rs.getInt("cargo_func")),
                         rs.getString("nome_func"),
                         rs.getString("telefone_func"),
                         rs.getInt("numero_func"),

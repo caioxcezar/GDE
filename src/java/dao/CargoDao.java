@@ -23,7 +23,7 @@ public class CargoDao {
         return INSTANCE;
     }
 
-    public Cargo getCargo(int codCargo) throws SQLException, ClassNotFoundException {
+    public Cargo get(int codCargo) throws SQLException, ClassNotFoundException {
         Connection conn = null;
         PreparedStatement p = null;
         ResultSet rs = null;
@@ -33,11 +33,7 @@ public class CargoDao {
             p = conn.prepareStatement(sql);
             p.setInt(0, codCargo);
             rs = p.executeQuery();
-            return new Cargo(
-                    rs.getInt("cod_cargo"),
-                    rs.getString("nome_cargo"),
-                    rs.getString("descricao_cargo")
-            );
+            return instanciarCargo(rs);
         } finally {
             DaoUtils.closeResources(conn, p);
         }
@@ -47,13 +43,14 @@ public class CargoDao {
         Connection conn = null;
         PreparedStatement p = null;
         String sql = "INSERT INTO gde.funcionarios_tb "
-                + "(nome_cargo,descricao_cargo) "
-                + "VALUES ('?','?');";
+                + "(cod_cargo, nome_cargo,descricao_cargo) "
+                + "VALUES ('?', '?', '?');";
         try {
             conn = DataBaseLocator.getInstance().getConnection();
             p = conn.prepareStatement(sql);
-            p.setString(0, cargo.getNome());
-            p.setString(1, cargo.getDescricao());
+            p.setInt(0, cargo.getCodigo());
+            p.setString(1, cargo.getNome());
+            p.setString(2, cargo.getDescricao());
             p.execute();
         } finally {
             DaoUtils.closeResources(conn, p);
@@ -102,12 +99,7 @@ public class CargoDao {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM gde.funcionarios_tb");
             while (rs.next()) {
-                Cargo c = new Cargo(
-                        rs.getInt("cod_cargo"),
-                        rs.getString("nome_cargo"),
-                        rs.getString("descricao")
-                );
-                cargos.add(c);
+                cargos.add(instanciarCargo(rs));
             }
             return cargos;
         } finally {
@@ -127,16 +119,19 @@ public class CargoDao {
             p.setString(0, nome);
             rs = p.executeQuery();
             while (rs.next()) {
-                Cargo c = new Cargo(
-                        rs.getInt("cod_cargo"),
-                        rs.getString("nome_cargo"),
-                        rs.getString("descricao")
-                );
-                cargos.add(c);
+                cargos.add(instanciarCargo(rs));
             }
             return cargos;
         } finally {
             DaoUtils.closeResources(conn, p);
         }
+    }
+
+    private Cargo instanciarCargo(ResultSet rs) throws SQLException {
+        return new Cargo(
+                        rs.getInt("cod_cargo"),
+                        rs.getString("nome_cargo"),
+                        rs.getString("descricao")
+                );
     }
 }
