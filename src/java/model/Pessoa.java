@@ -14,14 +14,15 @@ public abstract class Pessoa {
         this.telefone = telefone;
     }
 
-    public Pessoa(String nome, String telefone, int numero, String rua, String bairro, String cidade, int cep, String complemento) {
+    public Pessoa(String nome, String telefone, int numero, int codigo, int cep, String rua, String bairro, String cidade, String complemento) {
         this.nome = nome;
         this.telefone = telefone;
         this.numero = numero;
+        this.codigo = codigo;
+        this.cep = cep;
         this.rua = rua;
         this.bairro = bairro;
         this.cidade = cidade;
-        this.cep = cep;
         this.complemento = complemento;
     }
 

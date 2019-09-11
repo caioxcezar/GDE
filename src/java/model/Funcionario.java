@@ -13,8 +13,8 @@ public class Funcionario extends Pessoa {
         this.cargo = cargo;
     }
 
-    public Funcionario(int cpf, Cargo cargo, String nome, String telefone, int numero, String rua, String bairro, String cidade, int cep, String complemento) {
-        super(nome, telefone, numero, rua, bairro, cidade, cep, complemento);
+    public Funcionario(int cpf, Cargo cargo, String nome, String telefone, int numero, int codigo, int cep, String rua, String bairro, String cidade, String complemento) {
+        super(nome, telefone, numero, codigo, cep, rua, bairro, cidade, complemento);
         this.cpf = cpf;
         this.cargo = cargo;
     }
