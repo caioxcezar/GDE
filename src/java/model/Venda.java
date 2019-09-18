@@ -6,7 +6,7 @@ import java.sql.Date;
  *
  * @author ccezar
  */
-class Venda {
+public class Venda {
     private int codigo;
     private Date data;
     private Cliente cliente;
@@ -15,7 +15,8 @@ class Venda {
     private boolean pago;
     private float total;
 
-    public Venda(int codigo, Date data, Cliente cliente, Pedido pedido, Funcionario funcionario, boolean pago, float total) {
+    public Venda(int codigo, Date data, Cliente cliente, Pedido pedido, 
+            Funcionario funcionario, boolean pago, float total) {
         this.codigo = codigo;
         this.data = data;
         this.cliente = cliente;

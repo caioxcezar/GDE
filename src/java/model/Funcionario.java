@@ -5,28 +5,30 @@ package model;
  * @author ccezar
  */
 public class Funcionario extends Pessoa {
-    private int cpf;
+    private String cpf;
     private Cargo cargo;
-    public Funcionario(int cpf, String nome, String telefone, Cargo cargo) {
+    public Funcionario(String cpf, String nome, String telefone, Cargo cargo) {
         super(nome, telefone);
         this.cpf = cpf;
         this.cargo = cargo;
     }
 
-    public Funcionario(int cpf, Cargo cargo, String nome, String telefone, int numero, int codigo, int cep, String rua, String bairro, String cidade, String complemento) {
+    public Funcionario(String cpf, Cargo cargo, String nome, String telefone, 
+            int numero, int codigo, String cep, String rua, String bairro, String cidade, 
+            String complemento) {
         super(nome, telefone, numero, codigo, cep, rua, bairro, cidade, complemento);
         this.cpf = cpf;
         this.cargo = cargo;
     }
 
-    public int getCpf() {
+    public String getCpf() {
         return cpf;
     }
 
-    public void setCpf(int cpf) {
+    public void setCpf(String cpf) {
         this.cpf = cpf;
     }
-
+    
     public Cargo getCargo() {
         return cargo;
     }

@@ -11,15 +11,37 @@ public class Pedido {
 
     private int codigo;
     private Set<Produto> produtos;
+    private Funcionario funcionario;
     private Cliente cliente;
     private double valor;
     private Date data;
+    private String estado, tipo;
 
-    public Pedido(Set<Produto> produtos, Cliente cliente, double valor, Date data) {
-        this.produtos = produtos;
-        this.cliente = cliente;
-        this.valor = valor;
-        this.data = data;
+    public Pedido() {
+    }
+
+    public Funcionario getFuncionario() {
+        return funcionario;
+    }
+
+    public void setFuncionario(Funcionario funcionario) {
+        this.funcionario = funcionario;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 
     public int getId() {

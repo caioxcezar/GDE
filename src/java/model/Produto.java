@@ -6,23 +6,16 @@ package model;
  */
 public class Produto {
     private int codigo;
-    private String nome, descricao, categoria;
+    private String nome, descricao;
+    private Categoria categoria;
     private float valor;
 
-    public Produto(String nome, String descricao, String categoria, float valor) {
-        if (descricao.trim().equals("") || nome.trim().equals("") || categoria.trim().equals("") || valor == 0f)
-            throw new RuntimeException("Nenhum campo pode estar em branco");
-        this.nome = nome;
-        this.descricao = descricao;
-        this.categoria = categoria;
-        this.valor = valor;
-    }
-
-    public Produto(int codigo, String nome, String descricao, String categoria) {
+    public Produto(int codigo, String nome, String descricao, Categoria categoria, float valor) {
         this.codigo = codigo;
         this.nome = nome;
         this.descricao = descricao;
         this.categoria = categoria;
+        this.valor = valor;
     }
 
     public float getValor() {
@@ -57,11 +50,11 @@ public class Produto {
         this.descricao = descricao;
     }
 
-    public String getCategoria() {
+    public Categoria getCategoria() {
         return categoria;
     }
 
-    public void setCategoria(String categoria) {
+    public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
     }
     

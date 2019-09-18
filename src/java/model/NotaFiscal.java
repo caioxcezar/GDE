@@ -7,24 +7,22 @@ import java.sql.Date;
  * @author ccezar
  */
 public class NotaFiscal {
-    private int nota;
+    private int codigo;
     private Date data;
     private Venda venda;
 
-    public NotaFiscal(int nota, Date data, Venda venda) {
-        this.nota = nota;
+    public NotaFiscal(int codigo, Date data, Venda venda) {
+        this.codigo = codigo;
         this.data = data;
         this.venda = venda;
     }
 
-    
-    
-    public int getNota() {
-        return nota;
+    public int getCodigo() {
+        return codigo;
     }
 
-    public void setNota(int nota) {
-        this.nota = nota;
+    public void setCodigo(int codigo) {
+        this.codigo = codigo;
     }
 
     public Date getData() {
@@ -42,6 +40,5 @@ public class NotaFiscal {
     public void setVenda(Venda venda) {
         this.venda = venda;
     }
-    
     
 }

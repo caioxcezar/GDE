@@ -1,6 +1,5 @@
 package dao;
 
-import dao.DataBaseLocator;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,17 +20,22 @@ public class CategoriaDao {
     private CategoriaDao() {
     }
 
+    public static CategoriaDao getINSTANCE() {
+        return INSTANCE;
+    }
+    
     public void salvar(Categoria categoria) throws SQLException, ClassNotFoundException {
         Connection conn = null;
         PreparedStatement p = null;
-        String sql = "INSERT INTO gde.categorias_tb "
-                + "(nome_cat,descricao_cat) "
-                + "VALUES ('?','?');";
+        String sql = "INSERT INTO categorias_tb "
+                + "(cod_cat, nome_cat, descricao_cat) "
+                + "VALUES (?, '?', '?');";
         try {
             conn = DataBaseLocator.getInstance().getConnection();
             p = conn.prepareStatement(sql);
-            p.setString(0, categoria.getNome());
-            p.setString(0, categoria.getDescricao());
+            p.setInt(0, categoria.getCodigo());
+            p.setString(1, categoria.getNome());
+            p.setString(2, categoria.getDescricao());
             p.execute();
         } finally {
             DaoUtils.closeResources(conn, p);
@@ -56,7 +60,7 @@ public class CategoriaDao {
         Connection conn = null;
         PreparedStatement p = null;
         ResultSet rs = null;
-        String sql = "SELECT * FROM categoria_tb WHERE cod_cargo = ?";
+        String sql = "SELECT * FROM categorias_tb WHERE cod_cat = ?";
         try {
             conn = DataBaseLocator.getInstance().getConnection();
             p = conn.prepareStatement(sql);
@@ -71,16 +75,15 @@ public class CategoriaDao {
     public void alterar(Categoria categoria) throws SQLException, ClassNotFoundException {
         Connection conn = null;
         PreparedStatement p = null;
-        String sql = "UPDATE gde.categorias_tb "
-                + "SET cod_cat = '?', nome_cat = '?', descricao_cat = '?' "
+        String sql = "UPDATE INTO gde.categorias_tb "
+                + "SET nome_cat = '?', descricao_cat = '?' "
                 + "WHERE cod_cat = ?";
         try {
             conn = DataBaseLocator.getInstance().getConnection();
             p = conn.prepareStatement(sql);
-            p.setInt(0, categoria.getCodigo());
-            p.setString(1, categoria.getNome());
-            p.setString(2, categoria.getDescricao());
-            p.setInt(3, categoria.getCodigo());
+            p.setString(0, categoria.getNome());
+            p.setString(1, categoria.getDescricao());
+            p.setInt(2, categoria.getCodigo());
             p.execute();
         } finally {
             DaoUtils.closeResources(conn, p);
@@ -95,7 +98,7 @@ public class CategoriaDao {
             conn = DataBaseLocator.getInstance().getConnection();
             st = conn.createStatement();
             Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM gde.funcionarios_tb");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM categorias_tb");
             while (rs.next()) {
                 categorias.add(instanciarCategoria(rs));
             }
@@ -109,8 +112,8 @@ public class CategoriaDao {
         Connection conn = null;
         PreparedStatement p = null;
         ResultSet rs = null;
-        String sql = "SELECT * FROM gde.categorias_tb WHERE cod_cat like '%?%'";
-        ArrayList<Categoria> categorias = new ArrayList<Categoria>();
+        String sql = "SELECT * FROM categorias_tb WHERE cod_cat like '%?%'";
+        ArrayList<Categoria> categorias = new ArrayList<>();
         try {
             conn = DataBaseLocator.getInstance().getConnection();
             p = conn.prepareStatement(sql);
@@ -127,9 +130,9 @@ public class CategoriaDao {
 
     private Categoria instanciarCategoria(ResultSet rs) throws SQLException {
         return new Categoria(
-                        rs.getInt("cod_cargo"),
-                        rs.getString("nome_cargo"),
-                        rs.getString("descricao")
+                        rs.getInt("cod_cat"),
+                        rs.getString("nome_cat"),
+                        rs.getString("descricao_cat")
                 );
     }
 }

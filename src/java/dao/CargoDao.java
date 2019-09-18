@@ -19,19 +19,19 @@ public class CargoDao {
     private CargoDao() {
     }
 
-    public static CargoDao getInstance() {
+    public static CargoDao getINSTANCE() {
         return INSTANCE;
     }
 
-    public Cargo get(int codCargo) throws SQLException, ClassNotFoundException {
+    public Cargo get(int cod) throws SQLException, ClassNotFoundException {
         Connection conn = null;
         PreparedStatement p = null;
         ResultSet rs = null;
-        String sql = "SELECT * FROM cargo_tb WHERE cod_cargo = ?";
+        String sql = "SELECT * FROM cargos_tb WHERE cod_cargo = ?";
         try {
             conn = DataBaseLocator.getInstance().getConnection();
             p = conn.prepareStatement(sql);
-            p.setInt(0, codCargo);
+            p.setInt(0, cod);
             rs = p.executeQuery();
             return instanciarCargo(rs);
         } finally {
@@ -42,9 +42,9 @@ public class CargoDao {
     public void salvar(Cargo cargo) throws SQLException, ClassNotFoundException {
         Connection conn = null;
         PreparedStatement p = null;
-        String sql = "INSERT INTO gde.funcionarios_tb "
-                + "(cod_cargo, nome_cargo,descricao_cargo) "
-                + "VALUES ('?', '?', '?');";
+        String sql = "INSERT INTO cargos_tb "
+                + "(cod_cargo, nome_cargo, descricao_cargo) "
+                + "VALUES (?, '?', '?');";
         try {
             conn = DataBaseLocator.getInstance().getConnection();
             p = conn.prepareStatement(sql);
@@ -60,8 +60,8 @@ public class CargoDao {
     public void alterar(Cargo cargo) throws SQLException, ClassNotFoundException {
         Connection conn = null;
         PreparedStatement p = null;
-        String sql = "UPDATE gde.cargos_tb "
-                + "SET cod_cargo = '?', nome_cargo = '?', descricao_cargo = '?' "
+        String sql = "UPDATE cargos_tb "
+                + "SET nome_cargo = '?', descricao_cargo = '?' "
                 + "WHERE cod_cargo = ?";
         try {
             conn = DataBaseLocator.getInstance().getConnection();
@@ -75,14 +75,14 @@ public class CargoDao {
         }
     }
 
-    public void apagar(int codCargo) throws SQLException, ClassNotFoundException {
+    public void apagar(int cod) throws SQLException, ClassNotFoundException {
         Connection conn = null;
         PreparedStatement p = null;
         String sql = "DELETE FROM gde.cargos_tb WHERE cod_cargo = ?";
         try {
             conn = DataBaseLocator.getInstance().getConnection();
             p = conn.prepareStatement(sql);
-            p.setInt(0, codCargo);
+            p.setInt(0, cod);
             p.execute();
         } finally {
             DaoUtils.closeResources(conn, p);
@@ -97,7 +97,7 @@ public class CargoDao {
             conn = DataBaseLocator.getInstance().getConnection();
             st = conn.createStatement();
             Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM gde.funcionarios_tb");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM cargos_tb");
             while (rs.next()) {
                 cargos.add(instanciarCargo(rs));
             }
@@ -111,8 +111,8 @@ public class CargoDao {
         Connection conn = null;
         PreparedStatement p = null;
         ResultSet rs = null;
-        String sql = "SELECT * FROM gde.funcionarios_tb WHERE cod_cargo like '%?%'";
-        ArrayList<Cargo> cargos = new ArrayList<Cargo>();
+        String sql = "SELECT * FROM gde.cargo WHERE nome_cargo like '%?%'";
+        ArrayList<Cargo> cargos = new ArrayList<>();
         try {
             conn = DataBaseLocator.getInstance().getConnection();
             p = conn.prepareStatement(sql);
@@ -131,7 +131,7 @@ public class CargoDao {
         return new Cargo(
                         rs.getInt("cod_cargo"),
                         rs.getString("nome_cargo"),
-                        rs.getString("descricao")
+                        rs.getString("descricao_cargo")
                 );
     }
 }
