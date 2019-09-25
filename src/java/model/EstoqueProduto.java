@@ -1,28 +1,21 @@
 package model;
+
+import java.util.ArrayList;
+
 /**
  *
  * @author ccezar
  */
-public class PedidoProduto {
-
-    private int quantidade, codigo, codigoPedido;
+public class EstoqueProduto {
+private int quantidade, codigo;
     private Produto produto;
 
-    public PedidoProduto(int quantidade, int codigo, int codigoPedido, Produto produto) {
+    public EstoqueProduto(int quantidade, int codigo, Produto produto) {
         this.quantidade = quantidade;
         this.codigo = codigo;
-        this.codigoPedido = codigoPedido;
         this.produto = produto;
     }
 
-    public int getCodigoPedido() {
-        return codigoPedido;
-    }
-
-    public void setCodigoPedido(int codigoPedido) {
-        this.codigoPedido = codigoPedido;
-    }
-    
     public int getQuantidade() {
         return quantidade;
     }
@@ -46,6 +39,5 @@ public class PedidoProduto {
     public void setProduto(Produto produto) {
         this.produto = produto;
     }
-    
-    
+
 }

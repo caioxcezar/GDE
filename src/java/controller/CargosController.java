@@ -1,7 +1,7 @@
 package controller;
 
-import dao.ClienteDao;
-import dao.FuncionarioDao;
+import dao.CargoDao;
+import dao.CategoriaDao;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -10,14 +10,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.Cliente;
-import model.Funcionario;
+import model.Cargo;
+import model.Categoria;
 
 /**
  *
  * @author ccezar
  */
-public class FuncionarioController extends HttpServlet {
+public class CargosController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -44,10 +44,10 @@ public class FuncionarioController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-                try {
-            ArrayList<Funcionario> funcionarios = FuncionarioDao.listar();
-            request.setAttribute("funcionarios", funcionarios);
-            RequestDispatcher view = request.getRequestDispatcher("/funcionarios.jsp");
+        try {
+            ArrayList<Cargo> cargos = CargoDao.listar();
+            request.setAttribute("cargos", cargos);
+            RequestDispatcher view = request.getRequestDispatcher("/cargos.jsp");
             view.forward(request, response);
         } catch (Exception e) {
             e.printStackTrace();
@@ -66,7 +66,7 @@ public class FuncionarioController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+
     }
 
     /**

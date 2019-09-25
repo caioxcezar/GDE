@@ -1,20 +1,20 @@
 <%-- 
-    Document   : categorias
-    Created on : Sep 4, 2019, 5:51:22 PM
+    Document   : clientes
+    Created on : Sep 4, 2019, 12:58:58 AM
     Author     : ccezar
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <jsp:include page="templates/header.jsp">
-    <jsp:param name="title" value="Cadastro de Cliente"/>
+    <jsp:param name="title" value="Cargos"/>
 </jsp:include>
 <div class="container mt-4">
     <div class="container">
-        <h3>Categorias</h3>
+        <h3>Cargos</h3>
         <form>
             <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Código ou nome da categoria" aria-label="Código ou nome da categoria" aria-describedby="button-addon2">
+                <input type="text" name="inputTermo" class="form-control" placeholder="Código ou nome do cargo" aria-label="Código ou nome do cliente" aria-describedby="button-addon2">
                 <div class="input-group-append">
                     <button class="btn btn-outline-secondary" type="button" id="button-addon2">Buscar</button>
                 </div>
@@ -28,11 +28,11 @@
                             <th scope="col">Descrição</th>
                         </tr>
                     </thead>
-                    <c:forEach items="${categorias}" var="categoria">
+                    <c:forEach items="${cargos}" var="cargo">
                         <tr>
-                            <th scope="row"><c:out value="${categoria.codigo}"></c:out></th>
-                            <td><c:out value="${categoria.nome}"></c:out></td>
-                            <td><c:out value="${categoria.descricao}"></c:out></td>
+                            <th scope="row"><c:out value="${cargo.codigo}"></c:out></th>
+                            <td><c:out value="${cargo.nome}"></c:out></td>
+                            <td><c:out value="${cargo.descricao}"></c:out></td>
                         </tr>
                     </c:forEach>
                 </table>

@@ -4,9 +4,89 @@
         <servlet-name>FuncionarioController</servlet-name>
         <servlet-class>controller.FuncionarioController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CategoriasController</servlet-name>
+        <servlet-class>controller.CategoriasController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ClientesController</servlet-name>
+        <servlet-class>controller.ClientesController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ProdutosController</servlet-name>
+        <servlet-class>controller.ProdutosController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CargosController</servlet-name>
+        <servlet-class>controller.CargosController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EstoqueController</servlet-name>
+        <servlet-class>controller.EstoqueController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ManterCategoriaController</servlet-name>
+        <servlet-class>controller.ManterCategoriaController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ManterClienteController</servlet-name>
+        <servlet-class>controller.ManterClienteController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ManterFuncionarioController</servlet-name>
+        <servlet-class>controller.ManterFuncionarioController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ManterProdutoController</servlet-name>
+        <servlet-class>controller.ManterProdutoController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ManterEstoqueController</servlet-name>
+        <servlet-class>controller.ManterEstoqueController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>FuncionarioController</servlet-name>
-        <url-pattern>/FuncionarioController</url-pattern>
+        <url-pattern>/funcionarios</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CategoriasController</servlet-name>
+        <url-pattern>/categorias</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ClientesController</servlet-name>
+        <url-pattern>/clientes</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProdutosController</servlet-name>
+        <url-pattern>/produtos</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CargosController</servlet-name>
+        <url-pattern>/cargos</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EstoqueController</servlet-name>
+        <url-pattern>/estoque</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ManterCategoriaController</servlet-name>
+        <url-pattern>/manterCategoria</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ManterClienteController</servlet-name>
+        <url-pattern>/manterCliente</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ManterFuncionarioController</servlet-name>
+        <url-pattern>/manterFuncionario</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ManterProdutoController</servlet-name>
+        <url-pattern>/manterProduto</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ManterEstoqueController</servlet-name>
+        <url-pattern>/manterEstoque</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

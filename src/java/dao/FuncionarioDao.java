@@ -14,16 +14,7 @@ import util.DaoUtils;
  */
 public class FuncionarioDao {
 
-    private static final FuncionarioDao INSTANCE = new FuncionarioDao();
-
-    private FuncionarioDao() {
-    }
-
-    public static FuncionarioDao getINSTANCE() {
-        return INSTANCE;
-    }
-
-    public void salvar(Funcionario funcionario) throws SQLException, ClassNotFoundException {
+    public static void salvar(Funcionario funcionario) throws SQLException, ClassNotFoundException {
         Connection conn = null;
         PreparedStatement p = null;
         String sql = "INSERT INTO gde.funcionarios_tb "
@@ -49,7 +40,7 @@ public class FuncionarioDao {
         }
     }
 
-    public void apagar(int codFunc) throws SQLException, ClassNotFoundException {
+    public static void apagar(int codFunc) throws SQLException, ClassNotFoundException {
         Connection conn = null;
         PreparedStatement p = null;
         String sql = "DELETE FROM gde.funcionarios_tb WHERE cod_func = ?";
@@ -63,7 +54,7 @@ public class FuncionarioDao {
         }
     }
 
-    public ArrayList<Funcionario> listar() throws SQLException, ClassNotFoundException {
+    public static ArrayList<Funcionario> listar() throws SQLException, ClassNotFoundException {
         Connection conn = null;
         Statement st = null;
         ArrayList<Funcionario> funcionarios = new ArrayList<>();
@@ -81,7 +72,7 @@ public class FuncionarioDao {
         }
     }
 
-    public Funcionario get(int codFunc) throws SQLException, ClassNotFoundException {
+    public static Funcionario get(int codFunc) throws SQLException, ClassNotFoundException {
         Connection conn = null;
         PreparedStatement p = null;
         ResultSet rs = null;
@@ -97,7 +88,7 @@ public class FuncionarioDao {
         }
     }
 
-    public void alterar(Funcionario funcionario) throws SQLException, ClassNotFoundException {
+    public static void alterar(Funcionario funcionario) throws SQLException, ClassNotFoundException {
         Connection conn = null;
         PreparedStatement p = null;
         String sql = "UPDATE gde.funcionarios_tb "
@@ -123,7 +114,7 @@ public class FuncionarioDao {
         }
     }
 
-    public ArrayList<Funcionario> listar(String nome) throws SQLException, ClassNotFoundException {
+    public static ArrayList<Funcionario> listar(String nome) throws SQLException, ClassNotFoundException {
         Connection conn = null;
         PreparedStatement p = null;
         ResultSet rs = null;
@@ -143,10 +134,10 @@ public class FuncionarioDao {
         }
     }
 
-    private Funcionario instanciarFuncionario(ResultSet rs) throws SQLException, ClassNotFoundException {
+    private static Funcionario instanciarFuncionario(ResultSet rs) throws SQLException, ClassNotFoundException {
         return new Funcionario(
                         rs.getString("cpf_func"),
-                        CargoDao.getINSTANCE().get(rs.getInt("cargo_func")),
+                        CargoDao.get(rs.getInt("cargo_func")),
                         rs.getString("nome_func"),
                         rs.getString("telefone_func"),
                         rs.getInt("numero_func"),

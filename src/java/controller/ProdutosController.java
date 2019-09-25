@@ -1,23 +1,20 @@
 package controller;
 
-import dao.ClienteDao;
-import dao.FuncionarioDao;
+import dao.ProdutoDao;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.Cliente;
-import model.Funcionario;
+import model.Produto;
 
 /**
  *
  * @author ccezar
  */
-public class FuncionarioController extends HttpServlet {
+public class ProdutosController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -44,10 +41,10 @@ public class FuncionarioController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-                try {
-            ArrayList<Funcionario> funcionarios = FuncionarioDao.listar();
-            request.setAttribute("funcionarios", funcionarios);
-            RequestDispatcher view = request.getRequestDispatcher("/funcionarios.jsp");
+        try {
+            ArrayList<Produto> produtos = ProdutoDao.listar();
+            request.setAttribute("produtos", produtos);
+            RequestDispatcher view = request.getRequestDispatcher("/produtos.jsp");
             view.forward(request, response);
         } catch (Exception e) {
             e.printStackTrace();

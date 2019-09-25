@@ -11,27 +11,28 @@
 <div class="container">
     <h3>Cadastros</h3>
     <div class="list-group">
-        <a class="list-group-item list-group-item-action" href="cadastroCliente.jsp">Cadastrar Cliente</a>
-        <a class="list-group-item list-group-item-action" href="cadastroFuncionario.jsp">Cadastrar Funcionario</a>
-        <a class="list-group-item list-group-item-action" href="cadastroProduto.jsp">Cadastrar Produto</a>
-        <a class="list-group-item list-group-item-action" href="cadastroCategoria.jsp">Cadastrar Categoria</a>
-        <a class="list-group-item list-group-item-action" href="adicionarEstoque.jsp">Adicionar ao Estoque</a>
+        <a class="list-group-item list-group-item-action" href="manterCliente?acao=prepararOperacao&operacao=incluir">Cadastrar Cliente</a>
+        <a class="list-group-item list-group-item-action" href="manterFuncionario?acao=prepararOperacao&operacao=incluir">Cadastrar Funcionario</a>
+        <a class="list-group-item list-group-item-action" href="manterProduto?acao=prepararOperacao&operacao=incluir">Cadastrar Produto</a>
+        <a class="list-group-item list-group-item-action" href="manterCategoria?acao=prepararOperacao&operacao=incluir">Cadastrar Categoria</a>
+        <a class="list-group-item list-group-item-action" href="manterEstoque?acao=prepararOperacao&operacao=incluir">Adicionar ao Estoque</a>
     </div>
     <hr>
     <h3>Consultas</h3>
     <div class="list-group">
-        <a class="list-group-item list-group-item-action" href="clientes.jsp">Consultar Cliente</a>
-        <a class="list-group-item list-group-item-action" href="funcionarios.jsp">Consultar Funcionario</a>
-        <a class="list-group-item list-group-item-action" href="produtos.jsp">Consultar Produto</a>
-        <a class="list-group-item list-group-item-action" href="estoque.jsp">Consultar Estoque</a>
-        <a class="list-group-item list-group-item-action" href="categoria.jsp">Consultar Categoria</a>
+        <a class="list-group-item list-group-item-action" href="clientes">Consultar Cliente</a>
+        <a class="list-group-item list-group-item-action" href="funcionarios">Consultar Funcionario</a>
+        <a class="list-group-item list-group-item-action" href="produtos">Consultar Produto</a>
+        <a class="list-group-item list-group-item-action" href="estoque">Consultar Estoque</a>
+        <a class="list-group-item list-group-item-action" href="categorias">Consultar Categoria</a>
+        <a class="list-group-item list-group-item-action" href="cargos">Consultar Cargo</a>
     </div>
     <hr>
     <h3>Transações</h3>
     <div class="list-group">
-        <a class="list-group-item list-group-item-action" href="emitirPedido.jsp">Emitir Pedido</a>
-        <a class="list-group-item list-group-item-action" href="venderProduto.jsp">Vender Produto</a>
-        <a class="list-group-item list-group-item-action" href="RealizarPagamento.jsp">Realizar Pagamento</a>
+        <a class="list-group-item list-group-item-action" href="emitirPedido">Emitir Pedido</a>
+        <a class="list-group-item list-group-item-action" href="venderProduto">Vender Produto</a>
+        <a class="list-group-item list-group-item-action" href="RealizarPagamento">Realizar Pagamento</a>
     </div>
 </div>
 <jsp:include page="templates/footer.jsp"/>

@@ -14,16 +14,7 @@ import util.DaoUtils;
  */
 public class CargoDao {
 
-    private static final CargoDao INSTANCE = new CargoDao();
-
-    private CargoDao() {
-    }
-
-    public static CargoDao getINSTANCE() {
-        return INSTANCE;
-    }
-
-    public Cargo get(int cod) throws SQLException, ClassNotFoundException {
+    public static Cargo get(int cod) throws SQLException, ClassNotFoundException {
         Connection conn = null;
         PreparedStatement p = null;
         ResultSet rs = null;
@@ -31,15 +22,16 @@ public class CargoDao {
         try {
             conn = DataBaseLocator.getInstance().getConnection();
             p = conn.prepareStatement(sql);
-            p.setInt(0, cod);
+            p.setInt(1, cod);
             rs = p.executeQuery();
+            rs.next();
             return instanciarCargo(rs);
         } finally {
             DaoUtils.closeResources(conn, p);
         }
     }
 
-    public void salvar(Cargo cargo) throws SQLException, ClassNotFoundException {
+    public static void salvar(Cargo cargo) throws SQLException, ClassNotFoundException {
         Connection conn = null;
         PreparedStatement p = null;
         String sql = "INSERT INTO cargos_tb "
@@ -48,16 +40,16 @@ public class CargoDao {
         try {
             conn = DataBaseLocator.getInstance().getConnection();
             p = conn.prepareStatement(sql);
-            p.setInt(0, cargo.getCodigo());
-            p.setString(1, cargo.getNome());
-            p.setString(2, cargo.getDescricao());
+            p.setInt(1, cargo.getCodigo());
+            p.setString(2, cargo.getNome());
+            p.setString(3, cargo.getDescricao());
             p.execute();
         } finally {
             DaoUtils.closeResources(conn, p);
         }
     }
 
-    public void alterar(Cargo cargo) throws SQLException, ClassNotFoundException {
+    public static void alterar(Cargo cargo) throws SQLException, ClassNotFoundException {
         Connection conn = null;
         PreparedStatement p = null;
         String sql = "UPDATE cargos_tb "
@@ -66,30 +58,30 @@ public class CargoDao {
         try {
             conn = DataBaseLocator.getInstance().getConnection();
             p = conn.prepareStatement(sql);
-            p.setString(0, cargo.getNome());
-            p.setString(1, cargo.getDescricao());
-            p.setInt(2, cargo.getCodigo());
+            p.setString(1, cargo.getNome());
+            p.setString(2, cargo.getDescricao());
+            p.setInt(3, cargo.getCodigo());
             p.execute();
         } finally {
             DaoUtils.closeResources(conn, p);
         }
     }
 
-    public void apagar(int cod) throws SQLException, ClassNotFoundException {
+    public static void apagar(int cod) throws SQLException, ClassNotFoundException {
         Connection conn = null;
         PreparedStatement p = null;
         String sql = "DELETE FROM gde.cargos_tb WHERE cod_cargo = ?";
         try {
             conn = DataBaseLocator.getInstance().getConnection();
             p = conn.prepareStatement(sql);
-            p.setInt(0, cod);
+            p.setInt(1, cod);
             p.execute();
         } finally {
             DaoUtils.closeResources(conn, p);
         }
     }
 
-    public ArrayList<Cargo> listar() throws SQLException, ClassNotFoundException {
+    public static ArrayList<Cargo> listar() throws SQLException, ClassNotFoundException {
         Connection conn = null;
         Statement st = null;
         ArrayList<Cargo> cargos = new ArrayList<>();
@@ -107,7 +99,7 @@ public class CargoDao {
         }
     }
 
-    public ArrayList<Cargo> listar(String nome) throws SQLException, ClassNotFoundException {
+    public static ArrayList<Cargo> listar(String nome) throws SQLException, ClassNotFoundException {
         Connection conn = null;
         PreparedStatement p = null;
         ResultSet rs = null;
@@ -116,7 +108,7 @@ public class CargoDao {
         try {
             conn = DataBaseLocator.getInstance().getConnection();
             p = conn.prepareStatement(sql);
-            p.setString(0, nome);
+            p.setString(1, nome);
             rs = p.executeQuery();
             while (rs.next()) {
                 cargos.add(instanciarCargo(rs));
@@ -127,7 +119,7 @@ public class CargoDao {
         }
     }
 
-    private Cargo instanciarCargo(ResultSet rs) throws SQLException {
+    private static Cargo instanciarCargo(ResultSet rs) throws SQLException {
         return new Cargo(
                         rs.getInt("cod_cargo"),
                         rs.getString("nome_cargo"),

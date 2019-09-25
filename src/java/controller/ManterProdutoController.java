@@ -1,23 +1,18 @@
 package controller;
 
-import dao.ClienteDao;
-import dao.FuncionarioDao;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.Cliente;
-import model.Funcionario;
 
 /**
  *
  * @author ccezar
  */
-public class FuncionarioController extends HttpServlet {
+public class ManterProdutoController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -30,6 +25,22 @@ public class FuncionarioController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String acao = request.getParameter("acao");
+        if (acao.equals("prepararOperacao")) {
+            prepararOperacao(request, response);
+        }
+    }
+
+    private void prepararOperacao(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            String operacao = request.getParameter("operacao");
+            request.setAttribute("operacao", operacao);
+            //request.setAttribute("categorias", CategoriaDao.listar());
+            RequestDispatcher view = request.getRequestDispatcher("/manterProduto.jsp");
+            view.forward(request, response);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -44,15 +55,7 @@ public class FuncionarioController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-                try {
-            ArrayList<Funcionario> funcionarios = FuncionarioDao.listar();
-            request.setAttribute("funcionarios", funcionarios);
-            RequestDispatcher view = request.getRequestDispatcher("/funcionarios.jsp");
-            view.forward(request, response);
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new ServletException("Erro ao processar controller: \n" + e.getMessage());
-        }
+        processRequest(request, response);
     }
 
     /**

@@ -20,7 +20,7 @@ public class NotaFiscalDao {
     private NotaFiscalDao() {
     }
 
-    public NotaFiscal get(int cod) throws SQLException, ClassNotFoundException {
+    public static NotaFiscal get(int cod) throws SQLException, ClassNotFoundException {
         Connection conn = null;
         PreparedStatement p = null;
         ResultSet rs = null;
@@ -36,7 +36,7 @@ public class NotaFiscalDao {
         }
     }
 
-    public void salvar(NotaFiscal nota) throws SQLException, ClassNotFoundException {
+    public static void salvar(NotaFiscal nota) throws SQLException, ClassNotFoundException {
         Connection conn = null;
         PreparedStatement p = null;
         String sql = "INSERT INTO notas_fiscais_tb "
@@ -54,7 +54,7 @@ public class NotaFiscalDao {
         }
     }
 
-    public void alterar(NotaFiscal nota) throws SQLException, ClassNotFoundException {
+    public static void alterar(NotaFiscal nota) throws SQLException, ClassNotFoundException {
         Connection conn = null;
         PreparedStatement p = null;
         String sql = "UPDATE notas_fiscais_tb "
@@ -72,7 +72,7 @@ public class NotaFiscalDao {
         }
     }
 
-    public void apagar(int cod) throws SQLException, ClassNotFoundException {
+    public static void apagar(int cod) throws SQLException, ClassNotFoundException {
         Connection conn = null;
         PreparedStatement p = null;
         String sql = "DELETE FROM gde.notas_fiscais_tb WHERE cod_nota = ?";
@@ -86,7 +86,7 @@ public class NotaFiscalDao {
         }
     }
 
-    public ArrayList<NotaFiscal> listar() throws SQLException, ClassNotFoundException {
+    public static ArrayList<NotaFiscal> listar() throws SQLException, ClassNotFoundException {
         Connection conn = null;
         Statement st = null;
         ArrayList<NotaFiscal> cargos = new ArrayList<>();
@@ -104,10 +104,10 @@ public class NotaFiscalDao {
         }
     }
 
-    private NotaFiscal instanciarNotaFiscal(ResultSet rs) throws SQLException, ClassNotFoundException {
+    private static NotaFiscal instanciarNotaFiscal(ResultSet rs) throws SQLException, ClassNotFoundException {
         return new NotaFiscal(
                 rs.getInt("cod_nota"), 
                 rs.getDate("data_nota"), 
-                VendaDao.getINSTANCE().get(rs.getInt("venda_nota")));
+                VendaDao.get(rs.getInt("venda_nota")));
     }
 }

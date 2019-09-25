@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import model.Categoria;
 import model.Produto;
 import util.DaoUtils;
 
@@ -15,16 +16,7 @@ import util.DaoUtils;
  */
 public class ProdutoDao {
     
-    private static final ProdutoDao INSTANCE = new ProdutoDao();
-    
-    private ProdutoDao() {
-    }
-    
-    public static ProdutoDao getINSTANCE() {
-        return INSTANCE;
-    }
-    
-    public Produto get(int cod) throws SQLException, ClassNotFoundException {
+    public static Produto get(int cod) throws SQLException, ClassNotFoundException {
         Connection conn = null;
         PreparedStatement p = null;
         ResultSet rs = null;
@@ -32,15 +24,16 @@ public class ProdutoDao {
         try {
             conn = DataBaseLocator.getInstance().getConnection();
             p = conn.prepareStatement(sql);
-            p.setInt(0, cod);
+            p.setInt(1, cod);
             rs = p.executeQuery();
+            rs.next();
             return instanciarProd(rs);
         } finally {
             DaoUtils.closeResources(conn, p);
         }
     }
     
-    public void salvar(Produto produto) throws SQLException, ClassNotFoundException {
+    public static void salvar(Produto produto) throws SQLException, ClassNotFoundException {
         Connection conn = null;
         PreparedStatement p = null;
         String sql = "INSERT INTO gde.produtos_tb "
@@ -60,7 +53,7 @@ public class ProdutoDao {
         }
     }
     
-    public void alterar(Produto produto) throws SQLException, ClassNotFoundException {
+    public static void alterar(Produto produto) throws SQLException, ClassNotFoundException {
         Connection conn = null;
         PreparedStatement p = null;
         String sql = "UPDATE INTO gde.produtos_tb "
@@ -79,7 +72,7 @@ public class ProdutoDao {
         }
     }
     
-    public void apagar(int cod) throws SQLException, ClassNotFoundException {
+    public static void apagar(int cod) throws SQLException, ClassNotFoundException {
         Connection conn = null;
         PreparedStatement p = null;
         String sql = "DELETE FROM gde.produtos_tb WHERE cod_prod = ?";
@@ -93,7 +86,7 @@ public class ProdutoDao {
         }
     }
     
-    public ArrayList<Produto> listar() throws SQLException, ClassNotFoundException {
+    public static ArrayList<Produto> listar() throws SQLException, ClassNotFoundException {
         Connection conn = null;
         Statement st = null;
         ArrayList<Produto> produtos = new ArrayList<>();
@@ -111,7 +104,7 @@ public class ProdutoDao {
         }
     }
     
-    public ArrayList<Produto> listar(String nome) throws SQLException, ClassNotFoundException {
+    public static ArrayList<Produto> listar(String nome) throws SQLException, ClassNotFoundException {
         Connection conn = null;
         PreparedStatement p = null;
         ResultSet rs = null;
@@ -131,12 +124,12 @@ public class ProdutoDao {
         }
     }
     
-    private Produto instanciarProd(ResultSet rs) throws SQLException, ClassNotFoundException {
+    private static Produto instanciarProd(ResultSet rs) throws SQLException, ClassNotFoundException {
         return new Produto(
                 rs.getInt("cod_prod"), 
                 rs.getString("nome_prod"),
                 rs.getString("descricao_prod"),
-                CategoriaDao.getINSTANCE().get(rs.getInt("categoria_prod")),
+                CategoriaDao.get(rs.getInt("categoria_prod")),
                 rs.getFloat("valor_produto")
         );
     }

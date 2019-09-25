@@ -6,11 +6,11 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <jsp:include page="templates/header.jsp">
-    <jsp:param name="title" value="Cadastro de Cliente"/>
+    <jsp:param name="title" value="${operacao} cliente"/>
 </jsp:include>
 <div class="container mt-4">
-    <h3>Cadastro de Cliente</h3>
-    <form>
+    <h3>${operacao.toUpperCase()} CLIENTE</h3>
+    <form action="manterCliente?acao=confirmarOperacao&operacao=${operacao}" method="post">
         <div class="form-group">
             <label for="inputCodigo">Código</label>
             <input type="number" class="form-control" id="inputCodigo" placeholder="0" readonly="true">

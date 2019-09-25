@@ -1,7 +1,7 @@
 package model;
 
 import java.sql.Date;
-import java.util.Set;
+import java.util.ArrayList;
 
 /**
  *
@@ -10,7 +10,7 @@ import java.util.Set;
 public class Pedido {
 
     private int codigo;
-    private Set<Produto> produtos;
+    private ArrayList<PedidoProduto> produtos;
     private Funcionario funcionario;
     private Cliente cliente;
     private double valor;
@@ -20,6 +20,18 @@ public class Pedido {
     public Pedido() {
     }
 
+    public Pedido(int codigo, ArrayList<PedidoProduto> produtos, Funcionario funcionario, Cliente cliente, double valor, Date data, String estado, String tipo) {
+        this.codigo = codigo;
+        this.produtos = produtos;
+        this.funcionario = funcionario;
+        this.cliente = cliente;
+        this.valor = valor;
+        this.data = data;
+        this.estado = estado;
+        this.tipo = tipo;
+    }
+
+    
     public Funcionario getFuncionario() {
         return funcionario;
     }
@@ -60,11 +72,11 @@ public class Pedido {
         this.codigo = codigo;
     }
 
-    public Set<Produto> getProdutos() {
+    public ArrayList<PedidoProduto> getProdutos() {
         return produtos;
     }
 
-    public void setProdutos(Set<Produto> produtos) {
+    public void setProdutos(ArrayList<PedidoProduto> produtos) {
         this.produtos = produtos;
     }
 

@@ -15,16 +15,7 @@ import util.DaoUtils;
  */
 public class VendaDao {
 
-    private static final VendaDao INSTANCE = new VendaDao();
-
-    private VendaDao() {
-    }
-
-    public static VendaDao getINSTANCE() {
-        return INSTANCE;
-    }
-    
-    public Venda get(int cod) throws SQLException, ClassNotFoundException {
+    public static Venda get(int cod) throws SQLException, ClassNotFoundException {
         Connection conn = null;
         PreparedStatement p = null;
         ResultSet rs = null;
@@ -40,7 +31,7 @@ public class VendaDao {
         }
     }
 
-    public void salvar(Venda venda) throws SQLException, ClassNotFoundException {
+    public static void salvar(Venda venda) throws SQLException, ClassNotFoundException {
         Connection conn = null;
         PreparedStatement p = null;
         String sql = "INSERT INTO vendas_tb "
@@ -63,7 +54,7 @@ public class VendaDao {
         }
     }
 
-    public void alterar(Venda venda) throws SQLException, ClassNotFoundException {
+    public static void alterar(Venda venda) throws SQLException, ClassNotFoundException {
         Connection conn = null;
         PreparedStatement p = null;
         String sql = "UPDATE vendas_tb "
@@ -86,7 +77,7 @@ public class VendaDao {
         }
     }
 
-    public void apagar(int cod) throws SQLException, ClassNotFoundException {
+    public static void apagar(int cod) throws SQLException, ClassNotFoundException {
         Connection conn = null;
         PreparedStatement p = null;
         String sql = "DELETE FROM gde.vendas_tb WHERE cod_venda = ?";
@@ -100,7 +91,7 @@ public class VendaDao {
         }
     }
 
-    public ArrayList<Venda> listar() throws SQLException, ClassNotFoundException {
+    public static ArrayList<Venda> listar() throws SQLException, ClassNotFoundException {
         Connection conn = null;
         Statement st = null;
         ArrayList<Venda> vendas = new ArrayList<>();
@@ -118,13 +109,13 @@ public class VendaDao {
         }
     }
 
-    private Venda instanciarVenda(ResultSet rs) throws SQLException, ClassNotFoundException {
+    private static Venda instanciarVenda(ResultSet rs) throws SQLException, ClassNotFoundException {
         return new Venda(
                 rs.getInt("cod_venda"),
                 rs.getDate("data_venda"),
-                ClienteDao.getINSTANCE().get(rs.getInt("cliente_venda")),
-                PedidoDao.getINSTANCE().get(rs.getInt("pedido_venda")),
-                FuncionarioDao.getINSTANCE().get(rs.getInt("funcionario_venda")),
+                ClienteDao.get(rs.getInt("cliente_venda")),
+                PedidoDao.get(rs.getInt("pedido_venda")),
+                FuncionarioDao.get(rs.getInt("funcionario_venda")),
                 rs.getBoolean("pago"),
                 rs.getFloat("total_venda")
         );

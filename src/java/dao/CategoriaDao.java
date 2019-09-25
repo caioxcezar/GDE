@@ -14,17 +14,8 @@ import util.DaoUtils;
  * @author ccezar
  */
 public class CategoriaDao {
-
-    private static final CategoriaDao INSTANCE = new CategoriaDao();
-
-    private CategoriaDao() {
-    }
-
-    public static CategoriaDao getINSTANCE() {
-        return INSTANCE;
-    }
     
-    public void salvar(Categoria categoria) throws SQLException, ClassNotFoundException {
+    public static void salvar(Categoria categoria) throws SQLException, ClassNotFoundException {
         Connection conn = null;
         PreparedStatement p = null;
         String sql = "INSERT INTO categorias_tb "
@@ -33,30 +24,30 @@ public class CategoriaDao {
         try {
             conn = DataBaseLocator.getInstance().getConnection();
             p = conn.prepareStatement(sql);
-            p.setInt(0, categoria.getCodigo());
-            p.setString(1, categoria.getNome());
-            p.setString(2, categoria.getDescricao());
+            p.setInt(1, categoria.getCodigo());
+            p.setString(2, categoria.getNome());
+            p.setString(3, categoria.getDescricao());
             p.execute();
         } finally {
             DaoUtils.closeResources(conn, p);
         }
     }
 
-    public void apagar(int cod) throws SQLException, ClassNotFoundException {
+    public static void apagar(int cod) throws SQLException, ClassNotFoundException {
         Connection conn = null;
         PreparedStatement p = null;
         String sql = "DELETE FROM gde.categorias_tb WHERE cod_cat = ?";
         try {
             conn = DataBaseLocator.getInstance().getConnection();
             p = conn.prepareStatement(sql);
-            p.setInt(0, cod);
+            p.setInt(1, cod);
             p.execute();
         } finally {
             DaoUtils.closeResources(conn, p);
         }
     }
 
-    public Categoria get(int codigo) throws SQLException, ClassNotFoundException {
+    public static Categoria get(int codigo) throws SQLException, ClassNotFoundException {
         Connection conn = null;
         PreparedStatement p = null;
         ResultSet rs = null;
@@ -64,15 +55,16 @@ public class CategoriaDao {
         try {
             conn = DataBaseLocator.getInstance().getConnection();
             p = conn.prepareStatement(sql);
-            p.setInt(0, codigo);
+            p.setInt(1, codigo);
             rs = p.executeQuery();
+            rs.next();
             return instanciarCategoria(rs);
         } finally {
             util.DaoUtils.closeResources(conn, p);
         }
     }
 
-    public void alterar(Categoria categoria) throws SQLException, ClassNotFoundException {
+    public static void alterar(Categoria categoria) throws SQLException, ClassNotFoundException {
         Connection conn = null;
         PreparedStatement p = null;
         String sql = "UPDATE INTO gde.categorias_tb "
@@ -81,16 +73,16 @@ public class CategoriaDao {
         try {
             conn = DataBaseLocator.getInstance().getConnection();
             p = conn.prepareStatement(sql);
-            p.setString(0, categoria.getNome());
-            p.setString(1, categoria.getDescricao());
-            p.setInt(2, categoria.getCodigo());
+            p.setString(1, categoria.getNome());
+            p.setString(2, categoria.getDescricao());
+            p.setInt(3, categoria.getCodigo());
             p.execute();
         } finally {
             DaoUtils.closeResources(conn, p);
         }
     }
 
-    public ArrayList<Categoria> listar() throws SQLException, ClassNotFoundException {
+    public static ArrayList<Categoria> listar() throws SQLException, ClassNotFoundException {
         Connection conn = null;
         Statement st = null;
         ArrayList<Categoria> categorias = new ArrayList<>();
@@ -108,7 +100,7 @@ public class CategoriaDao {
         }
     }
     
-    public ArrayList<Categoria> listar(String nome) throws SQLException, ClassNotFoundException {
+    public static ArrayList<Categoria> listar(String nome) throws SQLException, ClassNotFoundException {
         Connection conn = null;
         PreparedStatement p = null;
         ResultSet rs = null;
@@ -117,7 +109,7 @@ public class CategoriaDao {
         try {
             conn = DataBaseLocator.getInstance().getConnection();
             p = conn.prepareStatement(sql);
-            p.setString(0, nome);
+            p.setString(1, nome);
             rs = p.executeQuery();
             while (rs.next()) {
                 categorias.add(instanciarCategoria(rs));
@@ -128,7 +120,7 @@ public class CategoriaDao {
         }
     }
 
-    private Categoria instanciarCategoria(ResultSet rs) throws SQLException {
+    private static Categoria instanciarCategoria(ResultSet rs) throws SQLException {
         return new Categoria(
                         rs.getInt("cod_cat"),
                         rs.getString("nome_cat"),

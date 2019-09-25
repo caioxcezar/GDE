@@ -6,15 +6,15 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <jsp:include page="templates/header.jsp">
-    <jsp:param name="title" value="Adicionar ao Estoque"/>
+    <jsp:param name="title" value="${operacao} estoque"/>
 </jsp:include>
 
 
 
 
 <div class="container mt-4">
-    <h3>Adicionar ao Estoque</h3>
-    <form>
+    <h3>${operacao.toUpperCase()} ESTOQUE</h3>
+    <form action="manterEstoque?acao=confirmarOperacao&operacao=${operacao}" method="post">
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="inputCodigo">Código</label>

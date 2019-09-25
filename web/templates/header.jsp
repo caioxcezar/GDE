@@ -28,30 +28,32 @@
                             Cadastros
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <a class="dropdown-item" href="cadastroCliente.jsp">Cadastrar Cliente</a>
-                            <a class="dropdown-item" href="cadastroFuncionario.jsp">Cadastrar Funcionario</a>
-                            <a class="dropdown-item" href="cadastroProduto.jsp">Cadastrar Produto</a>
-                            <a class="dropdown-item" href="cadastroCategoria.jsp">Cadastrar Categoria</a>
-                            <a class="dropdown-item" href="adicionarEstoque.jsp">Adicionar ao Estoque</a>
+                            <a class="dropdown-item" href="manterCliente?acao=prepararOperacao&operacao=incluir">Cadastrar Cliente</a>
+                            <a class="dropdown-item" href="manterFuncionario?acao=prepararOperacao&operacao=incluir">Cadastrar Funcionario</a>
+                            <a class="dropdown-item" href="manterProduto?acao=prepararOperacao&operacao=incluir">Cadastrar Produto</a>
+                            <a class="dropdown-item" href="manterCategoria?acao=prepararOperacao&operacao=incluir">Cadastrar Categoria</a>
+                            <a class="dropdown-item" href="manterEstoque?acao=prepararOperacao&operacao=incluir">Adicionar ao Estoque</a>
                         </div>
                     </li><li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Consultas
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <a class="dropdown-item" href="clientes.jsp">Consultar Cliente</a>
-                            <a class="dropdown-item" href="funcionarios.jsp">Consultar Funcionario</a>
-                            <a class="dropdown-item" href="produtos.jsp">Consultar Produto</a>
-                            <a class="dropdown-item" href="categorias.jsp">Consultar Categoria</a>
+                            <a class="dropdown-item" href="clientes">Consultar Cliente</a>
+                            <a class="dropdown-item" href="funcionarios">Consultar Funcionario</a>
+                            <a class="dropdown-item" href="produtos">Consultar Produto</a>
+                            <a class="dropdown-item" href="estoque">Consultar Estoque</a>
+                            <a class="dropdown-item" href="categorias">Consultar Categoria</a>
+                            <a class="dropdown-item" href="cargos">Consultar Cargo</a>
                         </div>
                     </li><li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Pagamentos
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <a class="dropdown-item" href="emitirPedido.jsp">Emitir Pedido</a>
-                            <a class="dropdown-item" href="venderProduto.jsp">Vender Produto</a>
-                            <a class="dropdown-item" href="RealizarPagamento.jsp">Realizar Pagamento</a>
+                            <a class="dropdown-item" href="emitirPedido">Emitir Pedido</a>
+                            <a class="dropdown-item" href="venderProduto">Vender Produto</a>
+                            <a class="dropdown-item" href="RealizarPagamento">Realizar Pagamento</a>
                         </div>
                     </li>
                 </ul>
