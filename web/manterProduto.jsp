@@ -14,16 +14,16 @@
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="inputCodigo">Código</label>
-                <input type="number" class="form-control" id="inputCodigo" placeholder="0" readonly="true">
+                <input type="number" class="form-control" name="inputCodigo" id="inputCodigo" placeholder="0" readonly="true">
             </div>
             <div class="form-group col-md-6">
                 <label for="inputNome">Nome</label>
-                <input type="text" class="form-control" id="inputNome" placeholder="Nome" required="true">
+                <input type="text" class="form-control" name="inputNome" id="inputNome" placeholder="Nome" required="true">
             </div>
         </div>
         <div class="form-group">
             <label for="inputDescricao">Descrição</label>
-            <textarea class="form-control" name="inputTermo" id="inputDescricao" placeholder="Descrição sobre o produto" required="true"></textarea>
+            <textarea class="form-control" name="inputTermo" name="inputDescricao" id="inputDescricao" placeholder="Descrição sobre o produto" required="true"></textarea>
         </div>
         <div class="form-group">
             <label for="inputCategoria">Categoria</label>
@@ -32,8 +32,8 @@
                 <option>...</option>
             </select>
         </div>
-        <button type="submit" class="btn btn-primary">Salvar</button>
-        <button type="submit" class="btn btn-danger">Excluir</button>
+        <button type="submit" name="btnSalvar" class="btn btn-primary">Salvar</button>
+        <button type="submit" name="btnExcluir" class="btn btn-danger">Excluir</button>
         <a type="submit" class="btn btn-warning" onclick="location.reload(true)">Cancelar</a>
 </div>
 </form>

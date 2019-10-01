@@ -43,7 +43,7 @@ public class CargoDao {
             p.setInt(1, cargo.getCodigo());
             p.setString(2, cargo.getNome());
             p.setString(3, cargo.getDescricao());
-            p.execute();
+            p.executeUpdate();
         } finally {
             DaoUtils.closeResources(conn, p);
         }

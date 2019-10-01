@@ -2,15 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/home/ccezar/Documents/NetBeansProjects-8/GDE/GDE/web/manterCliente.jsp</file>
-            <file>file:/home/ccezar/Documents/NetBeansProjects-8/GDE/GDE/web/clientes.jsp</file>
-            <file>file:/home/ccezar/Documents/NetBeansProjects-8/GDE/GDE/web/templates/header.jsp</file>
-            <file>file:/home/ccezar/Documents/NetBeansProjects-8/GDE/GDE/web/WEB-INF/web.xml</file>
-            <file>file:/home/ccezar/Documents/NetBeansProjects-8/GDE/GDE/src/java/controller/ClientesController.java</file>
-            <file>file:/home/ccezar/Documents/NetBeansProjects-8/GDE/GDE/web/index.jsp</file>
-            <file>file:/home/ccezar/Documents/NetBeansProjects-8/GDE/GDE/src/java/controller/ManterCategoriaController.java</file>
-            <file>file:/home/ccezar/Documents/NetBeansProjects-8/GDE/GDE/src/java/controller/ManterClienteController.java</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>

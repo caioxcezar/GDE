@@ -54,25 +54,25 @@
             </div>
             <div class="form-group col-md-4">
                 <label for="inputEstado">Estado</label>
-                <select name="inputEstado" id="inputEstado" class="form-control">
+                <select name="inputEstado" name="inputEstado" id="inputEstado" class="form-control">
                     <option selected>Escolha...</option>
                     <option>...</option>
                 </select>
             </div>
             <div class="form-group col-md-2">
                 <label for="inputCep">CEP</label>
-                <input type="text" class="form-control" id="inputCep">
+                <input name="inputCep" type="text" class="form-control" id="inputCep">
             </div>
             <div class="form-group">
                 <label for="inputCargo">Cargo</label>
-                <select id="inputCargo" class="form-control" required="true">
+                <select name="inputCargo" id="inputCargo" class="form-control" required="true">
                     <option selected>Escolha...</option>
                     <option>...</option>
                 </select>
             </div>
         </div>
-        <button type="submit" name="salvar" class="btn btn-primary">Salvar</button>
-        <button type="submit" name="excluir" class="btn btn-danger">Excluir</button>
+        <button type="submit" name="btnSalvar" name="salvar" class="btn btn-primary">Salvar</button>
+        <button type="submit" name="btnExcluir" class="btn btn-danger">Excluir</button>
         <a type="submit" class="btn btn-warning" onclick="location.reload(true)">Cancelar</a>
     </form>
 </div>

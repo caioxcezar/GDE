@@ -10,7 +10,7 @@
 </jsp:include>
 <div class="container mt-4">
     <h3>${operacao.toUpperCase()} CATEGORIA</h3>
-    <form action="manterCurso?acao=confirmarOperacao&operacao=${operacao}" method="post">
+    <form action="manterCategoria?acao=confirmarOperacao&operacao=${operacao}" method="post">
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="inputCodigo">Código</label>
@@ -23,7 +23,7 @@
         </div>
         <div class="form-group">
             <label for="inputDescricao">Descrição</label>
-            <textarea class="form-control" name="inputDescricao" id="inputDescricao" placeholder="Descrição sobre o categoria" required="true"></textarea>
+            <textarea class="form-control" maxlength="150" name="inputDescricao" id="inputDescricao" placeholder="Descrição sobre o categoria" required="true"></textarea>
         </div>
         <button type="submit" name="btnSalvar" class="btn btn-primary">Salvar</button>
         <button type="submit" name="btnExcluir" class="btn btn-danger">Excluir</button>

@@ -14,22 +14,37 @@ import util.DaoUtils;
  * @author ccezar
  */
 public class CategoriaDao {
-    
+
     public static void salvar(Categoria categoria) throws SQLException, ClassNotFoundException {
         Connection conn = null;
         PreparedStatement p = null;
         String sql = "INSERT INTO categorias_tb "
                 + "(cod_cat, nome_cat, descricao_cat) "
-                + "VALUES (?, '?', '?');";
+                + "VALUES (?, ?, ?);";
         try {
             conn = DataBaseLocator.getInstance().getConnection();
             p = conn.prepareStatement(sql);
             p.setInt(1, categoria.getCodigo());
             p.setString(2, categoria.getNome());
             p.setString(3, categoria.getDescricao());
-            p.execute();
+            p.executeUpdate();
         } finally {
             DaoUtils.closeResources(conn, p);
+        }
+    }
+
+    public static int lastId() throws SQLException, ClassNotFoundException {
+        Connection conn = null;
+        Statement st = null;
+        try {
+            conn = DataBaseLocator.getInstance().getConnection();
+            st = conn.createStatement();
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT MAX(cod_cat) as max_cod FROM gde.categorias_tb");
+            rs.next();
+            return rs.getInt("max_cod");
+        } finally {
+            DaoUtils.closeResources(conn, st);
         }
     }
 
@@ -41,7 +56,7 @@ public class CategoriaDao {
             conn = DataBaseLocator.getInstance().getConnection();
             p = conn.prepareStatement(sql);
             p.setInt(1, cod);
-            p.execute();
+            p.executeUpdate();
         } finally {
             DaoUtils.closeResources(conn, p);
         }
@@ -76,7 +91,7 @@ public class CategoriaDao {
             p.setString(1, categoria.getNome());
             p.setString(2, categoria.getDescricao());
             p.setInt(3, categoria.getCodigo());
-            p.execute();
+            p.executeUpdate();
         } finally {
             DaoUtils.closeResources(conn, p);
         }
@@ -99,7 +114,7 @@ public class CategoriaDao {
             DaoUtils.closeResources(conn, st);
         }
     }
-    
+
     public static ArrayList<Categoria> listar(String nome) throws SQLException, ClassNotFoundException {
         Connection conn = null;
         PreparedStatement p = null;
@@ -122,9 +137,9 @@ public class CategoriaDao {
 
     private static Categoria instanciarCategoria(ResultSet rs) throws SQLException {
         return new Categoria(
-                        rs.getInt("cod_cat"),
-                        rs.getString("nome_cat"),
-                        rs.getString("descricao_cat")
-                );
+                rs.getInt("cod_cat"),
+                rs.getString("nome_cat"),
+                rs.getString("descricao_cat")
+        );
     }
 }

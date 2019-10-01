@@ -8,6 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Categoria;
 
 /**
  *
@@ -27,8 +28,10 @@ public class ManterCategoriaController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String acao = request.getParameter("acao");
-        if(acao.equals("prepararOperacao")) {
+        if (acao.equals("prepararOperacao")) {
             prepararOperacao(request, response);
+        } else if (acao.equals("confirmarOperacao")) {
+            confirmarOperacao(request, response);
         }
     }
 
@@ -80,6 +83,28 @@ public class ManterCategoriaController extends HttpServlet {
             view.forward(request, response);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private void confirmarOperacao(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+        try {
+            String operacao = request.getParameter("operacao");
+            if (request.getParameter("inputCodigo").equals("")) {
+                int codigo = 0;
+            } else {
+                int codigo = Integer.parseInt(request.getParameter("inputCodigo"));
+            }
+
+            String nome = request.getParameter("inputNome");
+            String descricao = request.getParameter("inputDescricao");
+            Categoria categoria = null;
+            if (operacao.equals("incluir")) {
+                categoria = new Categoria(CategoriaDao.lastId() + 1, nome, descricao);
+                CategoriaDao.salvar(categoria);
+            }
+            RequestDispatcher view = request.getRequestDispatcher("/manterCategoria.jsp");
+        } catch (Exception e) {
+            throw new ServletException("Erro ao processar controller: " + e.getMessage());
         }
     }
 
