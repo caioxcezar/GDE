@@ -1,9 +1,7 @@
 package controller;
 
 import dao.CargoDao;
-import dao.CategoriaDao;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -29,9 +27,9 @@ public class CargosController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -43,6 +41,7 @@ public class CargosController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        processRequest(request, response);
         try {
             ArrayList<Cargo> cargos = CargoDao.listar();
             request.setAttribute("cargos", cargos);
@@ -65,7 +64,22 @@ public class CargosController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        processRequest(request, response);
+        try {
+            String termo = request.getParameter("inputTermo");
+            ArrayList<Cargo> cargos = new ArrayList<>();
+            try {
+                cargos = CargoDao.listar(Integer.parseInt(termo));
+            }catch(NumberFormatException ex){
+                cargos = CargoDao.listar(termo);
+            }
+            request.setAttribute("cargos", cargos);
+            RequestDispatcher view = request.getRequestDispatcher("/cargos.jsp");
+            view.forward(request, response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ServletException("Erro ao processar controller: \n" + e.getMessage());
+        }
     }
 
     /**

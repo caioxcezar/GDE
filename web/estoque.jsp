@@ -12,11 +12,11 @@
 <div class="container mt-4">
     <div class="container">
         <h3>Estoque</h3>
-        <form>
+        <form method="post" action="estoque">
             <div class="input-group mb-3">
-                <input type="text" name="inputTermo" class="form-control" placeholder="Código ou nome do produto" aria-label="Código ou nome do produto" aria-describedby="button-addon2">
+                <input type="text" name="inputTermo" class="form-control" placeholder="Código do estoque ou do produto" aria-label="Código ou nome do produto" aria-describedby="button-addon2">
                 <div class="input-group-append">
-                    <button class="btn btn-outline-secondary" type="button" id="button-addon2">Buscar</button>
+                    <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Buscar</button>
                 </div>
             </div>
             <div id="tabelaRetorno">
@@ -24,7 +24,7 @@
                     <thead class="thead-dark">
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">Nome</th>
+                            <th scope="col">Nome Produto</th>
                             <th scope="col">Quantidade</th>
                             <th scope="col">Valor</th>
                             <th scope="col">Operações</th>

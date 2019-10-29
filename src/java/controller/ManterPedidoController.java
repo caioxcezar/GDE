@@ -155,7 +155,7 @@ public class ManterPedidoController extends HttpServlet {
                     PedidoDao.salvar(pedido);
                     for (PedidoProduto pProd : pedido.getProdutos()) {
                         PedidoProdutoDao.salvar(pProd, pedido);
-                        Estoque estoque = EstoqueDao.listarPorProduto(pProd.getProduto()).get(0);
+                        Estoque estoque = EstoqueDao.listarCodProduto(pProd.getProduto()).get(0);
                         estoque.setQuantidade(estoque.getQuantidade() - pProd.getQuantidade());
                         EstoqueDao.alterar(estoque);
                     }

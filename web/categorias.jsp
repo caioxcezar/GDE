@@ -12,11 +12,11 @@
 <div class="container mt-4">
     <div class="container">
         <h3>Categorias</h3>
-        <form>
+        <form method="post" action="categorias">
             <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Código ou nome da categoria" aria-label="Código ou nome da categoria" aria-describedby="button-addon2">
+                <input name="inputTermo" type="text" class="form-control" placeholder="Código ou nome da categoria" aria-label="Código ou nome da categoria" aria-describedby="button-addon2">
                 <div class="input-group-append">
-                    <button class="btn btn-outline-secondary" type="button" id="button-addon2">Buscar</button>
+                    <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Buscar</button>
                 </div>
             </div>
             <div id="tabelaRetorno">

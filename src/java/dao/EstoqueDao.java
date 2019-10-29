@@ -115,7 +115,27 @@ public class EstoqueDao extends dao {
         }
     }
 
-    public static ArrayList<Estoque> listarPorProduto(Produto produto) throws SQLException, ClassNotFoundException {
+    public static ArrayList<Estoque> listar(int codigo) throws SQLException, ClassNotFoundException {
+        Connection conn = null;
+        PreparedStatement p = null;
+        ResultSet rs = null;
+        ArrayList<Estoque> itensEstoque = new ArrayList<>();
+        String sql = "SELECT * FROM estoque_tb where cod_estoque = ?";
+        try {
+            conn = DataBaseLocator.getInstance().getConnection();
+            p = conn.prepareStatement(sql);
+            p.setInt(1, codigo);
+            rs = p.executeQuery();
+            while (rs.next()) {
+                itensEstoque.add(instanciarEstoque(rs));
+            }
+            return itensEstoque;
+        } finally {
+            closeResources(conn, p);
+        }
+    }
+
+    public static ArrayList<Estoque> listarCodProduto(Produto produto) throws SQLException, ClassNotFoundException {
         Connection conn = null;
         PreparedStatement p = null;
         ResultSet rs = null;
@@ -128,6 +148,29 @@ public class EstoqueDao extends dao {
             conn = DataBaseLocator.getInstance().getConnection();
             p = conn.prepareStatement(sql);
             p.setInt(1, produto.getCodigo());
+            rs = p.executeQuery();
+            while (rs.next()) {
+                produtos.add(instanciarEstoque(rs));
+            }
+            return produtos;
+        } finally {
+            closeResources(conn, p);
+        }
+    }
+
+    public static ArrayList<Estoque> listarNomeProduto(Produto produto) throws SQLException, ClassNotFoundException {
+        Connection conn = null;
+        PreparedStatement p = null;
+        ResultSet rs = null;
+        String sql = "SELECT * FROM gde.estoque_tb e\n"
+                + "inner join gde.produtos_tb p\n"
+                + "on e.produto_estoque = p.cod_prod\n"
+                + "WHERE p.nome_prod = ?";
+        ArrayList<Estoque> produtos = new ArrayList<>();
+        try {
+            conn = DataBaseLocator.getInstance().getConnection();
+            p = conn.prepareStatement(sql);
+            p.setString(1, produto.getNome());
             rs = p.executeQuery();
             while (rs.next()) {
                 produtos.add(instanciarEstoque(rs));

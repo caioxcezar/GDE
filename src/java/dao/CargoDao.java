@@ -118,12 +118,32 @@ public class CargoDao extends dao {
         Connection conn = null;
         PreparedStatement p = null;
         ResultSet rs = null;
-        String sql = "SELECT * FROM gde.cargo WHERE nome_cargo like '%?%'";
+        String sql = "SELECT * FROM gde.cargos_tb WHERE nome_cargo like ?";
         ArrayList<Cargo> cargos = new ArrayList<>();
         try {
             conn = DataBaseLocator.getInstance().getConnection();
             p = conn.prepareStatement(sql);
-            p.setString(1, nome);
+            p.setString(1, "%" + nome + "%");
+            rs = p.executeQuery();
+            while (rs.next()) {
+                cargos.add(instanciarCargo(rs));
+            }
+            return cargos;
+        } finally {
+            closeResources(conn, p);
+        }
+    }
+
+    public static ArrayList<Cargo> listar(int codigo) throws SQLException, ClassNotFoundException {
+        Connection conn = null;
+        PreparedStatement p = null;
+        ResultSet rs = null;
+        String sql = "SELECT * FROM gde.cargos_tb WHERE cod_cargo = ?";
+        ArrayList<Cargo> cargos = new ArrayList<>();
+        try {
+            conn = DataBaseLocator.getInstance().getConnection();
+            p = conn.prepareStatement(sql);
+            p.setInt(1, codigo);
             rs = p.executeQuery();
             while (rs.next()) {
                 cargos.add(instanciarCargo(rs));

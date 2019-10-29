@@ -70,7 +70,7 @@ public class ManterEstoqueController extends HttpServlet {
             Estoque estoque = new Estoque(codigo, quantidade, produto);
             switch (operacao) {
                 case "incluir":
-                    if (EstoqueDao.listarPorProduto(produto).size() != 0){
+                    if (EstoqueDao.listarCodProduto(produto).size() != 0){
                         throw new ServletException("Produto já esta no banco");
                     }
                     EstoqueDao.salvar(estoque);

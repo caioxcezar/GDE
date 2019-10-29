@@ -27,9 +27,9 @@ public class CategoriasController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
     }
 
-// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -41,7 +41,7 @@ public class CategoriasController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //processRequest(request, response);
+        processRequest(request, response);
         try {
             ArrayList<Categoria> categorias = CategoriaDao.listar();
             request.setAttribute("categorias", categorias);
@@ -65,6 +65,21 @@ public class CategoriasController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+        try {
+            String termo = request.getParameter("inputTermo");
+            ArrayList<Categoria> categorias = new ArrayList<>();
+            try {
+                categorias = CategoriaDao.listar(Integer.parseInt(termo));
+            } catch(NumberFormatException ex){
+                categorias = CategoriaDao.listar(termo);
+            }
+            request.setAttribute("categorias", categorias);
+            RequestDispatcher view = request.getRequestDispatcher("/categorias.jsp");
+            view.forward(request, response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ServletException("Erro ao processar controller");
+        }
     }
 
     /**

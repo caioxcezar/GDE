@@ -2,6 +2,7 @@ package controller;
 
 import java.io.IOException;
 import dao.EstoqueDao;
+import dao.ProdutoDao;
 import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Estoque;
+import model.Produto;
 
 /**
  *
@@ -27,10 +29,9 @@ public class EstoqueController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        request.setCharacterEncoding("UTF-8");
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -42,7 +43,8 @@ public class EstoqueController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-                try {
+        processRequest(request, response);
+        try {
             request.setAttribute("produtos", EstoqueDao.listar());
             RequestDispatcher view = request.getRequestDispatcher("/estoque.jsp");
             view.forward(request, response);
@@ -64,6 +66,24 @@ public class EstoqueController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+        try {
+            String termo = request.getParameter("inputTermo");
+            ArrayList<Estoque> estoque = new ArrayList<>();
+            try {
+                estoque = EstoqueDao.listar(Integer.parseInt(termo));
+            } catch (NumberFormatException ex) {
+                ArrayList<Produto> prods = ProdutoDao.listar(termo);
+                for (Produto prod : prods) {
+                    estoque.addAll(EstoqueDao.listarNomeProduto(prod));
+                }
+            }
+            request.setAttribute("produtos", estoque);
+            RequestDispatcher view = request.getRequestDispatcher("/estoque.jsp");
+            view.forward(request, response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ServletException("Erro ao processar controller: \n" + e.getMessage());
+        }
     }
 
     /**

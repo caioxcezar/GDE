@@ -121,6 +121,24 @@ public class PedidoDao extends dao {
         }
     }
 
+        public static ArrayList<Pedido> listar(int codigo) throws SQLException, ClassNotFoundException {
+        Connection conn = null;
+        PreparedStatement p = null;
+        ArrayList<Pedido> pedidos = new ArrayList<>();
+        try {
+            conn = DataBaseLocator.getInstance().getConnection();
+            p = conn.prepareStatement("SELECT * FROM pedidos_tb where cod_pedido = ?");
+            p.setInt(1, codigo);
+            ResultSet rs = p.executeQuery();
+            while (rs.next()) {
+                pedidos.add(instanciarPedido(rs));
+            }
+            return pedidos;
+        } finally {
+            closeResources(conn, p);
+        }
+    }
+    
     public static ArrayList<Pedido> listarPendente() throws SQLException, ClassNotFoundException {
         Connection conn = null;
         Statement st = null;

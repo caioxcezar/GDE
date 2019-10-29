@@ -27,9 +27,9 @@ public class PedidosController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -63,7 +63,16 @@ public class PedidosController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            int termo = Integer.parseInt(request.getParameter("inputTermo"));
+            ArrayList<Pedido> pedidos = PedidoDao.listar(termo);
+            request.setAttribute("pedidos", pedidos);
+            RequestDispatcher view = request.getRequestDispatcher("/pedidos.jsp");
+            view.forward(request, response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ServletException("Erro ao processar controller\n"+e.getMessage());
+        }
     }
 
     /**

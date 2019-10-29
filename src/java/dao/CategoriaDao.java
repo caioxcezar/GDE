@@ -118,12 +118,32 @@ public class CategoriaDao extends dao {
         Connection conn = null;
         PreparedStatement p = null;
         ResultSet rs = null;
-        String sql = "SELECT * FROM categorias_tb WHERE cod_cat like '%?%'";
+        String sql = "SELECT * FROM categorias_tb WHERE nome_cat like ?";
         ArrayList<Categoria> categorias = new ArrayList<>();
         try {
             conn = DataBaseLocator.getInstance().getConnection();
             p = conn.prepareStatement(sql);
-            p.setString(1, nome);
+            p.setString(1, "%" + nome + "%");
+            rs = p.executeQuery();
+            while (rs.next()) {
+                categorias.add(instanciarCategoria(rs));
+            }
+            return categorias;
+        } finally {
+            closeResources(conn, p);
+        }
+    }
+
+    public static ArrayList<Categoria> listar(int codigo) throws SQLException, ClassNotFoundException {
+        Connection conn = null;
+        PreparedStatement p = null;
+        ResultSet rs = null;
+        String sql = "SELECT * FROM categorias_tb WHERE cod_cat = ?";
+        ArrayList<Categoria> categorias = new ArrayList<>();
+        try {
+            conn = DataBaseLocator.getInstance().getConnection();
+            p = conn.prepareStatement(sql);
+            p.setInt(1, codigo);
             rs = p.executeQuery();
             while (rs.next()) {
                 categorias.add(instanciarCategoria(rs));

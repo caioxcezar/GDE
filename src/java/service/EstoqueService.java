@@ -16,7 +16,7 @@ public class EstoqueService {
 
     public static int verificarQuantidade(Produto produto) throws SQLException, ClassNotFoundException {
         int qtd = 0;
-        for (Estoque estoque : EstoqueDao.listarPorProduto(produto)) {
+        for (Estoque estoque : EstoqueDao.listarCodProduto(produto)) {
             qtd += estoque.getQuantidade();
         }
         return qtd;
@@ -27,13 +27,13 @@ public class EstoqueService {
     }
 
     public static void adcionarEstoque(PedidoProduto pProd) throws SQLException, ClassNotFoundException {
-        Estoque estoque = EstoqueDao.listarPorProduto(pProd.getProduto()).get(0);
+        Estoque estoque = EstoqueDao.listarCodProduto(pProd.getProduto()).get(0);
         estoque.setQuantidade(estoque.getQuantidade() + pProd.getQuantidade());
         EstoqueDao.alterar(estoque);
     }
 
     public static void removerEstoque(PedidoProduto pProd) throws SQLException, ClassNotFoundException {
-        Estoque estoque = EstoqueDao.listarPorProduto(pProd.getProduto()).get(0);
+        Estoque estoque = EstoqueDao.listarCodProduto(pProd.getProduto()).get(0);
         estoque.setQuantidade(estoque.getQuantidade() - pProd.getQuantidade());
         EstoqueDao.alterar(estoque);
     }

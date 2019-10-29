@@ -27,11 +27,9 @@ public class ClientesController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-
+        request.setCharacterEncoding("UTF-8");
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -43,6 +41,7 @@ public class ClientesController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        processRequest(request, response);
         try {
             ArrayList<Cliente> clientes = ClienteDao.listar();
             request.setAttribute("clientes", clientes);
@@ -50,7 +49,7 @@ public class ClientesController extends HttpServlet {
             view.forward(request, response);
         } catch (Exception e) {
             e.printStackTrace();
-            throw new ServletException("Erro ao processar controller\n"+e.getMessage());
+            throw new ServletException("Erro ao processar controller\n" + e.getMessage());
         }
     }
 
@@ -66,6 +65,21 @@ public class ClientesController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+        try {
+            String termo = request.getParameter("inputTermo");
+            ArrayList<Cliente> clientes = new ArrayList<>();
+            try {
+                clientes = ClienteDao.listar(Integer.parseInt(termo));
+            } catch (NumberFormatException ex) {
+                clientes = ClienteDao.listar(termo);
+            }
+            request.setAttribute("clientes", clientes);
+            RequestDispatcher view = request.getRequestDispatcher("/clientes.jsp");
+            view.forward(request, response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ServletException("Erro ao processar controller\n" + e.getMessage());
+        }
     }
 
     /**

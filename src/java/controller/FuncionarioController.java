@@ -30,9 +30,9 @@ public class FuncionarioController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -44,7 +44,8 @@ public class FuncionarioController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-                try {
+        processRequest(request, response);
+        try {
             ArrayList<Funcionario> funcionarios = FuncionarioDao.listar();
             request.setAttribute("funcionarios", funcionarios);
             RequestDispatcher view = request.getRequestDispatcher("/funcionarios.jsp");
@@ -67,6 +68,21 @@ public class FuncionarioController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+        try {
+            String termo = request.getParameter("inputTermo");
+            ArrayList<Funcionario> funcionarios = new ArrayList<>();
+            try{
+                funcionarios = FuncionarioDao.listar(Integer.parseInt(termo));
+            }catch(NumberFormatException ex){
+                funcionarios = FuncionarioDao.listar(termo);
+            }
+            request.setAttribute("funcionarios", funcionarios);
+            RequestDispatcher view = request.getRequestDispatcher("/funcionarios.jsp");
+            view.forward(request, response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ServletException("Erro ao processar controller: \n" + e.getMessage());
+        }
     }
 
     /**

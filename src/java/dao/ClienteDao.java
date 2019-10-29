@@ -54,7 +54,7 @@ public class ClienteDao extends dao {
             closeResources(conn, st);
         }
     }
-    
+
     public static void apagar(Cliente cliente) throws SQLException, ClassNotFoundException {
         Connection conn = null;
         PreparedStatement p = null;
@@ -107,7 +107,7 @@ public class ClienteDao extends dao {
             p.setString(9, cliente.getCep());
             p.setString(10, cliente.getBairro());
             p.setInt(11, cliente.getCodigo());
-            
+
             p.execute();
         } finally {
             closeResources(conn, p);
@@ -131,17 +131,17 @@ public class ClienteDao extends dao {
             closeResources(conn, st);
         }
     }
-    
+
     public static ArrayList<Cliente> listar(String nome) throws SQLException, ClassNotFoundException {
         Connection conn = null;
         PreparedStatement p = null;
         ResultSet rs = null;
-        String sql = "SELECT * FROM clientes_tb WHERE cod_cli like '%?%'";
+        String sql = "SELECT * FROM clientes_tb WHERE nome_cli like ?";
         ArrayList<Cliente> clientes = new ArrayList<>();
         try {
             conn = DataBaseLocator.getInstance().getConnection();
             p = conn.prepareStatement(sql);
-            p.setString(1, nome);
+            p.setString(1, "%" + nome + "%");
             rs = p.executeQuery();
             while (rs.next()) {
                 clientes.add(instanciarCliente(rs));
@@ -151,17 +151,37 @@ public class ClienteDao extends dao {
             closeResources(conn, p);
         }
     }
-    
+
+    public static ArrayList<Cliente> listar(int cod) throws SQLException, ClassNotFoundException {
+        Connection conn = null;
+        PreparedStatement p = null;
+        ResultSet rs = null;
+        String sql = "SELECT * FROM clientes_tb WHERE cod_cli = ?";
+        ArrayList<Cliente> clientes = new ArrayList<>();
+        try {
+            conn = DataBaseLocator.getInstance().getConnection();
+            p = conn.prepareStatement(sql);
+            p.setInt(1, cod);
+            rs = p.executeQuery();
+            while (rs.next()) {
+                clientes.add(instanciarCliente(rs));
+            }
+            return clientes;
+        } finally {
+            closeResources(conn, p);
+        }
+    }
+
     private static Cliente instanciarCliente(ResultSet rs) throws SQLException, ClassNotFoundException {
-        return new Cliente(rs.getString("cnpj_cli"), 
-                rs.getString("nome_cli"), 
+        return new Cliente(rs.getString("cnpj_cli"),
+                rs.getString("nome_cli"),
                 rs.getString("telefone_cli"),
-                rs.getInt("numero_cli"), 
-                rs.getInt("cod_cli"), 
-                rs.getString("cep_cli"), 
-                rs.getString("rua_cli"), 
-                rs.getString("bairro_cli"), rs.getString("cidade_cli"), 
-                rs.getString("complemento_cli"), 
+                rs.getInt("numero_cli"),
+                rs.getInt("cod_cli"),
+                rs.getString("cep_cli"),
+                rs.getString("rua_cli"),
+                rs.getString("bairro_cli"), rs.getString("cidade_cli"),
+                rs.getString("complemento_cli"),
                 EstadoDao.get(rs.getString("estado_cli")));
     }
 }

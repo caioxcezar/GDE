@@ -122,12 +122,32 @@ public class ProdutoDao extends dao {
         Connection conn = null;
         PreparedStatement p = null;
         ResultSet rs = null;
-        String sql = "SELECT * FROM gde.produtos_tb WHERE nome_prod like '%?%'";
+        String sql = "SELECT * FROM gde.produtos_tb WHERE nome_prod like ?";
         ArrayList<Produto> produtos = new ArrayList<>();
         try {
             conn = DataBaseLocator.getInstance().getConnection();
             p = conn.prepareStatement(sql);
-            p.setString(1, nome);
+            p.setString(1, "%" + nome + "%");
+            rs = p.executeQuery();
+            while (rs.next()) {
+                produtos.add(instanciarProd(rs));
+            }
+            return produtos;
+        } finally {
+            closeResources(conn, p);
+        }
+    }
+
+    public static ArrayList<Produto> listar(int codigo) throws SQLException, ClassNotFoundException {
+        Connection conn = null;
+        PreparedStatement p = null;
+        ResultSet rs = null;
+        String sql = "SELECT * FROM gde.produtos_tb WHERE cod_prod = ?";
+        ArrayList<Produto> produtos = new ArrayList<>();
+        try {
+            conn = DataBaseLocator.getInstance().getConnection();
+            p = conn.prepareStatement(sql);
+            p.setInt(1, codigo);
             rs = p.executeQuery();
             while (rs.next()) {
                 produtos.add(instanciarProd(rs));

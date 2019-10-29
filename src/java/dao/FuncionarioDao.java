@@ -122,12 +122,32 @@ public class FuncionarioDao extends dao {
         Connection conn = null;
         PreparedStatement p = null;
         ResultSet rs = null;
-        String sql = "SELECT * FROM gde.funcionarios_tb WHERE cod_cargo like '%?%'";
+        String sql = "SELECT * FROM gde.funcionarios_tb WHERE nome_func like ?";
         ArrayList<Funcionario> funcionarios = new ArrayList<Funcionario>();
         try {
             conn = DataBaseLocator.getInstance().getConnection();
             p = conn.prepareStatement(sql);
-            p.setString(1, nome);
+            p.setString(1,"%" + nome + "%");
+            rs = p.executeQuery();
+            while (rs.next()) {
+                funcionarios.add(instanciarFuncionario(rs));
+            }
+            return funcionarios;
+        } finally {
+            closeResources(conn, p);
+        }
+    }
+
+    public static ArrayList<Funcionario> listar(int codigo) throws SQLException, ClassNotFoundException {
+        Connection conn = null;
+        PreparedStatement p = null;
+        ResultSet rs = null;
+        String sql = "SELECT * FROM gde.funcionarios_tb WHERE cod_func = ?";
+        ArrayList<Funcionario> funcionarios = new ArrayList<Funcionario>();
+        try {
+            conn = DataBaseLocator.getInstance().getConnection();
+            p = conn.prepareStatement(sql);
+            p.setInt(1, codigo);
             rs = p.executeQuery();
             while (rs.next()) {
                 funcionarios.add(instanciarFuncionario(rs));
