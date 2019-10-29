@@ -7,12 +7,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import model.Cargo;
-import util.DaoUtils;
+
 /**
  *
  * @author ccezar
  */
-public class CargoDao {
+public class CargoDao extends dao {
 
     public static Cargo get(int cod) throws SQLException, ClassNotFoundException {
         Connection conn = null;
@@ -27,7 +27,22 @@ public class CargoDao {
             rs.next();
             return instanciarCargo(rs);
         } finally {
-            DaoUtils.closeResources(conn, p);
+            closeResources(conn, p);
+        }
+    }
+
+    public static int lastId() throws SQLException, ClassNotFoundException {
+        Connection conn = null;
+        Statement st = null;
+        try {
+            conn = DataBaseLocator.getInstance().getConnection();
+            st = conn.createStatement();
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT MAX(cod_cargo) as max_cod FROM gde.cargos_tb");
+            rs.next();
+            return rs.getInt("max_cod");
+        } finally {
+            closeResources(conn, st);
         }
     }
 
@@ -36,7 +51,7 @@ public class CargoDao {
         PreparedStatement p = null;
         String sql = "INSERT INTO cargos_tb "
                 + "(cod_cargo, nome_cargo, descricao_cargo) "
-                + "VALUES (?, '?', '?');";
+                + "VALUES (?, ?, ?);";
         try {
             conn = DataBaseLocator.getInstance().getConnection();
             p = conn.prepareStatement(sql);
@@ -45,7 +60,7 @@ public class CargoDao {
             p.setString(3, cargo.getDescricao());
             p.executeUpdate();
         } finally {
-            DaoUtils.closeResources(conn, p);
+            closeResources(conn, p);
         }
     }
 
@@ -53,7 +68,7 @@ public class CargoDao {
         Connection conn = null;
         PreparedStatement p = null;
         String sql = "UPDATE cargos_tb "
-                + "SET nome_cargo = '?', descricao_cargo = '?' "
+                + "SET nome_cargo = ?, descricao_cargo = ? "
                 + "WHERE cod_cargo = ?";
         try {
             conn = DataBaseLocator.getInstance().getConnection();
@@ -63,21 +78,21 @@ public class CargoDao {
             p.setInt(3, cargo.getCodigo());
             p.execute();
         } finally {
-            DaoUtils.closeResources(conn, p);
+            closeResources(conn, p);
         }
     }
 
-    public static void apagar(int cod) throws SQLException, ClassNotFoundException {
+    public static void apagar(Cargo cargo) throws SQLException, ClassNotFoundException {
         Connection conn = null;
         PreparedStatement p = null;
         String sql = "DELETE FROM gde.cargos_tb WHERE cod_cargo = ?";
         try {
             conn = DataBaseLocator.getInstance().getConnection();
             p = conn.prepareStatement(sql);
-            p.setInt(1, cod);
+            p.setInt(1, cargo.getCodigo());
             p.execute();
         } finally {
-            DaoUtils.closeResources(conn, p);
+            closeResources(conn, p);
         }
     }
 
@@ -95,7 +110,7 @@ public class CargoDao {
             }
             return cargos;
         } finally {
-            DaoUtils.closeResources(conn, st);
+            closeResources(conn, st);
         }
     }
 
@@ -115,15 +130,15 @@ public class CargoDao {
             }
             return cargos;
         } finally {
-            DaoUtils.closeResources(conn, p);
+            closeResources(conn, p);
         }
     }
 
     private static Cargo instanciarCargo(ResultSet rs) throws SQLException {
         return new Cargo(
-                        rs.getInt("cod_cargo"),
-                        rs.getString("nome_cargo"),
-                        rs.getString("descricao_cargo")
-                );
+                rs.getInt("cod_cargo"),
+                rs.getString("nome_cargo"),
+                rs.getString("descricao_cargo")
+        );
     }
 }

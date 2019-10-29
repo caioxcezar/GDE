@@ -12,9 +12,8 @@ public class Cliente extends Pessoa {
         this.cnpj = cnpj;
     }
 
-    public Cliente(String cnpj, String nome, String telefone, int numero, int codigo, 
-            String cep, String rua, String bairro, String cidade, String complemento) {
-        super(nome, telefone, numero, codigo, cep, rua, bairro, cidade, complemento);
+    public Cliente(String cnpj, String nome, String telefone, int numero, int codigo, String cep, String rua, String bairro, String cidade, String complemento, Estado estado) {
+        super(nome, telefone, numero, codigo, cep, rua, bairro, cidade, complemento, estado);
         this.cnpj = cnpj;
     }
 

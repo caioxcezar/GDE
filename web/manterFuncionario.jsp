@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <jsp:include page="templates/header.jsp">
     <jsp:param name="title" value="${operacao} funcionário"/>
 </jsp:include>
@@ -13,67 +14,78 @@
     <form action="manterFuncionario?acao=confirmarOperacao&operacao=${operacao}" method="post">
         <div class="form-group">
             <label for="inputCodigo">Código</label>
-            <input type="number" class="form-control" name="inputCodigo" id="inputCodigo" placeholder="0" readonly="true">
+            <input type="number" class="form-control" value="${funcionario.codigo}" name="inputCodigo" id="inputCodigo" placeholder="0" readonly="true">
         </div>
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="inputNome">Nome</label>
-                <input type="text" class="form-control" name="inputNome" id="inputNome" placeholder="Nome" required="true">
+                <input type="text" class="form-control" value="${funcionario.nome}" name="inputNome" id="inputNome" placeholder="Nome" required="true">
             </div>
             <div class="form-group col-md-6">
                 <label for="inputTelefone">Telefone</label>
-                <input type="text" class="form-control" name="inputTelefone" id="inputTelefone" placeholder="(12) 1234-1234" required="true">
+                <input type="text" class="form-control" value="${funcionario.telefone}" name="inputTelefone" id="inputTelefone" placeholder="(12) 1234-1234" required="true">
             </div>
         </div>
         <div class="form-group">
             <label for="inputCPF">CPF</label>
-            <input type="text" class="form-control" name="inputCPF" id="inputCPF" placeholder="023.078.530-14" required="true">
+            <input type="text" class="form-control" value="${funcionario.cpf}" name="inputCPF" id="inputCPF" placeholder="023.078.530-14" required="true">
         </div>
         <div class="form-row">
             <div class="form-group col-md-8">
                 <label for="inputRua">Rua</label>
-                <input type="text" class="form-control" name="inputNome" id="inputNome" placeholder="Rua Principal">
+                <input type="text" class="form-control" value="${funcionario.rua}" name="inputRua" id="inputNome" placeholder="Rua Principal">
             </div>
             <div class="form-group col-md-4">
                 <label for="inputNumero">Número</label>
-                <input type="number" class="form-control" name="inputNumero" id="inputNumero" placeholder="1234">
+                <input type="number" class="form-control" value="${funcionario.numero}" name="inputNumero" id="inputNumero" placeholder="1234">
             </div>
         </div>
         <div class="form-group">
-            <label for="inputEndereco">Complemento</label>
-            <input type="text" class="form-control" name="inputEndereco" id="inputEndereco" placeholder="Apartamento 123">
+            <label for="inputComplemento">Complemento</label>
+            <input type="text" class="form-control" value="${funcionario.complemento}" name="inputComplemento" id="inputComplemento" placeholder="Apartamento 123">
         </div>
         <div class="form-group">
-            <label for="inputTelefone">Telefone</label>
-            <input type="text" class="form-control" name="inputTelefone" id="inputTelefone" placeholder="(32) 1234-1234">
+            <label for="inputBairro">Bairro</label>
+            <input type="text" class="form-control" value="${funcionario.bairro}" name="inputBairro" id="inputBairro" placeholder="Apartamento 123">
         </div>
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="inputCidade">Cidade</label>
-                <input type="text" class="form-control" name="inputCidade" id="inputCidade">
+                <input type="text" class="form-control" value="${funcionario.cidade}" name="inputCidade" id="inputCidade">
             </div>
             <div class="form-group col-md-4">
                 <label for="inputEstado">Estado</label>
-                <select name="inputEstado" name="inputEstado" id="inputEstado" class="form-control">
-                    <option selected>Escolha...</option>
-                    <option>...</option>
+                <select id="inputEstado" name="inputEstado" class="form-control" required="true">
+                    <option value="">Escolha...</option>
+                    <c:forEach var="estado" items="${estados}">
+                        <option value="${estado.sigla}" 
+                                <c:if test="${estado.sigla.equals(funcionario.estado.sigla)}">
+                                    selected
+                                </c:if>
+                                >${estado.nome}</option>
+                    </c:forEach>
                 </select>
             </div>
             <div class="form-group col-md-2">
                 <label for="inputCep">CEP</label>
-                <input name="inputCep" type="text" class="form-control" id="inputCep">
+                <input name="inputCep" type="text" value="${funcionario.cep}" class="form-control" id="inputCep">
             </div>
             <div class="form-group">
                 <label for="inputCargo">Cargo</label>
-                <select name="inputCargo" id="inputCargo" class="form-control" required="true">
-                    <option selected>Escolha...</option>
-                    <option>...</option>
+                <select name="inputCargo" id="inputCargo" value="${funcionario.telefone}" class="form-control" required="true">
+                    <option value="">Escolha...</option>
+                    <c:forEach var="cargo" items="${cargos}">
+                        <option value="${cargo.codigo}" 
+                                <c:if test="${cargo.codigo == funcionario.cargo.codigo}">
+                                    selected
+                                </c:if>
+                                >${cargo.nome}</option>
+                    </c:forEach>
                 </select>
             </div>
         </div>
-        <button type="submit" name="btnSalvar" name="salvar" class="btn btn-primary">Salvar</button>
-        <button type="submit" name="btnExcluir" class="btn btn-danger">Excluir</button>
-        <a type="submit" class="btn btn-warning" onclick="location.reload(true)">Cancelar</a>
+        <button type="submit" class="btn btn-primary">${operacao}</button>
+        <a type="submit" class="btn btn-warning" onclick="location.reload(true)">cancelar</a>
     </form>
 </div>
 <jsp:include page="templates/footer.jsp"/>

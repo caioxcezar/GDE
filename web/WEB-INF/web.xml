@@ -29,6 +29,10 @@
         <servlet-class>controller.ManterCategoriaController</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>ManterCargoController</servlet-name>
+        <servlet-class>controller.ManterCargoController</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>ManterClienteController</servlet-name>
         <servlet-class>controller.ManterClienteController</servlet-class>
     </servlet>
@@ -43,6 +47,22 @@
     <servlet>
         <servlet-name>ManterEstoqueController</servlet-name>
         <servlet-class>controller.ManterEstoqueController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ManterPedidoController</servlet-name>
+        <servlet-class>controller.ManterPedidoController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>PedidosController</servlet-name>
+        <servlet-class>controller.PedidosController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ManterPagamentoController</servlet-name>
+        <servlet-class>controller.ManterPagamentoController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>NotasFiscaisController</servlet-name>
+        <servlet-class>controller.NotasFiscaisController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>FuncionarioController</servlet-name>
@@ -73,6 +93,10 @@
         <url-pattern>/manterCategoria</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>ManterCargoController</servlet-name>
+        <url-pattern>/manterCargo</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>ManterClienteController</servlet-name>
         <url-pattern>/manterCliente</url-pattern>
     </servlet-mapping>
@@ -87,6 +111,22 @@
     <servlet-mapping>
         <servlet-name>ManterEstoqueController</servlet-name>
         <url-pattern>/manterEstoque</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ManterPedidoController</servlet-name>
+        <url-pattern>/manterPedido</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PedidosController</servlet-name>
+        <url-pattern>/pedidos</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ManterPagamentoController</servlet-name>
+        <url-pattern>/manterPagamento</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>NotasFiscaisController</servlet-name>
+        <url-pattern>/notasFiscais</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

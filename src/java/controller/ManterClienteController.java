@@ -1,12 +1,15 @@
 package controller;
 
+import dao.ClienteDao;
+import dao.EstadoDao;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Cliente;
+import model.Estado;
 
 /**
  *
@@ -25,9 +28,15 @@ public class ManterClienteController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
         String acao = request.getParameter("acao");
-        if(acao.equals("prepararOperacao")) {
-            prepararOperacao(request, response);
+        switch (acao) {
+            case "prepararOperacao":
+                prepararOperacao(request, response);
+                break;
+            case "confirmarOperacao":
+                confirmarOperacao(request, response);
+                break;
         }
     }
 
@@ -73,11 +82,54 @@ public class ManterClienteController extends HttpServlet {
         try {
             String operacao = request.getParameter("operacao");
             request.setAttribute("operacao", operacao);
-            //request.setAttribute("categorias", CategoriaDao.listar());
-            RequestDispatcher view = request.getRequestDispatcher("/manterCliente.jsp");
-            view.forward(request, response);
+            request.setAttribute("estados", EstadoDao.listar());
+            if (!operacao.equals("incluir")){
+                int cod = Integer.parseInt(request.getParameter("cod"));
+                request.setAttribute("cliente", ClienteDao.get(cod));
+            }
+            request.getRequestDispatcher("/manterCliente.jsp").forward(request, response);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private void confirmarOperacao(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+        try {
+            String operacao = request.getParameter("operacao");
+            int codigo = 0;
+            if (!request.getParameter("inputCodigo").equals("")) {
+                codigo = Integer.parseInt(request.getParameter("inputCodigo"));
+            } else {
+                codigo = ClienteDao.lastId() + 1;
+            }
+            
+            String cnpj = request.getParameter("inputCnpj");
+            String nome = request.getParameter("inputNome");
+            String telefone = request.getParameter("inputTelefone");
+            int numero = Integer.parseInt(request.getParameter("inputNumero")); 
+            String cep = request.getParameter("inputCep");
+            String rua = request.getParameter("inputRua");
+            String bairro = request.getParameter("inputBairro");
+            String cidade = request.getParameter("inputCidade");
+            String complemento = request.getParameter("inputComplemento");
+            Estado estado = EstadoDao.get(request.getParameter("inputEstado"));
+            
+            Cliente cliente = new Cliente(cnpj, nome, telefone, numero, codigo, cep, rua, bairro, cidade, complemento, estado);
+            switch (operacao) {
+                case "incluir":
+                    ClienteDao.salvar(cliente);
+                    break;
+                case "excluir":
+                    ClienteDao.apagar(cliente);
+                    break;
+                case "alterar":
+                    ClienteDao.alterar(cliente);
+                    break;
+            }
+            //request.getRequestDispatcher("/categorias.jsp").forward(request, response);
+            response.sendRedirect(request.getContextPath() + "/clientes");
+        } catch (Exception e) {
+            throw new ServletException("Erro ao processar controller: " + e.getMessage());
         }
     }
 }

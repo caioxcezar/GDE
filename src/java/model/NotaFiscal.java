@@ -9,12 +9,12 @@ import java.sql.Date;
 public class NotaFiscal {
     private int codigo;
     private Date data;
-    private Venda venda;
+    private Pedido pedido;
 
-    public NotaFiscal(int codigo, Date data, Venda venda) {
+    public NotaFiscal(int codigo, Date data, Pedido pedido) {
         this.codigo = codigo;
         this.data = data;
-        this.venda = venda;
+        this.pedido = pedido;
     }
 
     public int getCodigo() {
@@ -33,12 +33,12 @@ public class NotaFiscal {
         this.data = data;
     }
 
-    public Venda getVenda() {
-        return venda;
+    public Pedido getPedido() {
+        return pedido;
     }
 
-    public void setVenda(Venda venda) {
-        this.venda = venda;
+    public void setVenda(Pedido pedido) {
+        this.pedido = pedido;
     }
     
 }

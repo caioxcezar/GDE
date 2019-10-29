@@ -9,5 +9,6 @@
             Projeto feito por Caio Cézar
         </span>
     </nav>
+    <script src="resources/js/gde.js" ></script>
     </body>
 </html>

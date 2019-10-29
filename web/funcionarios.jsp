@@ -27,6 +27,7 @@
                             <th scope="col">Nome</th>
                             <th scope="col">CPF</th>
                             <th scope="col">Cargo</th>
+                            <th scope="col">Operações</th>
                         </tr>
                     </thead>
                     <c:forEach items="${funcionarios}" var="funcionario">
@@ -35,7 +36,11 @@
                             <td><c:out value="${funcionario.nome}"></c:out></td>
                             <td><c:out value="${funcionario.cpf}"></c:out></td>
                             <td><c:out value="${funcionario.cargo.nome}"></c:out></td>
-                            </tr>
+                            <td>
+                               <a class="btn btn-warning" href="manterFuncionario?acao=prepararOperacao&operacao=alterar&cod=${funcionario.codigo}">Alterar</a>
+                               <a class="btn btn-danger" href="manterFuncionario?acao=prepararOperacao&operacao=excluir&cod=${funcionario.codigo}">Excluir</a>
+                            </td>
+                        </tr>
                     </c:forEach></table>
             </div>
         </form>

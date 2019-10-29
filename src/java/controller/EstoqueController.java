@@ -1,14 +1,14 @@
 package controller;
 
 import java.io.IOException;
-import dao.EstoqueProdutoDao;
+import dao.EstoqueDao;
 import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.EstoqueProduto;
+import model.Estoque;
 
 /**
  *
@@ -43,8 +43,7 @@ public class EstoqueController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
                 try {
-            ArrayList<EstoqueProduto> produtos = EstoqueProdutoDao.listar();
-            request.setAttribute("produtos", produtos);
+            request.setAttribute("produtos", EstoqueDao.listar());
             RequestDispatcher view = request.getRequestDispatcher("/estoque.jsp");
             view.forward(request, response);
         } catch (Exception e) {

@@ -13,19 +13,17 @@ public class Pedido {
     private ArrayList<PedidoProduto> produtos;
     private Funcionario funcionario;
     private Cliente cliente;
-    private double valor;
     private Date data;
     private String estado, tipo;
 
     public Pedido() {
     }
 
-    public Pedido(int codigo, ArrayList<PedidoProduto> produtos, Funcionario funcionario, Cliente cliente, double valor, Date data, String estado, String tipo) {
+    public Pedido(int codigo, ArrayList<PedidoProduto> produtos, Funcionario funcionario, Cliente cliente, Date data, String estado, String tipo) {
         this.codigo = codigo;
         this.produtos = produtos;
         this.funcionario = funcionario;
         this.cliente = cliente;
-        this.valor = valor;
         this.data = data;
         this.estado = estado;
         this.tipo = tipo;
@@ -86,14 +84,6 @@ public class Pedido {
 
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
-    }
-
-    public double getValor() {
-        return valor;
-    }
-
-    public void setValor(double valor) {
-        this.valor = valor;
     }
 
     public Date getData() {

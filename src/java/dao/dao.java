@@ -1,17 +1,16 @@
-package util;
-
+package dao;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-
 /**
  *
- * @author ccezar
+ * @author caioc
  */
-public class DaoUtils {
-        public static void closeResources(Connection conn, Statement st) {
+public abstract class dao {
+
+    public static void closeResources(Connection conn, Statement st) {
         try {
             if (st != null) {
                 st.close();

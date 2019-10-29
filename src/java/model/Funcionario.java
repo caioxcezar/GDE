@@ -13,14 +13,12 @@ public class Funcionario extends Pessoa {
         this.cargo = cargo;
     }
 
-    public Funcionario(String cpf, Cargo cargo, String nome, String telefone, 
-            int numero, int codigo, String cep, String rua, String bairro, String cidade, 
-            String complemento) {
-        super(nome, telefone, numero, codigo, cep, rua, bairro, cidade, complemento);
+    public Funcionario(String cpf, Cargo cargo, String nome, String telefone, int numero, int codigo, String cep, String rua, String bairro, String cidade, String complemento, Estado estado) {
+        super(nome, telefone, numero, codigo, cep, rua, bairro, cidade, complemento, estado);
         this.cpf = cpf;
         this.cargo = cargo;
     }
-
+    
     public String getCpf() {
         return cpf;
     }

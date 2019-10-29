@@ -5,30 +5,26 @@ package model;
  */
 public class PedidoProduto {
 
-    private int quantidade, codigo, codigoPedido;
+    private int codigo, quantidade;
     private Produto produto;
 
-    public PedidoProduto(int quantidade, int codigo, int codigoPedido, Produto produto) {
-        this.quantidade = quantidade;
+    public PedidoProduto(int codigo, int quantidade, Produto produto) {
         this.codigo = codigo;
-        this.codigoPedido = codigoPedido;
+        this.quantidade = quantidade;
         this.produto = produto;
     }
 
-    public int getCodigoPedido() {
-        return codigoPedido;
-    }
-
-    public void setCodigoPedido(int codigoPedido) {
-        this.codigoPedido = codigoPedido;
-    }
-    
-    public int getQuantidade() {
-        return quantidade;
-    }
-
-    public void setQuantidade(int quantidade) {
+    public PedidoProduto(int quantidade, Produto produto) {
         this.quantidade = quantidade;
+        this.produto = produto;
+    }
+
+    public Produto getProduto() {
+        return produto;
+    }
+
+    public void setProduto(Produto produto) {
+        this.produto = produto;
     }
 
     public int getCodigo() {
@@ -39,13 +35,12 @@ public class PedidoProduto {
         this.codigo = codigo;
     }
 
-    public Produto getProduto() {
-        return produto;
+    public int getQuantidade() {
+        return quantidade;
     }
 
-    public void setProduto(Produto produto) {
-        this.produto = produto;
+    public void setQuantidade(int quantidade) {
+        this.quantidade = quantidade;
     }
-    
-    
+        
 }

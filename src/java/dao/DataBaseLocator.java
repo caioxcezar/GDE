@@ -22,7 +22,7 @@ public class DataBaseLocator {
 
     public Connection getConnection() throws SQLException, ClassNotFoundException {
         Class.forName("com.mysql.jdbc.Driver");
-        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/gde", "gde_site", "");
+        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/gde", "gde", "");
         return conn;
     }
     

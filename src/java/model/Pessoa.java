@@ -8,13 +8,14 @@ public abstract class Pessoa {
     private String nome, telefone;
     private int numero, codigo;
     private String rua, bairro, cidade, complemento, cep;
+    private Estado estado;
 
     public Pessoa(String nome, String telefone) {
         this.nome = nome;
         this.telefone = telefone;
     }
 
-    public Pessoa(String nome, String telefone, int numero, int codigo, String cep, String rua, String bairro, String cidade, String complemento) {
+    public Pessoa(String nome, String telefone, int numero, int codigo, String cep, String rua, String bairro, String cidade, String complemento, Estado estado) {
         this.nome = nome;
         this.telefone = telefone;
         this.numero = numero;
@@ -24,6 +25,15 @@ public abstract class Pessoa {
         this.bairro = bairro;
         this.cidade = cidade;
         this.complemento = complemento;
+        this.estado = estado;
+    }
+
+    public Estado getEstado() {
+        return estado;
+    }
+
+    public void setEstado(Estado estado) {
+        this.estado = estado;
     }
 
     public int getCodigo() {

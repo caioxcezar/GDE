@@ -14,21 +14,19 @@
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="inputCodigo">Código</label>
-                <input type="number" class="form-control" name="inputCodigo" id="inputCodigo" placeholder="0" readonly="true">
+                <input type="number" value="${categoria.codigo}" class="form-control" name="inputCodigo" id="inputCodigo" placeholder="0" readonly="true">
             </div>
             <div class="form-group col-md-6">
                 <label for="inputNome">Nome</label>
-                <input type="text" class="form-control" name="inputNome" id="inputNome" placeholder="Nome" required="true">
+                <input type="text" value="${categoria.nome}" class="form-control" name="inputNome" id="inputNome" placeholder="Nome" required="true">
             </div>
         </div>
         <div class="form-group">
             <label for="inputDescricao">Descrição</label>
-            <textarea class="form-control" maxlength="150" name="inputDescricao" id="inputDescricao" placeholder="Descrição sobre o categoria" required="true"></textarea>
+            <textarea class="form-control" maxlength="150" name="inputDescricao" id="inputDescricao" placeholder="Descrição sobre o categoria" required="true">${categoria.descricao}</textarea>
         </div>
-        <button type="submit" name="btnSalvar" class="btn btn-primary">Salvar</button>
-        <button type="submit" name="btnExcluir" class="btn btn-danger">Excluir</button>
-        <a type="submit" class="btn btn-warning" onclick="location.reload(true)">Cancelar</a>
-</div>
-</form>
+        <button type="submit" class="btn btn-primary">${operacao}</button>
+        <a type="submit" class="btn btn-warning" onclick="location.reload(true)">cancelar</a>
+    </form>
 </div>
 <jsp:include page="templates/footer.jsp"/>

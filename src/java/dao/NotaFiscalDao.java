@@ -7,13 +7,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import model.NotaFiscal;
-import util.DaoUtils;
 
 /**
  *
  * @author ccezar
  */
-public class NotaFiscalDao {
+public class NotaFiscalDao extends dao {
 
     private static final NotaFiscalDao INSTANCE = new NotaFiscalDao();
 
@@ -28,29 +27,43 @@ public class NotaFiscalDao {
         try {
             conn = DataBaseLocator.getInstance().getConnection();
             p = conn.prepareStatement(sql);
-            p.setInt(0, cod);
+            p.setInt(1, cod);
             rs = p.executeQuery();
+            rs.next();
             return instanciarNotaFiscal(rs);
         } finally {
-            DaoUtils.closeResources(conn, p);
+            closeResources(conn, p);
         }
     }
-
+    public static int lastId() throws SQLException, ClassNotFoundException {
+        Connection conn = null;
+        Statement st = null;
+        try {
+            conn = DataBaseLocator.getInstance().getConnection();
+            st = conn.createStatement();
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT MAX(cod_nota) as max_cod FROM gde.notas_fiscais_tb");
+            rs.next();
+            return rs.getInt("max_cod");
+        } finally {
+            closeResources(conn, st);
+        }
+    }
     public static void salvar(NotaFiscal nota) throws SQLException, ClassNotFoundException {
         Connection conn = null;
         PreparedStatement p = null;
         String sql = "INSERT INTO notas_fiscais_tb "
-                + "(cod_nota, data_nota, venda_nota) "
-                + "VALUES (?, '?', ?);";
+                + "(cod_nota, data_nota, pedido_nota) "
+                + "VALUES (?, ?, ?);";
         try {
             conn = DataBaseLocator.getInstance().getConnection();
             p = conn.prepareStatement(sql);
-            p.setInt(0, nota.getCodigo());
-            p.setDate(1, nota.getData());
-            p.setInt(2, nota.getVenda().getCodigo());
+            p.setInt(1, nota.getCodigo());
+            p.setDate(2, nota.getData());
+            p.setInt(3, nota.getPedido().getCodigo());
             p.execute();
         } finally {
-            DaoUtils.closeResources(conn, p);
+            closeResources(conn, p);
         }
     }
 
@@ -58,31 +71,31 @@ public class NotaFiscalDao {
         Connection conn = null;
         PreparedStatement p = null;
         String sql = "UPDATE notas_fiscais_tb "
-                + "SET data_nota = ?, venda_nota = ? "
+                + "SET data_nota = ?, pedido_nota = ? "
                 + "WHERE cod_nota = ?";
         try {
             conn = DataBaseLocator.getInstance().getConnection();
             p = conn.prepareStatement(sql);
-            p.setDate(0, nota.getData());
-            p.setInt(1, nota.getVenda().getCodigo());
-            p.setInt(2, nota.getCodigo());
+            p.setDate(1, nota.getData());
+            p.setInt(2, nota.getPedido().getCodigo());
+            p.setInt(3, nota.getCodigo());
             p.execute();
         } finally {
-            DaoUtils.closeResources(conn, p);
+            closeResources(conn, p);
         }
     }
 
-    public static void apagar(int cod) throws SQLException, ClassNotFoundException {
+    public static void apagar(NotaFiscal nota) throws SQLException, ClassNotFoundException {
         Connection conn = null;
         PreparedStatement p = null;
         String sql = "DELETE FROM gde.notas_fiscais_tb WHERE cod_nota = ?";
         try {
             conn = DataBaseLocator.getInstance().getConnection();
             p = conn.prepareStatement(sql);
-            p.setInt(0, cod);
+            p.setInt(1, nota.getCodigo());
             p.execute();
         } finally {
-            DaoUtils.closeResources(conn, p);
+            closeResources(conn, p);
         }
     }
 
@@ -100,7 +113,7 @@ public class NotaFiscalDao {
             }
             return cargos;
         } finally {
-            DaoUtils.closeResources(conn, st);
+            closeResources(conn, st);
         }
     }
 
@@ -108,6 +121,6 @@ public class NotaFiscalDao {
         return new NotaFiscal(
                 rs.getInt("cod_nota"), 
                 rs.getDate("data_nota"), 
-                VendaDao.get(rs.getInt("venda_nota")));
+                PedidoDao.get(rs.getInt("pedido_nota")));
     }
 }

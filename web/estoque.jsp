@@ -26,15 +26,20 @@
                             <th scope="col">#</th>
                             <th scope="col">Nome</th>
                             <th scope="col">Quantidade</th>
-                            <th scope="col">valor</th>
+                            <th scope="col">Valor</th>
+                            <th scope="col">Operações</th>
                         </tr>
                     </thead>
                     <c:forEach items="${produtos}" var="produto">
                         <tr>
                             <th scope="row"><c:out value="${produto.codigo}"></c:out></th>
-                        <td><c:out value="${produto.produto.nome}"></c:out></td>
-                        <td><c:out value="${produto.quantidade}"></c:out></td>
-                        <td><c:out value="${produto.produto.valor * produto.quantidade}"></c:out></td>
+                            <td><c:out value="${produto.produto.nome}"></c:out></td>
+                            <td><c:out value="${produto.quantidade}"></c:out></td>
+                            <td class="estoque-valor">${produto.produto.valor * produto.quantidade}</td>
+                            <td>
+                                <a class="btn btn-warning" href="manterEstoque?acao=prepararOperacao&operacao=alterar&cod=${produto.codigo}">Alterar</a>
+                                <a class="btn btn-danger" href="manterEstoque?acao=prepararOperacao&operacao=excluir&cod=${produto.codigo}">Excluir</a>
+                            </td>
                         </tr>
                     </c:forEach>
                 </table>
@@ -42,4 +47,7 @@
         </form>
     </div>
 </div>
+<script>
+    $(".estoque-valor").text(parseFloat($(".estoque-valor").text()).toFixed(2));
+</script>
 <jsp:include page="templates/footer.jsp"/>

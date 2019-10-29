@@ -50,7 +50,7 @@ public class ClientesController extends HttpServlet {
             view.forward(request, response);
         } catch (Exception e) {
             e.printStackTrace();
-            throw new ServletException("Erro ao processar controller");
+            throw new ServletException("Erro ao processar controller\n"+e.getMessage());
         }
     }
 

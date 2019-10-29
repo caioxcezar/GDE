@@ -7,13 +7,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import model.Categoria;
-import util.DaoUtils;
 
 /**
  *
  * @author ccezar
  */
-public class CategoriaDao {
+public class CategoriaDao extends dao {
 
     public static void salvar(Categoria categoria) throws SQLException, ClassNotFoundException {
         Connection conn = null;
@@ -29,7 +28,7 @@ public class CategoriaDao {
             p.setString(3, categoria.getDescricao());
             p.executeUpdate();
         } finally {
-            DaoUtils.closeResources(conn, p);
+            closeResources(conn, p);
         }
     }
 
@@ -44,21 +43,21 @@ public class CategoriaDao {
             rs.next();
             return rs.getInt("max_cod");
         } finally {
-            DaoUtils.closeResources(conn, st);
+            closeResources(conn, st);
         }
     }
 
-    public static void apagar(int cod) throws SQLException, ClassNotFoundException {
+    public static void apagar(Categoria categoria) throws SQLException, ClassNotFoundException {
         Connection conn = null;
         PreparedStatement p = null;
         String sql = "DELETE FROM gde.categorias_tb WHERE cod_cat = ?";
         try {
             conn = DataBaseLocator.getInstance().getConnection();
             p = conn.prepareStatement(sql);
-            p.setInt(1, cod);
+            p.setInt(1, categoria.getCodigo());
             p.executeUpdate();
         } finally {
-            DaoUtils.closeResources(conn, p);
+            closeResources(conn, p);
         }
     }
 
@@ -75,15 +74,15 @@ public class CategoriaDao {
             rs.next();
             return instanciarCategoria(rs);
         } finally {
-            util.DaoUtils.closeResources(conn, p);
+            closeResources(conn, p);
         }
     }
 
     public static void alterar(Categoria categoria) throws SQLException, ClassNotFoundException {
         Connection conn = null;
         PreparedStatement p = null;
-        String sql = "UPDATE INTO gde.categorias_tb "
-                + "SET nome_cat = '?', descricao_cat = '?' "
+        String sql = "UPDATE gde.categorias_tb "
+                + "SET nome_cat = ?, descricao_cat = ? "
                 + "WHERE cod_cat = ?";
         try {
             conn = DataBaseLocator.getInstance().getConnection();
@@ -93,7 +92,7 @@ public class CategoriaDao {
             p.setInt(3, categoria.getCodigo());
             p.executeUpdate();
         } finally {
-            DaoUtils.closeResources(conn, p);
+            closeResources(conn, p);
         }
     }
 
@@ -111,7 +110,7 @@ public class CategoriaDao {
             }
             return categorias;
         } finally {
-            DaoUtils.closeResources(conn, st);
+            closeResources(conn, st);
         }
     }
 
@@ -131,7 +130,7 @@ public class CategoriaDao {
             }
             return categorias;
         } finally {
-            DaoUtils.closeResources(conn, p);
+            closeResources(conn, p);
         }
     }
 

@@ -26,6 +26,7 @@
                             <th scope="col">#</th>
                             <th scope="col">Nome</th>
                             <th scope="col">Descrição</th>
+                            <th scope="col">Operações</th>
                         </tr>
                     </thead>
                     <c:forEach items="${cargos}" var="cargo">
@@ -33,6 +34,10 @@
                             <th scope="row"><c:out value="${cargo.codigo}"></c:out></th>
                             <td><c:out value="${cargo.nome}"></c:out></td>
                             <td><c:out value="${cargo.descricao}"></c:out></td>
+                                <td>
+                                    <a class="btn btn-warning" href="manterCargo?acao=prepararOperacao&operacao=alterar&cod=${cargo.codigo}">Alterar</a>
+                                <a class="btn btn-danger" href="manterCargo?acao=prepararOperacao&operacao=excluir&cod=${cargo.codigo}">Excluir</a>
+                            </td>
                         </tr>
                     </c:forEach>
                 </table>

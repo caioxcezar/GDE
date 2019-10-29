@@ -15,6 +15,7 @@
         <a class="list-group-item list-group-item-action" href="manterFuncionario?acao=prepararOperacao&operacao=incluir">Cadastrar Funcionario</a>
         <a class="list-group-item list-group-item-action" href="manterProduto?acao=prepararOperacao&operacao=incluir">Cadastrar Produto</a>
         <a class="list-group-item list-group-item-action" href="manterCategoria?acao=prepararOperacao&operacao=incluir">Cadastrar Categoria</a>
+        <a class="list-group-item list-group-item-action" href="manterCargo?acao=prepararOperacao&operacao=incluir">Cadastrar Cargo</a>
         <a class="list-group-item list-group-item-action" href="manterEstoque?acao=prepararOperacao&operacao=incluir">Adicionar ao Estoque</a>
     </div>
     <hr>
@@ -26,13 +27,14 @@
         <a class="list-group-item list-group-item-action" href="estoque">Consultar Estoque</a>
         <a class="list-group-item list-group-item-action" href="categorias">Consultar Categoria</a>
         <a class="list-group-item list-group-item-action" href="cargos">Consultar Cargo</a>
+        <a class="list-group-item list-group-item-action" href="pedidos">Consultar Pedidos</a>
+        <a class="list-group-item list-group-item-action" href="notasFiscais">Consultar Notas-Fiscais</a>
     </div>
     <hr>
     <h3>Transações</h3>
     <div class="list-group">
-        <a class="list-group-item list-group-item-action" href="emitirPedido">Emitir Pedido</a>
-        <a class="list-group-item list-group-item-action" href="venderProduto">Vender Produto</a>
-        <a class="list-group-item list-group-item-action" href="RealizarPagamento">Realizar Pagamento</a>
+        <a class="list-group-item list-group-item-action" href="manterPedido?acao=prepararOperacao&operacao=incluir">Emitir Pedido</a>
+        <a class="list-group-item list-group-item-action" href="manterPagamento?acao=prepararOperacao&operacao=incluir">Realizar Pagamento</a>
     </div>
 </div>
 <jsp:include page="templates/footer.jsp"/>

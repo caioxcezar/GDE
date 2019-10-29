@@ -7,13 +7,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import model.Pedido;
-import util.DaoUtils;
 
 /**
  *
  * @author ccezar
  */
-public class PedidoDao {
+public class PedidoDao extends dao {
 
     public static Pedido get(int cod) throws SQLException, ClassNotFoundException {
         Connection conn = null;
@@ -23,11 +22,12 @@ public class PedidoDao {
         try {
             conn = DataBaseLocator.getInstance().getConnection();
             p = conn.prepareStatement(sql);
-            p.setInt(0, cod);
+            p.setInt(1, cod);
             rs = p.executeQuery();
+            rs.next();
             return instanciarPedido(rs);
         } finally {
-            DaoUtils.closeResources(conn, p);
+            closeResources(conn, p);
         }
     }
 
@@ -35,20 +35,35 @@ public class PedidoDao {
         Connection conn = null;
         PreparedStatement p = null;
         String sql = "INSERT INTO pedidos_tb "
-                + "(cod_pedido, funcionario_pedido, cliente_pedido, valor_pedido, data_pedido, tipo_pedido) "
+                + "(cod_pedido, funcionario_pedido, cliente_pedido, data_pedido, tipo_pedido, estado_pedido) "
                 + "VALUES (?, ?, ?, ?, ?, ?);";
         try {
             conn = DataBaseLocator.getInstance().getConnection();
             p = conn.prepareStatement(sql);
-            p.setInt(0, pedido.getCodigo());
-            p.setInt(1, pedido.getFuncionario().getCodigo());
-            p.setInt(2, pedido.getCliente().getCodigo());
-            p.setDouble(3, pedido.getValor());
+            p.setInt(1, pedido.getCodigo());
+            p.setInt(2, pedido.getFuncionario().getCodigo());
+            p.setInt(3, pedido.getCliente().getCodigo());
             p.setDate(4, pedido.getData());
             p.setString(5, pedido.getTipo());
+            p.setString(6, pedido.getEstado());
             p.execute();
         } finally {
-            DaoUtils.closeResources(conn, p);
+            closeResources(conn, p);
+        }
+    }
+
+    public static int lastId() throws SQLException, ClassNotFoundException {
+        Connection conn = null;
+        Statement st = null;
+        try {
+            conn = DataBaseLocator.getInstance().getConnection();
+            st = conn.createStatement();
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT MAX(cod_pedido) as max_cod FROM gde.pedidos_tb");
+            rs.next();
+            return rs.getInt("max_cod");
+        } finally {
+            closeResources(conn, st);
         }
     }
 
@@ -56,35 +71,35 @@ public class PedidoDao {
         Connection conn = null;
         PreparedStatement p = null;
         String sql = "UPDATE pedidos_tb "
-                + "SET funcionario_pedido = '?', cliente_pedido = '?', valor_pedido = '?'"
-                + ", data_pedido = '?', tipo_pedido = '?' "
+                + "SET funcionario_pedido = ?, cliente_pedido = ?"
+                + ", data_pedido = ?, tipo_pedido = ?, estado_pedido = ? "
                 + "WHERE cod_pedido = ?";
         try {
             conn = DataBaseLocator.getInstance().getConnection();
             p = conn.prepareStatement(sql);
-            p.setInt(5, pedido.getCodigo());
-            p.setInt(0, pedido.getFuncionario().getCodigo());
-            p.setInt(1, pedido.getCliente().getCodigo());
-            p.setDouble(2, pedido.getValor());
+            p.setInt(1, pedido.getFuncionario().getCodigo());
+            p.setInt(2, pedido.getCliente().getCodigo());
             p.setDate(3, pedido.getData());
             p.setString(4, pedido.getTipo());
+            p.setString(5, pedido.getEstado());
+            p.setInt(6, pedido.getCodigo());
             p.execute();
         } finally {
-            DaoUtils.closeResources(conn, p);
+            closeResources(conn, p);
         }
     }
 
-    public static void apagar(int cod) throws SQLException, ClassNotFoundException {
+    public static void apagar(Pedido pedido) throws SQLException, ClassNotFoundException {
         Connection conn = null;
         PreparedStatement p = null;
         String sql = "DELETE FROM gde.pedidos_tb WHERE cod_pedido = ?";
         try {
             conn = DataBaseLocator.getInstance().getConnection();
             p = conn.prepareStatement(sql);
-            p.setInt(0, cod);
+            p.setInt(1, pedido.getCodigo());
             p.execute();
         } finally {
-            DaoUtils.closeResources(conn, p);
+            closeResources(conn, p);
         }
     }
 
@@ -102,18 +117,36 @@ public class PedidoDao {
             }
             return pedidos;
         } finally {
-            DaoUtils.closeResources(conn, st);
+            closeResources(conn, st);
+        }
+    }
+
+    public static ArrayList<Pedido> listarPendente() throws SQLException, ClassNotFoundException {
+        Connection conn = null;
+        Statement st = null;
+        ArrayList<Pedido> pedidos = new ArrayList<>();
+        try {
+            conn = DataBaseLocator.getInstance().getConnection();
+            st = conn.createStatement();
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM pedidos_tb where estado_pedido = 'pendente'");
+            while (rs.next()) {
+                pedidos.add(instanciarPedido(rs));
+            }
+            return pedidos;
+        } finally {
+            closeResources(conn, st);
         }
     }
 
     private static Pedido instanciarPedido(ResultSet rs) throws SQLException, ClassNotFoundException {
-        return new Pedido(rs.getInt("cod_pedido"), 
-                PedidoProdutoDao.listar(rs.getInt("cod_pedido")), 
-                FuncionarioDao.get(rs.getInt("funcionario_pedido")), 
-                ClienteDao.get(rs.getInt("cliente_pedido")), 
-                rs.getFloat("valor_pedido"), 
-                rs.getDate("data_pedido"), 
-                rs.getString("estado_pedido"), 
+        return new Pedido(
+                rs.getInt("cod_pedido"),
+                PedidoProdutoDao.listar(rs.getInt("cod_pedido")),
+                FuncionarioDao.get(rs.getInt("funcionario_pedido")),
+                ClienteDao.get(rs.getInt("cliente_pedido")),
+                rs.getDate("data_pedido"),
+                rs.getString("estado_pedido"),
                 rs.getString("estado_pedido"));
     }
 }
