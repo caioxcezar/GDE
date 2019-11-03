@@ -12,6 +12,7 @@ CREATE TABLE funcionarios_tb (
 	cep_func nvarchar(9), 
 	estado_func char(2),
 	cargo_func int,
+	salario_func decimal(15,2) not NULL,
     cidade_func nvarchar(100)
 );
 CREATE TABLE clientes_tb (
