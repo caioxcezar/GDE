@@ -13,11 +13,20 @@ import model.Produto;
  * @author caioc
  */
 public class EstoqueService {
-
-    public static int verificarQuantidade(Produto produto) throws SQLException, ClassNotFoundException {
+    /***
+     * Verifica quantidade de um determinado produto em estoque. Retona 0 caso ocorra algum erro.
+     * @param produto
+     * @return
+     * @throws ClassNotFoundException 
+     */
+    public static int verificarQuantidade(Produto produto) {
         int qtd = 0;
-        for (Estoque estoque : EstoqueDao.listarCodProduto(produto)) {
-            qtd += estoque.getQuantidade();
+        try {
+            for (Estoque estoque : EstoqueDao.listarCodProduto(produto)) {
+                qtd += estoque.getQuantidade();
+            }
+        } catch (ClassNotFoundException | SQLException e) {
+            return 0;
         }
         return qtd;
     }

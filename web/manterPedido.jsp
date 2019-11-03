@@ -28,8 +28,16 @@
                 <label for="inputTipo">Tipo</label>
                 <select name="inputTipo" id="inputTipo" class="form-control" required="true">
                     <option value="">Escolha...</option>
-                    <option value="Interno">Interno</option>
-                    <option value="Externo">Externo</option>
+                    <option value="Interno"
+                            <c:if test="${pedido.tipo == 'Interno'}">
+                                selected
+                            </c:if>
+                            >Interno</option>
+                    <option value="Externo"
+                            <c:if test="${pedido.tipo == 'Externo'}">
+                                selected   
+                            </c:if>
+                            >Externo</option>
                 </select>
             </div> 
             <div class="form-group col-md-6">

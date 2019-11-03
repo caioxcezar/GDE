@@ -1,11 +1,10 @@
 package controller;
 
 import dao.CargoDao;
-import dao.CategoriaDao;
-import dao.ClienteDao;
 import dao.EstadoDao;
 import dao.FuncionarioDao;
 import java.io.IOException;
+import java.sql.SQLException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,7 +12,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Cargo;
-import model.Cliente;
 import model.Estado;
 import model.Funcionario;
 
@@ -86,8 +84,11 @@ public class ManterFuncionarioController extends HttpServlet {
             String complemento = request.getParameter("inputComplemento");
             Estado estado = EstadoDao.get(request.getParameter("inputEstado"));
             Cargo cargo = CargoDao.get(Integer.parseInt(request.getParameter("inputCargo")));
+            String strSalario = request.getParameter("inputSalario").replace(',', '.');
+            float salario = Float.parseFloat(strSalario);
             
-            Funcionario funcionario = new Funcionario(cpf, cargo, nome, telefone, numero, codigo, cep, rua, bairro, cidade, complemento, estado);
+            Funcionario funcionario = new Funcionario(cpf, cargo, nome, telefone, 
+                    numero, codigo, cep, rua, bairro, cidade, complemento, estado, salario);
             switch (operacao) {
                 case "incluir":
                     FuncionarioDao.salvar(funcionario);
@@ -101,7 +102,7 @@ public class ManterFuncionarioController extends HttpServlet {
             }
             //request.getRequestDispatcher("/categorias.jsp").forward(request, response);
             response.sendRedirect(request.getContextPath() + "/funcionarios");
-        } catch (Exception e) {
+        } catch (IOException | ClassNotFoundException | NumberFormatException | SQLException e) {
             throw new ServletException("Erro ao processar controller: " + e.getMessage());
         }
     }

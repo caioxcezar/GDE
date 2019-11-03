@@ -134,10 +134,10 @@ public class ManterPedidoController extends HttpServlet {
                     PedidoProduto produto = new PedidoProduto(
                             Integer.parseInt(prod[1]),
                             ProdutoDao.get(Integer.parseInt(prod[0])));
-                    if (!EstoqueService.verificarDisponibilidade(produto) && tipo.equals("Externo")){
+                    if (!EstoqueService.verificarDisponibilidade(produto) && tipo.equals("Externo")) {
                         throw new ServletException(
-                                String.format("Produto %s indisponivel nessa quantida, por favor fazer pedido interno", 
-                                produto.getProduto().getNome()));
+                                String.format("Produto %s indisponivel nessa quantida, por favor fazer pedido interno",
+                                        produto.getProduto().getNome()));
                     }
                     produtos.add(produto);
                 }
@@ -155,9 +155,12 @@ public class ManterPedidoController extends HttpServlet {
                     PedidoDao.salvar(pedido);
                     for (PedidoProduto pProd : pedido.getProdutos()) {
                         PedidoProdutoDao.salvar(pProd, pedido);
-                        Estoque estoque = EstoqueDao.listarCodProduto(pProd.getProduto()).get(0);
-                        estoque.setQuantidade(estoque.getQuantidade() - pProd.getQuantidade());
-                        EstoqueDao.alterar(estoque);
+                        if (pedido.getTipo().equals("Externo")) {
+                            Estoque estoque = EstoqueDao.listarCodProduto(pProd.getProduto()).get(0);
+                            estoque.setQuantidade(estoque.getQuantidade() - pProd.getQuantidade());
+                            estoque.setDataAlteracao(data);
+                            EstoqueDao.alterar(estoque);
+                        }
                     }
                     break;
                 case "excluir": {

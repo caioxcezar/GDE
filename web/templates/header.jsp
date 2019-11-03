@@ -33,7 +33,6 @@
                             <a class="dropdown-item" href="manterProduto?acao=prepararOperacao&operacao=incluir">Cadastrar Produto</a>
                             <a class="dropdown-item" href="manterCategoria?acao=prepararOperacao&operacao=incluir">Cadastrar Categoria</a>
                             <a class="dropdown-item" href="manterCargo?acao=prepararOperacao&operacao=incluir">Cadastrar Cargo</a>
-                            <a class="dropdown-item" href="manterEstoque?acao=prepararOperacao&operacao=incluir">Adicionar ao Estoque</a>
                         </div>
                     </li><li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -56,6 +55,7 @@
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                             <a class="dropdown-item" href="manterPedido?acao=prepararOperacao&operacao=incluir">Emitir Pedido</a>
                             <a class="dropdown-item" href="manterPagamento?acao=prepararOperacao&operacao=incluir">Realizar Pagamento</a>
+                            <a class="dropdown-item" href="manterEstoque?acao=prepararOperacao&operacao=incluir">Adicionar ao Estoque</a>
                         </div>
                     </li>
                 </ul>

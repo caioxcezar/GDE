@@ -52,7 +52,7 @@ public class ManterPagamentoController extends HttpServlet {
                 request.setAttribute("notaFiscal", nota);
                 pedidos.add(nota.getPedido());
             } else {
-                pedidos = PedidoDao.listarPendente();
+                pedidos = PedidoDao.listarPendentesExterno();
             }
             request.setAttribute("pedidos", pedidos);
             request.getRequestDispatcher("/manterPagamento.jsp").forward(request, response);

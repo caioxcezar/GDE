@@ -121,7 +121,7 @@ public class PedidoDao extends dao {
         }
     }
 
-        public static ArrayList<Pedido> listar(int codigo) throws SQLException, ClassNotFoundException {
+    public static ArrayList<Pedido> listar(int codigo) throws SQLException, ClassNotFoundException {
         Connection conn = null;
         PreparedStatement p = null;
         ArrayList<Pedido> pedidos = new ArrayList<>();
@@ -138,7 +138,7 @@ public class PedidoDao extends dao {
             closeResources(conn, p);
         }
     }
-    
+
     public static ArrayList<Pedido> listarPendente() throws SQLException, ClassNotFoundException {
         Connection conn = null;
         Statement st = null;
@@ -157,6 +157,46 @@ public class PedidoDao extends dao {
         }
     }
 
+    public static ArrayList<Pedido> listarPendentesInterno() throws SQLException, ClassNotFoundException {
+        Connection conn = null;
+        Statement st = null;
+        ArrayList<Pedido> pedidos = new ArrayList<>();
+        try {
+            conn = DataBaseLocator.getInstance().getConnection();
+            st = conn.createStatement();
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM pedidos_tb "
+                    + "where estado_pedido = 'Pendente' "
+                    + "and tipo_pedido = 'Interno'");
+            while (rs.next()) {
+                pedidos.add(instanciarPedido(rs));
+            }
+            return pedidos;
+        } finally {
+            closeResources(conn, st);
+        }
+    }
+
+    public static ArrayList<Pedido> listarPendentesExterno() throws SQLException, ClassNotFoundException {
+        Connection conn = null;
+        Statement st = null;
+        ArrayList<Pedido> pedidos = new ArrayList<>();
+        try {
+            conn = DataBaseLocator.getInstance().getConnection();
+            st = conn.createStatement();
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM pedidos_tb "
+                    + "where estado_pedido = 'Pendente' "
+                    + "and tipo_pedido = 'Externo'");
+            while (rs.next()) {
+                pedidos.add(instanciarPedido(rs));
+            }
+            return pedidos;
+        } finally {
+            closeResources(conn, st);
+        }
+    }
+
     private static Pedido instanciarPedido(ResultSet rs) throws SQLException, ClassNotFoundException {
         return new Pedido(
                 rs.getInt("cod_pedido"),
@@ -165,6 +205,6 @@ public class PedidoDao extends dao {
                 ClienteDao.get(rs.getInt("cliente_pedido")),
                 rs.getDate("data_pedido"),
                 rs.getString("estado_pedido"),
-                rs.getString("estado_pedido"));
+                rs.getString("tipo_pedido"));
     }
 }

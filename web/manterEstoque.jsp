@@ -12,27 +12,24 @@
 <div class="container mt-4">
     <h3>${operacao.toUpperCase()} ESTOQUE</h3>
     <form action="manterEstoque?acao=confirmarOperacao&operacao=${operacao}" method="post">
-        <div class="form-group">
-            <label for="inputCodigo">Codigo</label>
-            <input type="text" value="${estoque.codigo}" class="form-control" id="inputCodigo" name="inputCodigo" placeholder="0" readonly="true">
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="inputCodigo">Codigo</label>
+                <input type="text" value="${estoque.codigo}" class="form-control" id="inputCodigo" name="inputCodigo" placeholder="1" readonly="true">
+            </div>
+            <div class="form-group col-md-6">
+                <label for="inputData">Data</label>
+                <input type="date" class="form-control" value="${estoque.data}" id="inputData" name="inputData" placeholder="10/05/2019" readonly="true">
+            </div>
         </div>
-        <div class="form-group">
-            <label for="inputQuantidade">Quantidade</label>
-            <input type="number" value="${estoque.quantidade}" class="form-control" id="inputQuantidade" name="inputQuantidade" placeholder="0" required="true">
-        </div>
-        <div class="form-group">
-            <label for="inputProduto">Produto</label>
-            <select id="inputProduto" name="inputProduto" class="form-control" required="true">
-                <option value="">Escolha...</option>
-                <c:forEach var="produto" items="${produtos}">
-                    <option value="${produto.codigo}" 
-                            <c:if test="${produto.codigo == estoque.produto.codigo}">
-                                selected
-                            </c:if>
-                            >${produto.nome}</option>
-                </c:forEach>
-            </select>
-        </div>
+        <select id="inputPedido" name="inputPedido" class="form-control mb-2">
+            <option value="">Escolha...</option>
+            <c:forEach items="${pedidos}" var="pedido">
+                <option value="${pedido.codigo}" <c:if test="${pedido.codigo == estoque.pedido.codigo}">
+                        selected
+                </c:if>>${pedido.codigo}: ${pedido.cliente.nome}, ${pedido.funcionario.nome}</option>
+            </c:forEach>
+        </select>
         <button type="submit" class="btn btn-primary">${operacao}</button>
         <a type="submit" class="btn btn-warning" onclick="location.reload(true)">cancelar</a>
     </form>

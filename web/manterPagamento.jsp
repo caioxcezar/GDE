@@ -22,7 +22,7 @@
                 <input type="date" class="form-control" value="${notaFiscal.data}" id="inputData" name="inputData" placeholder="10/05/2019" readonly="true">
             </div>
         </div>
-        <select id="inputPedido" name="inputPedido" class="form-control">
+        <select id="inputPedido" name="inputPedido" class="form-control mb-2">
             <option value="">Escolha...</option>
             <c:forEach items="${pedidos}" var="pedido">
                 <option value="${pedido.codigo}" <c:if test="${pedido.codigo == notaFiscal.pedido.codigo}">

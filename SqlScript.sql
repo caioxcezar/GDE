@@ -44,7 +44,10 @@ CREATE TABLE pedido_produtos_tb (
 CREATE TABLE estoque_tb (
 	cod_estoque int PRIMARY KEY,
 	produto_estoque int NOT NULL,
-	quantidade_estoque int NOT NULL
+	data_estoque date NOT NULL,
+	quantidade_estoque int NOT NULL,
+	pedido_estoque int NOT NULL,
+	data_alteracao date NULL
 );
 CREATE TABLE notas_fiscais_tb (
 	cod_nota int PRIMARY KEY,
@@ -85,9 +88,11 @@ ALTER TABLE notas_fiscais_tb
 ALTER TABLE pedido_produtos_tb
 	ADD CONSTRAINT fk_pedido_ppdrod FOREIGN KEY (pedido_pprod) REFERENCES pedidos_tb(cod_pedido);
 ALTER TABLE pedido_produtos_tb
-	ADD CONSTRAINT fk_ppdrod_prod FOREIGN KEY (produto_ppdrod) REFERENCES produtos_tb(cod_prod);
+	ADD CONSTRAINT fk_pprod_prod FOREIGN KEY (produto_pprod) REFERENCES produtos_tb(cod_prod);
 ALTER TABLE estoque_tb
 	ADD CONSTRAINT fk_estoque_produto FOREIGN KEY (produto_estoque) REFERENCES produtos_tb(cod_prod);
+ALTER TABLE estoque_tb
+	ADD CONSTRAINT fk_estoque_pedido FOREIGN KEY (pedido_estoque) REFERENCES pedidos_tb(cod_pedido);
 ALTER TABLE pedidos_tb
 	ADD CONSTRAINT fk_pedido_cli FOREIGN KEY (cliente_pedido) REFERENCES clientes_tb(cod_cli);
 ALTER TABLE pedidos_tb

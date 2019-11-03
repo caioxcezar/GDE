@@ -19,8 +19,8 @@ public class FuncionarioDao extends dao {
         PreparedStatement p = null;
         String sql = "INSERT INTO gde.funcionarios_tb "
                 + "(cod_func,nome_func,telefone_func,cpf_func,rua_func,numero_func,"
-                + "complemento_func,bairro_func,cep_func,cargo_func,estado_func,cidade_func)\n"
-                + "	VALUES (?,?,?,?,?,?,?,?,?,?,?,?);";
+                + "complemento_func,bairro_func,cep_func,cargo_func,estado_func,cidade_func, salario_func)\n"
+                + "	VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?);";
         try {
             conn = DataBaseLocator.getInstance().getConnection();
             p = conn.prepareStatement(sql);
@@ -36,6 +36,7 @@ public class FuncionarioDao extends dao {
             p.setInt(10, funcionario.getCargo().getCodigo());
             p.setString(11, funcionario.getEstado().getSigla());
             p.setString(12, funcionario.getCidade());
+            p.setFloat(13, funcionario.getSalario());
             p.execute();
         } finally {
             closeResources(conn, p);
@@ -96,7 +97,8 @@ public class FuncionarioDao extends dao {
         PreparedStatement p = null;
         String sql = "UPDATE gde.funcionarios_tb "
                 + "SET nome_func = ?, telefone_func = ?, cpf_func = ?, rua_func = ?, "
-                + "numero_func = ?, complemento_func = ?, bairro_func = ?, cep_func = ?, cargo_func = ?, cidade_func = ? "
+                + "numero_func = ?, complemento_func = ?, bairro_func = ?, cep_func = ?, "
+                + "cargo_func = ?, cidade_func = ?, salario_func = ? "
                 + "WHERE cod_func = ?";
         try {
             conn = DataBaseLocator.getInstance().getConnection();
@@ -111,7 +113,8 @@ public class FuncionarioDao extends dao {
             p.setString(8, funcionario.getCep());
             p.setInt(9, funcionario.getCargo().getCodigo());
             p.setString(10, funcionario.getCidade());
-            p.setInt(11, funcionario.getCodigo());
+            p.setFloat(11, funcionario.getSalario());
+            p.setInt(12, funcionario.getCodigo());
             p.execute();
         } finally {
             closeResources(conn, p);
@@ -206,6 +209,8 @@ public class FuncionarioDao extends dao {
                 rs.getString("bairro_func"),
                 rs.getString("cidade_func"),
                 rs.getString("complemento_func"),
-                EstadoDao.get(rs.getString("estado_func")));
+                EstadoDao.get(rs.getString("estado_func")),
+                rs.getFloat("salario_func")
+        );
     }
 }

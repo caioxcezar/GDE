@@ -13,6 +13,7 @@ import model.Estado;
  * @author fundamental1
  */
 public class EstadoDao extends dao {
+
     public static void salvar(Estado estado) throws SQLException, ClassNotFoundException {
         Connection conn = null;
         PreparedStatement p = null;
@@ -29,7 +30,7 @@ public class EstadoDao extends dao {
             closeResources(conn, p);
         }
     }
-
+    
     public static int lastId() throws SQLException, ClassNotFoundException {
         Connection conn = null;
         Statement st = null;
@@ -58,7 +59,7 @@ public class EstadoDao extends dao {
             closeResources(conn, p);
         }
     }
-
+    
     public static Estado get(String sigla) throws SQLException, ClassNotFoundException {
         Connection conn = null;
         PreparedStatement p = null;
@@ -75,7 +76,7 @@ public class EstadoDao extends dao {
             closeResources(conn, p);
         }
     }
-
+    
     public static void alterar(Estado estado) throws SQLException, ClassNotFoundException {
         Connection conn = null;
         PreparedStatement p = null;
@@ -93,7 +94,7 @@ public class EstadoDao extends dao {
             closeResources(conn, p);
         }
     }
-
+    
     public static ArrayList<Estado> listar() throws SQLException, ClassNotFoundException {
         Connection conn = null;
         Statement st = null;
@@ -133,7 +134,7 @@ public class EstadoDao extends dao {
     }
     
     private static Estado instanciarEstado(ResultSet rs) throws SQLException {
-        return new Estado(rs.getString("sigla_estado"), 
+        return new Estado(rs.getString("sigla_estado"),
                 rs.getString("nome_estado"));
     }
 }

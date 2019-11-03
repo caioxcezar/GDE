@@ -26,9 +26,15 @@
                 <input type="text" class="form-control" value="${funcionario.telefone}" name="inputTelefone" id="inputTelefone" placeholder="(12) 1234-1234" required="true">
             </div>
         </div>
-        <div class="form-group">
-            <label for="inputCPF">CPF</label>
-            <input type="text" class="form-control" value="${funcionario.cpf}" name="inputCPF" id="inputCPF" placeholder="023.078.530-14" required="true">
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="inputCPF">CPF</label>
+                <input type="text" class="form-control" value="${funcionario.cpf}" name="inputCPF" id="inputCPF" placeholder="023.078.530-14" required="true">
+            </div>
+            <div class="form-group col-md-6">
+                <label for="inputSalario">Salário</label>
+                <input type="text" class="form-control" value="${funcionario.salario}" name="inputSalario" id="inputSalario" placeholder="1500.49" required="true">
+            </div>
         </div>
         <div class="form-row">
             <div class="form-group col-md-8">

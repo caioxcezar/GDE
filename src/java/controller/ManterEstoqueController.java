@@ -1,15 +1,19 @@
 package controller;
 
 import dao.EstoqueDao;
+import dao.PedidoDao;
 import dao.ProdutoDao;
 import java.io.IOException;
-import javax.servlet.RequestDispatcher;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Calendar;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Estoque;
-import model.Produto;
+import model.Pedido;
+import model.PedidoProduto;
 
 /**
  *
@@ -40,19 +44,22 @@ public class ManterEstoqueController extends HttpServlet {
         }
     }
 
-    private void prepararOperacao(HttpServletRequest request, HttpServletResponse response) {
+    private void prepararOperacao(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         try {
             String operacao = request.getParameter("operacao");
             request.setAttribute("operacao", operacao);
-            request.setAttribute("produtos", ProdutoDao.listar());
-            if (!operacao.equals("incluir")){
-                int cod = Integer.parseInt(request.getParameter("cod"));
-                request.setAttribute("estoque", EstoqueDao.get(cod));
+            ArrayList<Pedido> pedidos = new ArrayList<>();
+            if (!operacao.equals("incluir")) {
+                Estoque estoque = EstoqueDao.get(Integer.parseInt(request.getParameter("cod")));
+                request.setAttribute("estoque", estoque);
+                pedidos.add(estoque.getPedido());
+            } else {
+                pedidos = PedidoDao.listarPendentesInterno();
             }
-            RequestDispatcher view = request.getRequestDispatcher("/manterEstoque.jsp");
-            view.forward(request, response);
-        } catch (Exception e) {
-            e.printStackTrace();
+            request.setAttribute("pedidos", pedidos);
+            request.getRequestDispatcher("/manterEstoque.jsp").forward(request, response);
+        } catch (Exception ex) {
+            throw new ServletException(ex.getMessage());
         }
     }
 
@@ -65,22 +72,43 @@ public class ManterEstoqueController extends HttpServlet {
             } else {
                 codigo = EstoqueDao.lastId() + 1;
             }
-            int quantidade = Integer.parseInt(request.getParameter("inputQuantidade"));
-            Produto produto = ProdutoDao.get(Integer.parseInt(request.getParameter("inputProduto")));
-            Estoque estoque = new Estoque(codigo, quantidade, produto);
+            Date data = new Date(Calendar.getInstance().getTime().getTime());
+
+            Pedido pedido = PedidoDao.get(Integer.parseInt(request.getParameter("inputPedido")));
             switch (operacao) {
-                case "incluir":
-                    if (EstoqueDao.listarCodProduto(produto).size() != 0){
-                        throw new ServletException("Produto já esta no banco");
+                case "incluir": {
+                    for (PedidoProduto produto : pedido.getProdutos()) {
+                        ArrayList<Estoque> produtosEstoque = EstoqueDao.listarCodProduto(produto.getProduto());
+                        if (produtosEstoque.size() > 1) {
+                            throw new Exception(String.format(
+                                    "Erro ao salvar no estoque, produto %s repetido",
+                                    produto.getProduto().getNome()));
+                        } else if (produtosEstoque.size() == 0) {
+                            Estoque estoque = new Estoque(codigo, produto.getQuantidade(), produto.getProduto(), data, pedido);
+                            EstoqueDao.salvar(estoque);
+                            codigo++;
+                        } else {
+                            Estoque estoque = produtosEstoque.get(0);
+                            estoque.setQuantidade(estoque.getQuantidade() + produto.getQuantidade());
+                            estoque.setPedido(pedido);
+                            estoque.setDataAlteracao(data);
+                            EstoqueDao.alterar(estoque);
+                        }
                     }
-                    EstoqueDao.salvar(estoque);
+                    pedido.setEstado("Pago");
+                    PedidoDao.alterar(pedido);
                     break;
-                case "excluir":
+                }
+                case "excluir":{
+                    Estoque estoque = EstoqueDao.get(Integer.parseInt(request.getParameter("cod")));
                     EstoqueDao.apagar(estoque);
                     break;
-                case "alterar":
+                }
+                case "alterar":{
+                    Estoque estoque = EstoqueDao.get(Integer.parseInt(request.getParameter("cod")));
                     EstoqueDao.alterar(estoque);
                     break;
+                }
             }
             //request.getRequestDispatcher("/categorias.jsp").forward(request, response);
             response.sendRedirect(request.getContextPath() + "/estoque");

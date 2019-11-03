@@ -5,6 +5,7 @@ package model;
  * @author fundamental1
  */
 public class Estado {
+
     private String sigla;
     private String nome;
 
@@ -28,5 +29,5 @@ public class Estado {
     public void setNome(String nome) {
         this.nome = nome;
     }
-    
+
 }

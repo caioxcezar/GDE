@@ -1,5 +1,12 @@
 var produtos = $("#hiddenProdutos");
-updateLista();
+var searchParams = new URLSearchParams(window.location.search);
+
+(function (){
+    if (window.location.pathname.indexOf("manterPedido") > 0) updateLista();
+    if (searchParams.get("operacao") === "excluir")
+        bloquearInput();
+})();
+
 function updateLista() {
     let lista = "<ul class='list-group'>";
     if (produtos.val() !== "") {
@@ -8,7 +15,7 @@ function updateLista() {
                 let produto = e.split(",");
                 let nome = $(`#inputProduto option[value='${produto[0]}']`).text();
                 lista += `<li class="list-group-item">Produto: ${nome} Quantidade: ${produto[1]}`;
-                lista += `<a class='btn btn-danger ml-2 text-white' onclick='removerProduto(${produto[0]})'>Remover</a></li>`;
+                lista += `<button class='btn btn-danger ml-2 text-white btn-list' onclick='removerProduto(${produto[0]})'>Remover</button></li>`;
             }
         });
     }
@@ -52,4 +59,9 @@ function adicionarProduto() {
     }
 }
 
-
+function bloquearInput(){
+    $("input").prop('disabled', true);
+    $("select").prop('disabled', true);
+    $("textarea").prop('disabled', true);
+    $(".btn-list").prop('disabled', true);
+}

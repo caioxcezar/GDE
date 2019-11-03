@@ -19,14 +19,16 @@ public class EstoqueDao extends dao {
         Connection conn = null;
         PreparedStatement p = null;
         String sql = "INSERT INTO estoque_tb "
-                + "(cod_estoque, produto_estoque, quantidade_estoque) "
-                + "VALUES (?, ?, ?);";
+                + "(cod_estoque, produto_estoque, quantidade_estoque, data_estoque, pedido_estoque, data_alteracao) "
+                + "VALUES (?, ?, ?, ?, ?, NULL);";
         try {
             conn = DataBaseLocator.getInstance().getConnection();
             p = conn.prepareStatement(sql);
             p.setInt(1, estoque.getCodigo());
             p.setInt(2, estoque.getProduto().getCodigo());
             p.setInt(3, estoque.getQuantidade());
+            p.setDate(4, estoque.getData());
+            p.setInt(5, estoque.getPedido().getCodigo());
             p.execute();
         } finally {
             closeResources(conn, p);
@@ -83,14 +85,17 @@ public class EstoqueDao extends dao {
         Connection conn = null;
         PreparedStatement p = null;
         String sql = "UPDATE gde.estoque_tb "
-                + "SET produto_estoque = ?, quantidade_estoque = ? "
+                + "SET produto_estoque = ?, quantidade_estoque = ?, data_estoque = ?, pedido_estoque = ?, data_alteracao = ?"
                 + "WHERE cod_estoque = ?";
         try {
             conn = DataBaseLocator.getInstance().getConnection();
             p = conn.prepareStatement(sql);
             p.setInt(1, estoque.getProduto().getCodigo());
             p.setInt(2, estoque.getQuantidade());
-            p.setInt(3, estoque.getCodigo());
+            p.setDate(3, estoque.getData());
+            p.setInt(4, estoque.getPedido().getCodigo());
+            p.setDate(5, estoque.getDataAlteracao());
+            p.setInt(6, estoque.getCodigo());
             p.execute();
         } finally {
             closeResources(conn, p);
@@ -134,7 +139,13 @@ public class EstoqueDao extends dao {
             closeResources(conn, p);
         }
     }
-
+    /***
+     * Listar produtos em estoque pelo codigo do produto
+     * @param produto
+     * @return
+     * @throws SQLException
+     * @throws ClassNotFoundException 
+     */
     public static ArrayList<Estoque> listarCodProduto(Produto produto) throws SQLException, ClassNotFoundException {
         Connection conn = null;
         PreparedStatement p = null;
@@ -185,7 +196,11 @@ public class EstoqueDao extends dao {
         return new Estoque(
                 rs.getInt("cod_estoque"),
                 rs.getInt("quantidade_estoque"),
-                ProdutoDao.get(rs.getInt("produto_estoque")));
+                ProdutoDao.get(rs.getInt("produto_estoque")),
+                rs.getDate("data_estoque"),
+                PedidoDao.get(rs.getInt("pedido_estoque")),
+                rs.getDate("data_alteracao")
+        );
     }
 
 }

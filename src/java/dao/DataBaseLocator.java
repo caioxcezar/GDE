@@ -11,9 +11,9 @@ import java.sql.Statement;
  */
 public class DataBaseLocator {
 
-    private final static dao.DataBaseLocator INSTANCE = new dao.DataBaseLocator();
+    private final static DataBaseLocator INSTANCE = new DataBaseLocator();
 
-    public static dao.DataBaseLocator getInstance() {
+    public static DataBaseLocator getInstance() {
         return INSTANCE;
     }
 
