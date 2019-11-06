@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    <error-page>
+        <location>/erroGenerico</location>
+    </error-page>
     <servlet>
         <servlet-name>FuncionarioController</servlet-name>
         <servlet-class>controller.FuncionarioController</servlet-class>
@@ -64,6 +67,10 @@
         <servlet-name>NotasFiscaisController</servlet-name>
         <servlet-class>controller.NotasFiscaisController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>erroGenericoController</servlet-name>
+        <servlet-class>controller.erroGenericoController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>FuncionarioController</servlet-name>
         <url-pattern>/funcionarios</url-pattern>
@@ -127,6 +134,10 @@
     <servlet-mapping>
         <servlet-name>NotasFiscaisController</servlet-name>
         <url-pattern>/notasFiscais</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>erroGenericoController</servlet-name>
+        <url-pattern>/erroGenerico</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
