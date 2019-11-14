@@ -3,7 +3,9 @@ package controller;
 import dao.ClienteDao;
 import dao.EstadoDao;
 import java.io.IOException;
-import javax.servlet.RequestDispatcher;
+import java.sql.SQLException;
+import java.util.Collections;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -30,6 +32,7 @@ public class ManterClienteController extends HttpServlet {
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         String acao = request.getParameter("acao");
+        List<String> x = Collections.list(request.getParameterNames());
         switch (acao) {
             case "prepararOperacao":
                 prepararOperacao(request, response);
@@ -128,7 +131,7 @@ public class ManterClienteController extends HttpServlet {
             }
             //request.getRequestDispatcher("/categorias.jsp").forward(request, response);
             response.sendRedirect(request.getContextPath() + "/clientes");
-        } catch (Exception e) {
+        } catch (IOException | ClassNotFoundException | NumberFormatException | SQLException e) {
             throw new ServletException("Erro ao processar controller: " + e.getMessage());
         }
     }

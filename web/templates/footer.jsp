@@ -4,7 +4,7 @@
     Author     : ccezar
 --%>
     </div>
-    <nav class="navbar navbar-dark bg-dark">
+    <nav class="navbar navbar-dark bg-dark mt-3" id="footerBar">
         <span class="navbar-text">
             Projeto feito por Caio Cézar
         </span>

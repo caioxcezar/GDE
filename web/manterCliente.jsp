@@ -72,7 +72,7 @@
             </div>
         </div>
         <button type="submit" class="btn btn-primary">${operacao}</button>
-        <a type="submit" class="btn btn-warning" onclick="location.reload(true)">Cancelar</a>
+        <a class="btn btn-warning" onclick="location.reload(true)">Cancelar</a>
     </form>
 </div>
 <jsp:include page="templates/footer.jsp"/>

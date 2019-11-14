@@ -82,7 +82,7 @@
             </select>
         </div>
         <button type="submit" class="btn btn-primary">${operacao}</button>
-        <a type="submit" class="btn btn-warning" onclick="location.reload(true)">cancelar</a>
+        <a class="btn btn-warning" onclick="location.reload(true)">cancelar</a>
         <input type="hidden" name="hiddenProdutos" id="hiddenProdutos" value="${hiddenProdutos}"/>
     </form>
 </div>

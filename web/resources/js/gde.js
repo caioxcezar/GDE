@@ -5,6 +5,7 @@ var searchParams = new URLSearchParams(window.location.search);
     if (window.location.pathname.indexOf("manterPedido") > 0) updateLista();
     if (searchParams.get("operacao") === "excluir")
         bloquearInput();
+    resizeConteudo();
 })();
 
 function updateLista() {
@@ -60,8 +61,15 @@ function adicionarProduto() {
 }
 
 function bloquearInput(){
-    $("input").prop('disabled', true);
-    $("select").prop('disabled', true);
-    $("textarea").prop('disabled', true);
+    $("input").prop('readonly', true);
+    $("select").attr('readonly', "readonly");
+    $("textarea").prop('readonly', true);
     $(".btn-list").prop('disabled', true);
+}
+
+function resizeConteudo(){
+    let conteudo = $(".conteudo");
+    let headerBar = $("#headerBar").outerHeight(true);
+    let footerBar = $("#footerBar").outerHeight(true);
+    $(".conteudo").css("min-height", `calc(100vh - ${headerBar + footerBar}px)`);
 }

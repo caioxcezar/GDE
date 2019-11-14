@@ -26,7 +26,7 @@
             <textarea class="form-control" maxlength="150" name="inputDescricao" id="inputDescricao" placeholder="Descrição sobre o categoria" required="true">${categoria.descricao}</textarea>
         </div>
         <button type="submit" class="btn btn-primary">${operacao}</button>
-        <a type="submit" class="btn btn-warning" onclick="location.reload(true)">cancelar</a>
+        <a class="btn btn-warning" onclick="location.reload(true)">cancelar</a>
     </form>
 </div>
 <jsp:include page="templates/footer.jsp"/>
