@@ -15,11 +15,11 @@
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="inputCodigo">Codigo</label>
-                <input type="text" value="${notaFiscal.codigo}" class="form-control" id="inputCodigo" name="inputCodigo" placeholder="1" readonly="true">
+                <input type="text" value="${notaFiscal.codigo}" class="form-control" id="inputCodigo" name="inputCodigo"readonly="true">
             </div>
             <div class="form-group col-md-6">
                 <label for="inputData">Data</label>
-                <input type="date" class="form-control" value="${notaFiscal.data}" id="inputData" name="inputData" placeholder="10/05/2019" readonly="true">
+                <input type="date" class="form-control" value="${notaFiscal.data}" id="inputData" name="inputData" readonly="true">
             </div>
         </div>
         <select id="inputPedido" name="inputPedido" class="form-control mb-2">
