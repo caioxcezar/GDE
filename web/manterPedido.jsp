@@ -16,11 +16,11 @@
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="inputCodigo">Codigo</label>
-                <input type="text" value="${pedido.codigo}" class="form-control" id="inputCodigo" name="inputCodigo" placeholder="1" readonly="true">
+                <input type="text" value="${pedido.codigo}" class="form-control" id="inputCodigo" name="inputCodigo" readonly="true">
             </div>
             <div class="form-group col-md-6">
                 <label for="inputData">Data</label>
-                <input type="date" class="form-control" value="${pedido.data}" id="inputData" name="inputData" placeholder="10/05/2019" readonly="true">
+                <input type="date" class="form-control" value="${pedido.data}" id="inputData" name="inputData" readonly="true">
             </div>
         </div>
         <div class="form-row">
@@ -42,7 +42,7 @@
             </div> 
             <div class="form-group col-md-6">
                 <label for="inputEstado">Estado</label>
-                <input type="text" class="form-control" value="${pedido.estado}" name="inputEstado" id="inputEstado" placeholder="Pendente" readonly="true">
+                <input type="text" class="form-control" value="${pedido.estado}" name="inputEstado" id="inputEstado" readonly="true">
             </div>
         </div>
         <div class="form-group">
@@ -54,7 +54,7 @@
                         <option value="${produto.codigo}">${produto.nome}</option>
                     </c:forEach>
                 </select>
-                <input id="inputQuantidade" name="inputQuantidade" type="number" aria-label="Quantidade" placeholder="1" min="1" class="form-control" />
+                <input id="inputQuantidade" name="inputQuantidade" type="number" aria-label="Quantidade" min="1" class="form-control" />
                 <div class="input-group-append">
                     <a class="btn btn-outline-secondary" onclick="adicionarProduto()" id="btnAdicionar">Adicionar</a>
                 </div>
