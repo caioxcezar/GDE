@@ -14,39 +14,39 @@
     <form action="manterCliente?acao=confirmarOperacao&operacao=${operacao}" method="post">
         <div class="form-group">
             <label for="inputCodigo">Código</label>
-            <input type="number" value="${cliente.codigo}" class="form-control" id="inputCodigo" name="inputCodigo" placeholder="0" readonly="true">
+            <input type="number" value="${cliente.codigo}" class="form-control" id="inputCodigo" name="inputCodigo" readonly="true">
         </div>
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="inputNome">Nome</label>
-                <input type="text" value="${cliente.nome}" class="form-control" id="inputNome" name="inputNome" placeholder="Nome" required="true">
+                <input type="text" value="${cliente.nome}" class="form-control" id="inputNome" name="inputNome" required="true">
             </div>
             <div class="form-group col-md-6">
                 <label for="inputTelefone">Telefone</label>
-                <input type="text" class="form-control" value="${cliente.telefone}" id="inputTelefone" name="inputTelefone" placeholder="(12) 1234-1234" required="true">
+                <input type="text" class="form-control" value="${cliente.telefone}" id="inputTelefone" name="inputTelefone" required="true">
             </div>
         </div>
         <div class="form-group">
             <label for="inputCNPJ">CNPJ</label>
-            <input type="text" class="form-control" value="${cliente.cnpj}" id="inputCnpj" name="inputCnpj" placeholder="15.853.198/0001-23" required="true">
+            <input type="text" class="form-control" value="${cliente.cnpj}" id="inputCnpj" name="inputCnpj" required="true">
         </div>
         <div class="form-row">
             <div class="form-group col-md-8">
                 <label for="inputRua">Rua</label>
-                <input type="text" class="form-control" value="${cliente.rua}" id="inputRua" name="inputRua" placeholder="Rua Principal">
+                <input type="text" class="form-control" value="${cliente.rua}" id="inputRua" name="inputRua">
             </div>
             <div class="form-group col-md-4">
                 <label for="inputNumero">Número</label>
-                <input type="number" class="form-control" value="${cliente.numero}" id="inputNumero" name="inputNumero" placeholder="1234">
+                <input type="number" class="form-control" value="${cliente.numero}" id="inputNumero" name="inputNumero">
             </div>
         </div>
         <div class="form-group">
             <label for="inputComplemento">Complemento</label>
-            <input type="text" class="form-control" id="inputComplemento" value="${cliente.complemento}" name="inputComplemento" placeholder="Apartamento 123">
+            <input type="text" class="form-control" id="inputComplemento" value="${cliente.complemento}" name="inputComplemento">
         </div>
         <div class="form-group">
             <label for="inputBairro">Bairro</label>
-            <input type="text" class="form-control" id="inputTelefone" value="${cliente.bairro}" name="inputBairro" placeholder="Centro">
+            <input type="text" class="form-control" id="inputTelefone" value="${cliente.bairro}" name="inputBairro">
         </div>
         <div class="form-row">
             <div class="form-group col-md-6">
