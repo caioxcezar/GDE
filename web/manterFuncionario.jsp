@@ -14,45 +14,45 @@
     <form action="manterFuncionario?acao=confirmarOperacao&operacao=${operacao}" method="post">
         <div class="form-group">
             <label for="inputCodigo">Código</label>
-            <input type="number" class="form-control" value="${funcionario.codigo}" name="inputCodigo" id="inputCodigo" placeholder="0" readonly="true">
+            <input type="number" class="form-control" value="${funcionario.codigo}" name="inputCodigo" id="inputCodigo" readonly="true">
         </div>
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="inputNome">Nome</label>
-                <input type="text" class="form-control" value="${funcionario.nome}" name="inputNome" id="inputNome" placeholder="Nome" required="true">
+                <input type="text" class="form-control" value="${funcionario.nome}" name="inputNome" id="inputNome" required="true">
             </div>
             <div class="form-group col-md-6">
                 <label for="inputTelefone">Telefone</label>
-                <input type="text" class="form-control" value="${funcionario.telefone}" name="inputTelefone" id="inputTelefone" placeholder="(12) 1234-1234" required="true">
+                <input type="text" class="form-control" value="${funcionario.telefone}" name="inputTelefone" id="inputTelefone" required="true">
             </div>
         </div>
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="inputCPF">CPF</label>
-                <input type="text" class="form-control" value="${funcionario.cpf}" name="inputCPF" id="inputCPF" placeholder="023.078.530-14" required="true">
+                <input type="text" class="form-control" value="${funcionario.cpf}" name="inputCPF" id="inputCPF" required="true">
             </div>
             <div class="form-group col-md-6">
                 <label for="inputSalario">Salário</label>
-                <input type="text" class="form-control" value="${funcionario.salario}" name="inputSalario" id="inputSalario" placeholder="1500.49" required="true">
+                <input type="text" class="form-control" value="${funcionario.salario}" name="inputSalario" id="inputSalario" required="true">
             </div>
         </div>
         <div class="form-row">
             <div class="form-group col-md-8">
                 <label for="inputRua">Rua</label>
-                <input type="text" class="form-control" value="${funcionario.rua}" name="inputRua" id="inputNome" placeholder="Rua Principal">
+                <input type="text" class="form-control" value="${funcionario.rua}" name="inputRua" id="inputNome">
             </div>
             <div class="form-group col-md-4">
                 <label for="inputNumero">Número</label>
-                <input type="number" class="form-control" value="${funcionario.numero}" name="inputNumero" id="inputNumero" placeholder="1234">
+                <input type="number" class="form-control" value="${funcionario.numero}" name="inputNumero" id="inputNumero">
             </div>
         </div>
         <div class="form-group">
             <label for="inputComplemento">Complemento</label>
-            <input type="text" class="form-control" value="${funcionario.complemento}" name="inputComplemento" id="inputComplemento" placeholder="Apartamento 123">
+            <input type="text" class="form-control" value="${funcionario.complemento}" name="inputComplemento" id="inputComplemento">
         </div>
         <div class="form-group">
             <label for="inputBairro">Bairro</label>
-            <input type="text" class="form-control" value="${funcionario.bairro}" name="inputBairro" id="inputBairro" placeholder="Apartamento 123">
+            <input type="text" class="form-control" value="${funcionario.bairro}" name="inputBairro" id="inputBairro" >
         </div>
         <div class="form-row">
             <div class="form-group col-md-6">

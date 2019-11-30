@@ -16,20 +16,20 @@
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="inputCodigo">Código</label>
-                <input type="number" value="${produto.codigo}" class="form-control" name="inputCodigo" id="inputCodigo" placeholder="0" readonly="true">
+                <input type="number" value="${produto.codigo}" class="form-control" name="inputCodigo" id="inputCodigo" readonly="true">
             </div>
             <div class="form-group col-md-6">
                 <label for="inputNome">Nome</label>
-                <input type="text" value="${produto.nome}" class="form-control" name="inputNome" id="inputNome" placeholder="Nome" required="true">
+                <input type="text" value="${produto.nome}" class="form-control" name="inputNome" id="inputNome" required="true">
             </div>
         </div>
         <div class="form-group">
             <label for="inputDescricao">Descrição</label>
-            <textarea class="form-control" name="inputDescricao" id="inputDescricao" placeholder="Descrição sobre o produto" required="true">${produto.descricao}</textarea>
+            <textarea class="form-control" name="inputDescricao" id="inputDescricao" required="true">${produto.descricao}</textarea>
         </div>
         <div class="form-group">
             <label for="inputValor">Valor</label>
-            <input type="text" class="form-control" value="${produto.valor}" name="inputValor" id="inputValor" placeholder="10.52" required="true">
+            <input type="text" class="form-control" value="${produto.valor}" name="inputValor" id="inputValor" required="true">
         </div>
         <div class="form-group">
             <label for="inputCategoria">Categoria</label>
