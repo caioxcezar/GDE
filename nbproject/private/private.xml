@@ -6,8 +6,9 @@
             <file>file:/D:/Documents/NetBeansProjects/GDE/web/resources/css/gde.css</file>
             <file>file:/D:/Documents/NetBeansProjects/GDE/web/categorias.jsp</file>
             <file>file:/D:/Documents/NetBeansProjects/GDE/web/templates/header.jsp</file>
-            <file>file:/D:/Documents/NetBeansProjects/GDE/web/templates/footer.jsp</file>
             <file>file:/D:/Documents/NetBeansProjects/GDE/web/resources/js/gde.js</file>
+            <file>file:/D:/Documents/NetBeansProjects/GDE/web/pedidos.jsp</file>
+            <file>file:/D:/Documents/NetBeansProjects/GDE/web/manterPedido.jsp</file>
             <file>file:/D:/Documents/NetBeansProjects/GDE/src/java/controller/ManterClienteController.java</file>
         </group>
     </open-files>

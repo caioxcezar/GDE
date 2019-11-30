@@ -1,3 +1,4 @@
+DROP DATABASE IF EXISTS gde;
 CREATE DATABASE gde;
 USE gde;
 CREATE TABLE funcionarios_tb (
@@ -76,6 +77,7 @@ CREATE TABLE estados_tb (
 	sigla_estado CHAR(2) PRIMARY KEY,
 	nome_estado nvarchar(45)
 );
+
 ALTER TABLE funcionarios_tb
 	ADD CONSTRAINT fk_func_cargo FOREIGN KEY (cargo_func) REFERENCES cargos_tb(cod_cargo);
 ALTER TABLE funcionarios_tb
@@ -99,12 +101,12 @@ ALTER TABLE pedidos_tb
 ALTER TABLE pedidos_tb
 	ADD CONSTRAINT fk_pedido_func FOREIGN KEY (funcionario_pedido) REFERENCES funcionarios_tb(cod_func);
 
+DROP USER IF EXISTS 'gde'@'%';
 CREATE USER 'gde'@'%';
 GRANT Alter ON gde.* TO 'gde'@'%';
 GRANT Create ON gde.* TO 'gde'@'%';
 GRANT Create view ON gde.* TO 'gde'@'%';
 GRANT Delete ON gde.* TO 'gde'@'%';
-GRANT Delete history ON gde.* TO 'gde'@'%';
 GRANT Drop ON gde.* TO 'gde'@'%';
 GRANT Grant option ON gde.* TO 'gde'@'%';
 GRANT Index ON gde.* TO 'gde'@'%';
@@ -121,30 +123,37 @@ GRANT Execute ON gde.* TO 'gde'@'%';
 GRANT Lock tables ON gde.* TO 'gde'@'%';
 FLUSH PRIVILEGES;
 
-insert into estados_tb (nome_estado, sigla_estado) values ('Acre', 'AC');
-insert into estados_tb (nome_estado, sigla_estado) values ('Alagoas', 'AL');
-insert into estados_tb (nome_estado, sigla_estado) values ('Amapá', 'AP');
-insert into estados_tb (nome_estado, sigla_estado) values ('Amazonas', 'AM');
-insert into estados_tb (nome_estado, sigla_estado) values ('Bahia ', 'BA');
-insert into estados_tb (nome_estado, sigla_estado) values ('Ceará', 'CE');
-insert into estados_tb (nome_estado, sigla_estado) values ('Distrito Federal ', 'DF');
-insert into estados_tb (nome_estado, sigla_estado) values ('Espírito Santo', 'ES');
-insert into estados_tb (nome_estado, sigla_estado) values ('Goiás', 'GO');
-insert into estados_tb (nome_estado, sigla_estado) values ('Maranhão', 'MA');
-insert into estados_tb (nome_estado, sigla_estado) values ('Mato Grosso', 'MT');
-insert into estados_tb (nome_estado, sigla_estado) values ('Mato Grosso do Sul', 'MS');
-insert into estados_tb (nome_estado, sigla_estado) values ('Minas Gerais', 'MG');
-insert into estados_tb (nome_estado, sigla_estado) values ('Pará', 'PA');
-insert into estados_tb (nome_estado, sigla_estado) values ('Paraíba', 'PB');
-insert into estados_tb (nome_estado, sigla_estado) values ('Paraná', 'PR');
-insert into estados_tb (nome_estado, sigla_estado) values ('Pernambuco', 'PE');
-insert into estados_tb (nome_estado, sigla_estado) values ('Piauí', 'PI');
-insert into estados_tb (nome_estado, sigla_estado) values ('Rio de Janeiro', 'RJ');
-insert into estados_tb (nome_estado, sigla_estado) values ('Rio Grande do Norte', 'RN');
-insert into estados_tb (nome_estado, sigla_estado) values ('Rio Grande do Sul', 'RS');
-insert into estados_tb (nome_estado, sigla_estado) values ('Rondônia', 'RO');
-insert into estados_tb (nome_estado, sigla_estado) values ('Roraima', 'RR');
-insert into estados_tb (nome_estado, sigla_estado) values ('Santa Catarina', 'SC');
-insert into estados_tb (nome_estado, sigla_estado) values ('São Paulo', 'SP');
-insert into estados_tb (nome_estado, sigla_estado) values ('Sergipe', 'SE');
-insert into estados_tb (nome_estado, sigla_estado) values ('Tocantins', 'TO');
+INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ('Acre', 'AC');
+INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ('Alagoas', 'AL');
+INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ('Amapá', 'AP');
+INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ('Amazonas', 'AM');
+INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ('Bahia ', 'BA');
+INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ('Ceará', 'CE');
+INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ('Distrito Federal ', 'DF');
+INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ('Espírito Santo', 'ES');
+INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ('Goiás', 'GO');
+INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ('Maranhão', 'MA');
+INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ('Mato Grosso', 'MT');
+INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ('Mato Grosso do Sul', 'MS');
+INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ('Minas Gerais', 'MG');
+INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ('Pará', 'PA');
+INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ('Paraíba', 'PB');
+INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ('Paraná', 'PR');
+INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ('Pernambuco', 'PE');
+INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ('Piauí', 'PI');
+INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ('Rio de Janeiro', 'RJ');
+INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ('Rio Grande do Norte', 'RN');
+INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ('Rio Grande do Sul', 'RS');
+INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ('Rondônia', 'RO');
+INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ('Roraima', 'RR');
+INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ('Santa Catarina', 'SC');
+INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ('São Paulo', 'SP');
+INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ('Sergipe', 'SE');
+INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ('Tocantins', 'TO');
+
+INSERT INTO cargos_tb (nome_cargo, descricao_cargo) VALUES ('Vendedor', 'Funcionario responsavel por fazer os pedidos.')
+INSERT INTO cargos_tb (nome_cargo, descricao_cargo) VALUES ('Caixa', 'Funcionario responsavel por receber/pagar os pedidos.')
+
+INSERT INTO clientes_tb 
+(nome_cli, telefone_cli, telefone_cli, rua_cli, complemento_cli, numero_cli, bairro_cli, cidade_cli, estado_cli, cep_cli)
+VALUES ("GDE", "(32) 3261-9856", "77.197.110/0001-10","Rua Izabel Correa de Souza", "", "2375","São Pedro", "Juiz de Fora", "MG", "36037-050")

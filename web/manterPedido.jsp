@@ -86,4 +86,15 @@
         <input type="hidden" name="hiddenProdutos" id="hiddenProdutos" value="${hiddenProdutos}"/>
     </form>
 </div>
+<script>
+$("#inputTipo").change(() => {
+    if ($("#inputTipo").val() === "Interno"){
+        $("#inputCliente").val(1);
+        $("#inputCliente").attr("readonly", "readonly");
+    }else{
+        $("#inputCliente").attr('readonly', false);
+    }
+        
+});
+</script>
 <jsp:include page="templates/footer.jsp"/>
