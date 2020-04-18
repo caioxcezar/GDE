@@ -101,59 +101,61 @@ ALTER TABLE pedidos_tb
 ALTER TABLE pedidos_tb
 	ADD CONSTRAINT fk_pedido_func FOREIGN KEY (funcionario_pedido) REFERENCES funcionarios_tb(cod_func);
 
-DROP USER IF EXISTS 'gde'@'%';
-CREATE USER 'gde'@'%';
-GRANT Alter ON gde.* TO 'gde'@'%';
-GRANT Create ON gde.* TO 'gde'@'%';
-GRANT Create view ON gde.* TO 'gde'@'%';
-GRANT Delete ON gde.* TO 'gde'@'%';
-GRANT Drop ON gde.* TO 'gde'@'%';
-GRANT Grant option ON gde.* TO 'gde'@'%';
-GRANT Index ON gde.* TO 'gde'@'%';
-GRANT Insert ON gde.* TO 'gde'@'%';
-GRANT References ON gde.* TO 'gde'@'%';
-GRANT Select ON gde.* TO 'gde'@'%';
-GRANT Show view ON gde.* TO 'gde'@'%';
-GRANT Trigger ON gde.* TO 'gde'@'%';
-GRANT Update ON gde.* TO 'gde'@'%';
-GRANT Alter routine ON gde.* TO 'gde'@'%';
-GRANT Create routine ON gde.* TO 'gde'@'%';
-GRANT Create temporary tables ON gde.* TO 'gde'@'%';
-GRANT Execute ON gde.* TO 'gde'@'%';
-GRANT Lock tables ON gde.* TO 'gde'@'%';
+DROP USER IF EXISTS "gde"@"%";
+CREATE USER "gde"@"%";
+GRANT Alter ON gde.* TO "gde"@"%";
+GRANT Create ON gde.* TO "gde"@"%";
+GRANT Create view ON gde.* TO "gde"@"%";
+GRANT Delete ON gde.* TO "gde"@"%";
+GRANT Drop ON gde.* TO "gde"@"%";
+GRANT Grant option ON gde.* TO "gde"@"%";
+GRANT Index ON gde.* TO "gde"@"%";
+GRANT Insert ON gde.* TO "gde"@"%";
+GRANT References ON gde.* TO "gde"@"%";
+GRANT Select ON gde.* TO "gde"@"%";
+GRANT Show view ON gde.* TO "gde"@"%";
+GRANT Trigger ON gde.* TO "gde"@"%";
+GRANT Update ON gde.* TO "gde"@"%";
+GRANT Alter routine ON gde.* TO "gde"@"%";
+GRANT Create routine ON gde.* TO "gde"@"%";
+GRANT Create temporary tables ON gde.* TO "gde"@"%";
+GRANT Execute ON gde.* TO "gde"@"%";
+GRANT Lock tables ON gde.* TO "gde"@"%";
 FLUSH PRIVILEGES;
 
-INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ('Acre', 'AC');
-INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ('Alagoas', 'AL');
-INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ('Amap·', 'AP');
-INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ('Amazonas', 'AM');
-INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ('Bahia ', 'BA');
-INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ('Cear·', 'CE');
-INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ('Distrito Federal ', 'DF');
-INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ('EspÌrito Santo', 'ES');
-INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ('Goi·s', 'GO');
-INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ('Maranh„o', 'MA');
-INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ('Mato Grosso', 'MT');
-INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ('Mato Grosso do Sul', 'MS');
-INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ('Minas Gerais', 'MG');
-INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ('Par·', 'PA');
-INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ('ParaÌba', 'PB');
-INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ('Paran·', 'PR');
-INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ('Pernambuco', 'PE');
-INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ('PiauÌ', 'PI');
-INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ('Rio de Janeiro', 'RJ');
-INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ('Rio Grande do Norte', 'RN');
-INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ('Rio Grande do Sul', 'RS');
-INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ('RondÙnia', 'RO');
-INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ('Roraima', 'RR');
-INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ('Santa Catarina', 'SC');
-INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ('S„o Paulo', 'SP');
-INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ('Sergipe', 'SE');
-INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ('Tocantins', 'TO');
+INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ("Acre", "AC");
+INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ("Alagoas", "AL");
+INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ("Amap√°", "AP");
+INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ("Amazonas", "AM");
+INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ("Bahia ", "BA");
+INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ("Cear√°", "CE");
+INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ("Distrito Federal ", "DF");
+INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ("Esp√≠rito Santo", "ES");
+INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ("Goias", "GO");
+INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ("Maranh√£o", "MA");
+INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ("Mato Grosso", "MT");
+INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ("Mato Grosso do Sul", "MS");
+INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ("Minas Gerais", "MG");
+INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ("Par√°", "PA");
+INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ("Para√≠ba", "PB");
+INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ("Paran√°", "PR");
+INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ("Pernambuco", "PE");
+INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ("Piau√≠", "PI");
+INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ("Rio de Janeiro", "RJ");
+INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ("Rio Grande do Norte", "RN");
+INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ("Rio Grande do Sul", "RS");
+INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ("Rond√¥nia", "RO");
+INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ("Roraima", "RR");
+INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ("Santa Catarina", "SC");
+INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ("S√£o Paulo", "SP");
+INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ("Sergipe", "SE");
+INSERT INTO estados_tb (nome_estado, sigla_estado) VALUES ("Tocantins", "TO");
 
-INSERT INTO cargos_tb (nome_cargo, descricao_cargo) VALUES ('Vendedor', 'Funcionario responsavel por fazer os pedidos.')
-INSERT INTO cargos_tb (nome_cargo, descricao_cargo) VALUES ('Caixa', 'Funcionario responsavel por receber/pagar os pedidos.')
 
-INSERT INTO clientes_tb 
-(nome_cli, telefone_cli, telefone_cli, rua_cli, complemento_cli, numero_cli, bairro_cli, cidade_cli, estado_cli, cep_cli)
-VALUES ("GDE", "(32) 3261-9856", "77.197.110/0001-10","Rua Izabel Correa de Souza", "", "2375","S„o Pedro", "Juiz de Fora", "MG", "36037-050")
+INSERT INTO cargos_tb (cod_cargo, nome_cargo, descricao_cargo) VALUES (1, "Vendedor", "Funcionario responsavel por fazer os pedidos.");
+INSERT INTO cargos_tb (cod_cargo, nome_cargo, descricao_cargo) VALUES (2, "Caixa", "Funcionario responsavel por receber/pagar os pedidos.");
+
+INSERT INTO clientes_tb
+(cod_cli, nome_cli, telefone_cli, cnpj_cli, rua_cli, complemento_cli, numero_cli, bairro_cli, cidade_cli, estado_cli, cep_cli)
+VALUES (1, "GDE", "(32) 3261-9856", "77.197.110/0001-10","Rua Izabel Correa de Souza", "Ap. 145", 2375,"S√£o Pedro", "Juiz de Fora", "MG", "36037-050");
+
