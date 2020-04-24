@@ -1,7 +1,6 @@
 package controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -24,16 +23,59 @@ public class IndexController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String acao = "incluir";
+        String operacao = "prepararOperacao";
         String caminho = request.getParameter("caminho");
-        switch(caminho) {
+        request.setAttribute("acao", acao);
+        request.setAttribute("operacao", operacao);
+        switch (caminho) {
             case "manterCliente":
-                // caminho=manterCliente?acao=prepararOperacao&operacao=incluir
-                request.setAttribute("acao", request.getParameter("acao"));
-                request.setAttribute("operacao", request.getParameter("incluir"));
-                getServletContext().getRequestDispatcher("manterCliente").forward(request, response); 
+                getServletContext().getRequestDispatcher("/manterCliente").forward(request, response);
                 break;
-            case "":
-                response.sendRedirect(request.getContextPath() + "/cargos");
+            case "manterFuncionario":
+                getServletContext().getRequestDispatcher("/manterFuncionario").forward(request, response);
+                break;
+            case "manterProduto":
+                getServletContext().getRequestDispatcher("/manterProduto").forward(request, response);
+                break;
+            case "manterCategoria":
+                getServletContext().getRequestDispatcher("/manterCategoria").forward(request, response);
+                break;
+            case "manterCargo":
+                getServletContext().getRequestDispatcher("/manterCargo").forward(request, response);
+                break;
+            case "clientes":
+                getServletContext().getRequestDispatcher("/clientes");
+                break;
+            case "funcionarios":
+                getServletContext().getRequestDispatcher("/funcionarios");
+                break;
+            case "produtos":
+                getServletContext().getRequestDispatcher("/produtos");
+                break;
+            case "estoque":
+                getServletContext().getRequestDispatcher("/estoque");
+                break;
+            case "categorias":
+                getServletContext().getRequestDispatcher("/categorias");
+                break;
+            case "cargos":
+                getServletContext().getRequestDispatcher("/cargos");
+                break;
+            case "pedidos":
+                getServletContext().getRequestDispatcher("/pedidos");
+                break;
+            case "notasFiscais":
+                getServletContext().getRequestDispatcher("/notasFiscais");
+                break;
+            case "manterPedido":
+                getServletContext().getRequestDispatcher("/manterPedido");
+                break;
+            case "manterPagamento":
+                getServletContext().getRequestDispatcher("/manterPagamento");
+                break;
+            case "manterEstoque":
+                getServletContext().getRequestDispatcher("/manterEstoque");
                 break;
         }
     }
