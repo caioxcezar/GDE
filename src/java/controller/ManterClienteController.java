@@ -32,7 +32,6 @@ public class ManterClienteController extends HttpServlet {
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         String acao = request.getParameter("acao");
-        List<String> x = Collections.list(request.getParameterNames());
         switch (acao) {
             case "prepararOperacao":
                 prepararOperacao(request, response);

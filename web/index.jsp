@@ -11,7 +11,9 @@
 <div class="container">
     <h3>Cadastros</h3>
     <div class="list-group">
-        <a class="list-group-item list-group-item-action" href="manterCliente?acao=prepararOperacao&operacao=incluir">Cadastrar Cliente</a>
+        <!--<a class="list-group-item list-group-item-action" href="manterCliente?acao=prepararOperacao&operacao=incluir">Cadastrar Cliente</a>-->
+        <a class="list-group-item list-group-item-action" href="index?caminho=manterCliente&acao=prepararOperacao&operacao=incluir">Cadastrar Cliente</a>
+        
         <a class="list-group-item list-group-item-action" href="manterFuncionario?acao=prepararOperacao&operacao=incluir">Cadastrar Funcionario</a>
         <a class="list-group-item list-group-item-action" href="manterProduto?acao=prepararOperacao&operacao=incluir">Cadastrar Produto</a>
         <a class="list-group-item list-group-item-action" href="manterCategoria?acao=prepararOperacao&operacao=incluir">Cadastrar Categoria</a>
