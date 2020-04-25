@@ -37,7 +37,7 @@
                             <td><c:out value="${produto.quantidade}"></c:out></td>
                             <td class="estoque-valor">${produto.produto.valor * produto.quantidade}</td>
                             <td>
-                                <a class="btn btn-warning" href="manterEstoque?acao=prepararOperacao&operacao=alterar&cod=${produto.codigo}">Alterar</a>
+                                <a class="btn btn-warning" href="manterEstoque?acao=prepararOperacao&operacao=visualizar&cod=${produto.codigo}">Visualizar</a>
                                 <a class="btn btn-danger" href="manterEstoque?acao=prepararOperacao&operacao=excluir&cod=${produto.codigo}">Excluir</a>
                             </td>
                         </tr>

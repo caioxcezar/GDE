@@ -22,7 +22,7 @@
                 <input type="date" class="form-control" value="${estoque.data}" id="inputData" name="inputData" readonly="true">
             </div>
         </div>
-        <select id="inputPedido" name="inputPedido" class="form-control mb-2">
+        <select id="inputPedido" name="inputPedido" class="form-control mb-2" required="true">
             <option value="">Escolha...</option>
             <c:forEach items="${pedidos}" var="pedido">
                 <option value="${pedido.codigo}" <c:if test="${pedido.codigo == estoque.pedido.codigo}">
@@ -30,7 +30,7 @@
                 </c:if>>${pedido.codigo}: ${pedido.cliente.nome}, ${pedido.funcionario.nome}</option>
             </c:forEach>
         </select>
-        <button type="submit" class="btn btn-primary">${operacao}</button>
+                <button type="submit" class="btn btn-primary">${operacao}</button>
         <a class="btn btn-warning" onclick="location.reload(true)">cancelar</a>
     </form>
 </div>

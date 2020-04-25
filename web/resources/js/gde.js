@@ -1,8 +1,12 @@
 var produtos = $("#hiddenProdutos");
 var searchParams = new URLSearchParams(window.location.search);
 
-(function (){
-    if (window.location.pathname.indexOf("manterPedido") > 0) updateLista();
+(function () {
+    if (window.location.pathname.indexOf("manterPedido") > 0) {
+        updateLista();
+        if ($("#inputEstado").val() === "Pago")
+            bloquearInput();
+    } 
     if (searchParams.get("operacao") === "excluir")
         bloquearInput();
     resizeConteudo();
@@ -60,14 +64,18 @@ function adicionarProduto() {
     }
 }
 
-function bloquearInput(){
+$('form').on('submit', function () {
+    $('select').prop('disabled', false);
+});
+
+function bloquearInput() {
     $("input").prop('readonly', true);
-    $("select").attr('readonly', "readonly");
+    $("select").prop('disabled', true);
     $("textarea").prop('readonly', true);
     $(".btn-list").prop('disabled', true);
 }
 
-function resizeConteudo(){
+function resizeConteudo() {
     let conteudo = $(".conteudo");
     let headerBar = $("#headerBar").outerHeight(true);
     let footerBar = $("#footerBar").outerHeight(true);

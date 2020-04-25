@@ -134,7 +134,7 @@ public class ManterPedidoController extends HttpServlet {
                     PedidoProduto produto = new PedidoProduto(
                             Integer.parseInt(prod[1]),
                             ProdutoDao.get(Integer.parseInt(prod[0])));
-                    if (!EstoqueService.verificarDisponibilidade(produto) && tipo.equals("Externo")) {
+                    if (!EstoqueService.verificarDisponibilidade(produto) && tipo.equals("Externo") && !operacao.equals("excluir")) {
                         throw new ServletException(
                                 String.format("Produto %s indisponivel nessa quantidade, por favor fazer pedido interno",
                                         produto.getProduto().getNome()));
@@ -177,7 +177,6 @@ public class ManterPedidoController extends HttpServlet {
                     break;
                 }
             }
-            //request.getRequestDispatcher("/pedidos.jsp").forward(request, response);
             response.sendRedirect(request.getContextPath() + "/pedidos");
         } catch (Exception e) {
             throw new ServletException("Erro ao processar controller: " + e.getMessage());

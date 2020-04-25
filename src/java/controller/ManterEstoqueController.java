@@ -99,17 +99,14 @@ public class ManterEstoqueController extends HttpServlet {
                     break;
                 }
                 case "excluir":{
-                    Estoque estoque = EstoqueDao.get(Integer.parseInt(request.getParameter("cod")));
+                    Estoque estoque = EstoqueDao.get(codigo);
                     EstoqueDao.apagar(estoque);
                     break;
                 }
-                case "alterar":{
-                    Estoque estoque = EstoqueDao.get(Integer.parseInt(request.getParameter("cod")));
-                    EstoqueDao.alterar(estoque);
+                case "visualizar":{
                     break;
                 }
             }
-            //request.getRequestDispatcher("/categorias.jsp").forward(request, response);
             response.sendRedirect(request.getContextPath() + "/estoque");
         } catch (Exception e) {
             throw new ServletException("Erro ao processar controller: " + e.getMessage());

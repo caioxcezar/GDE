@@ -91,14 +91,17 @@
     </form>
 </div>
 <script>
+    tpPedido();
     $("#inputTipo").change(() => {
-        if ($("#inputTipo").val() === "Interno") {
-            $("#inputCliente").val(1);
-            $("#inputCliente").attr("readonly", "readonly");
-        } else {
-            $("#inputCliente").attr('readonly', false);
-        }
-
+        tpPedido();
     });
+    function tpPedido() {
+        if ($("#inputTipo").val() === "Interno") {
+                $("#inputCliente").val(1);
+                $("#inputCliente").prop('disabled', true);
+            } else {
+                $("#inputCliente").prop('disabled', false);
+            }
+    }
 </script>
 <jsp:include page="templates/footer.jsp" />

@@ -84,8 +84,7 @@ public class ManterPagamentoController extends HttpServlet {
                     NotaFiscalDao.apagar(nFical);
                     break;
                 }
-                case "alterar": {
-                    NotaFiscalDao.alterar(nFical);
+                case "visualizar": {
                     break;
                 }
             }
