@@ -136,7 +136,7 @@ public class ManterPedidoController extends HttpServlet {
                             ProdutoDao.get(Integer.parseInt(prod[0])));
                     if (!EstoqueService.verificarDisponibilidade(produto) && tipo.equals("Externo")) {
                         throw new ServletException(
-                                String.format("Produto %s indisponivel nessa quantida, por favor fazer pedido interno",
+                                String.format("Produto %s indisponivel nessa quantidade, por favor fazer pedido interno",
                                         produto.getProduto().getNome()));
                     }
                     produtos.add(produto);

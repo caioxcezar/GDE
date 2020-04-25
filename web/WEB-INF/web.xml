@@ -71,10 +71,6 @@
         <servlet-name>erroGenericoController</servlet-name>
         <servlet-class>controller.erroGenericoController</servlet-class>
     </servlet>
-    <servlet>
-        <servlet-name>IndexController</servlet-name>
-        <servlet-class>controller.IndexController</servlet-class>
-    </servlet>
     <servlet-mapping>
         <servlet-name>FuncionarioController</servlet-name>
         <url-pattern>/funcionarios</url-pattern>
@@ -142,10 +138,6 @@
     <servlet-mapping>
         <servlet-name>erroGenericoController</servlet-name>
         <url-pattern>/erroGenerico</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>IndexController</servlet-name>
-        <url-pattern>/index</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
