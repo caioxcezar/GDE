@@ -1,8 +1,6 @@
 package service;
 
 import dao.EstoqueDao;
-import dao.PedidoDao;
-import dao.PedidoProdutoDao;
 import java.sql.SQLException;
 import model.Estoque;
 import model.PedidoProduto;

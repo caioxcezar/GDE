@@ -26,6 +26,7 @@
                             <th scope="col">#</th>
                             <th scope="col">Nome</th>
                             <th scope="col">Descrição</th>
+                            <th scope="col">Data</th>
                             <th scope="col">Operações</th>
                         </tr>
                     </thead>
@@ -34,6 +35,8 @@
                             <th scope="row"><c:out value="${categoria.codigo}"></c:out></th>
                             <td><c:out value="${categoria.nome}"></c:out></td>
                             <td><c:out value="${categoria.descricao}"></c:out></td>
+                            <td><c:out value="${categoria.data}"></c:out></td>
+                            
                             <td>
                                 <a class="btn btn-warning" href="manterCategoria?acao=prepararOperacao&operacao=alterar&cod=${categoria.codigo}">Alterar</a>
                                 <a class="btn btn-danger" href="manterCategoria?acao=prepararOperacao&operacao=excluir&cod=${categoria.codigo}">Excluir</a>

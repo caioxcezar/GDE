@@ -2,6 +2,8 @@ package controller;
 
 import dao.CategoriaDao;
 import java.io.IOException;
+import java.sql.Date;
+import java.util.Calendar;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -104,7 +106,15 @@ public class ManterCategoriaController extends HttpServlet {
             
             String nome = request.getParameter("inputNome");
             String descricao = request.getParameter("inputDescricao");
-            Categoria categoria = new Categoria(codigo, nome, descricao);
+            if(request.getParameter("inputData").equals("")){
+               throw new ServletException("Por favor escolha um produto");
+
+            }
+            Date data = Date.valueOf(request.getParameter("inputData"));
+            if(data.compareTo(new Date(Calendar.getInstance().getTime().getTime()))>0){
+                 throw new ServletException("Data Errada");         
+            }
+            Categoria categoria = new Categoria(codigo, nome, descricao, data);
             switch (operacao) {
                 case "incluir":
                     CategoriaDao.salvar(categoria);

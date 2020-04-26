@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>CategoriaDao.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;GDE&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">dao</a> &gt; <span class="el_source">CategoriaDao.java</span></div><h1>CategoriaDao.java</h1><pre class="source lang-java linenums">package dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import model.Categoria;
+
+/**
+ *
+ * @author ccezar
+ */
+<span class="nc" id="L15">public class CategoriaDao extends dao {</span>
+
+    public static void salvar(Categoria categoria) throws SQLException, ClassNotFoundException {
+<span class="nc" id="L18">        Connection conn = null;</span>
+<span class="nc" id="L19">        PreparedStatement p = null;</span>
+<span class="nc" id="L20">        String sql = &quot;INSERT INTO categorias_tb &quot;</span>
+                + &quot;(cod_cat, nome_cat, descricao_cat) &quot;
+                + &quot;VALUES (?, ?, ?);&quot;;
+        try {
+<span class="nc" id="L24">            conn = DataBaseLocator.getInstance().getConnection();</span>
+<span class="nc" id="L25">            p = conn.prepareStatement(sql);</span>
+<span class="nc" id="L26">            p.setInt(1, categoria.getCodigo());</span>
+<span class="nc" id="L27">            p.setString(2, categoria.getNome());</span>
+<span class="nc" id="L28">            p.setString(3, categoria.getDescricao());</span>
+<span class="nc" id="L29">            p.executeUpdate();</span>
+        } finally {
+<span class="nc" id="L31">            closeResources(conn, p);</span>
+<span class="nc" id="L32">        }</span>
+<span class="nc" id="L33">    }</span>
+
+    public static int lastId() throws SQLException, ClassNotFoundException {
+<span class="nc" id="L36">        Connection conn = null;</span>
+<span class="nc" id="L37">        Statement st = null;</span>
+        try {
+<span class="nc" id="L39">            conn = DataBaseLocator.getInstance().getConnection();</span>
+<span class="nc" id="L40">            st = conn.createStatement();</span>
+<span class="nc" id="L41">            Statement stmt = conn.createStatement();</span>
+<span class="nc" id="L42">            ResultSet rs = stmt.executeQuery(&quot;SELECT MAX(cod_cat) as max_cod FROM gde.categorias_tb&quot;);</span>
+<span class="nc" id="L43">            rs.next();</span>
+<span class="nc" id="L44">            return rs.getInt(&quot;max_cod&quot;);</span>
+        } finally {
+<span class="nc" id="L46">            closeResources(conn, st);</span>
+        }
+    }
+
+    public static void apagar(Categoria categoria) throws SQLException, ClassNotFoundException {
+<span class="nc" id="L51">        Connection conn = null;</span>
+<span class="nc" id="L52">        PreparedStatement p = null;</span>
+<span class="nc" id="L53">        String sql = &quot;DELETE FROM gde.categorias_tb WHERE cod_cat = ?&quot;;</span>
+        try {
+<span class="nc" id="L55">            conn = DataBaseLocator.getInstance().getConnection();</span>
+<span class="nc" id="L56">            p = conn.prepareStatement(sql);</span>
+<span class="nc" id="L57">            p.setInt(1, categoria.getCodigo());</span>
+<span class="nc" id="L58">            p.executeUpdate();</span>
+        } finally {
+<span class="nc" id="L60">            closeResources(conn, p);</span>
+<span class="nc" id="L61">        }</span>
+<span class="nc" id="L62">    }</span>
+
+    public static Categoria get(int codigo) throws SQLException, ClassNotFoundException {
+<span class="fc" id="L65">        Connection conn = null;</span>
+<span class="fc" id="L66">        PreparedStatement p = null;</span>
+<span class="fc" id="L67">        ResultSet rs = null;</span>
+<span class="fc" id="L68">        String sql = &quot;SELECT * FROM categorias_tb WHERE cod_cat = ?&quot;;</span>
+        try {
+<span class="fc" id="L70">            conn = DataBaseLocator.getInstance().getConnection();</span>
+<span class="fc" id="L71">            p = conn.prepareStatement(sql);</span>
+<span class="fc" id="L72">            p.setInt(1, codigo);</span>
+<span class="fc" id="L73">            rs = p.executeQuery();</span>
+<span class="fc" id="L74">            rs.next();</span>
+<span class="fc" id="L75">            return instanciarCategoria(rs);</span>
+        } finally {
+<span class="pc" id="L77">            closeResources(conn, p);</span>
+        }
+    }
+
+    public static void alterar(Categoria categoria) throws SQLException, ClassNotFoundException {
+<span class="nc" id="L82">        Connection conn = null;</span>
+<span class="nc" id="L83">        PreparedStatement p = null;</span>
+<span class="nc" id="L84">        String sql = &quot;UPDATE gde.categorias_tb &quot;</span>
+                + &quot;SET nome_cat = ?, descricao_cat = ? &quot;
+                + &quot;WHERE cod_cat = ?&quot;;
+        try {
+<span class="nc" id="L88">            conn = DataBaseLocator.getInstance().getConnection();</span>
+<span class="nc" id="L89">            p = conn.prepareStatement(sql);</span>
+<span class="nc" id="L90">            p.setString(1, categoria.getNome());</span>
+<span class="nc" id="L91">            p.setString(2, categoria.getDescricao());</span>
+<span class="nc" id="L92">            p.setInt(3, categoria.getCodigo());</span>
+<span class="nc" id="L93">            p.executeUpdate();</span>
+        } finally {
+<span class="nc" id="L95">            closeResources(conn, p);</span>
+<span class="nc" id="L96">        }</span>
+<span class="nc" id="L97">    }</span>
+
+    public static ArrayList&lt;Categoria&gt; listar() throws SQLException, ClassNotFoundException {
+<span class="nc" id="L100">        Connection conn = null;</span>
+<span class="nc" id="L101">        Statement st = null;</span>
+<span class="nc" id="L102">        ArrayList&lt;Categoria&gt; categorias = new ArrayList&lt;&gt;();</span>
+        try {
+<span class="nc" id="L104">            conn = DataBaseLocator.getInstance().getConnection();</span>
+<span class="nc" id="L105">            st = conn.createStatement();</span>
+<span class="nc" id="L106">            Statement stmt = conn.createStatement();</span>
+<span class="nc" id="L107">            ResultSet rs = stmt.executeQuery(&quot;SELECT * FROM categorias_tb&quot;);</span>
+<span class="nc bnc" id="L108" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L109">                categorias.add(instanciarCategoria(rs));</span>
+            }
+<span class="nc" id="L111">            return categorias;</span>
+        } finally {
+<span class="nc" id="L113">            closeResources(conn, st);</span>
+        }
+    }
+
+    public static ArrayList&lt;Categoria&gt; listar(String nome) throws SQLException, ClassNotFoundException {
+<span class="nc" id="L118">        Connection conn = null;</span>
+<span class="nc" id="L119">        PreparedStatement p = null;</span>
+<span class="nc" id="L120">        ResultSet rs = null;</span>
+<span class="nc" id="L121">        String sql = &quot;SELECT * FROM categorias_tb WHERE nome_cat like ?&quot;;</span>
+<span class="nc" id="L122">        ArrayList&lt;Categoria&gt; categorias = new ArrayList&lt;&gt;();</span>
+        try {
+<span class="nc" id="L124">            conn = DataBaseLocator.getInstance().getConnection();</span>
+<span class="nc" id="L125">            p = conn.prepareStatement(sql);</span>
+<span class="nc" id="L126">            p.setString(1, &quot;%&quot; + nome + &quot;%&quot;);</span>
+<span class="nc" id="L127">            rs = p.executeQuery();</span>
+<span class="nc bnc" id="L128" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L129">                categorias.add(instanciarCategoria(rs));</span>
+            }
+<span class="nc" id="L131">            return categorias;</span>
+        } finally {
+<span class="nc" id="L133">            closeResources(conn, p);</span>
+        }
+    }
+
+    public static ArrayList&lt;Categoria&gt; listar(int codigo) throws SQLException, ClassNotFoundException {
+<span class="nc" id="L138">        Connection conn = null;</span>
+<span class="nc" id="L139">        PreparedStatement p = null;</span>
+<span class="nc" id="L140">        ResultSet rs = null;</span>
+<span class="nc" id="L141">        String sql = &quot;SELECT * FROM categorias_tb WHERE cod_cat = ?&quot;;</span>
+<span class="nc" id="L142">        ArrayList&lt;Categoria&gt; categorias = new ArrayList&lt;&gt;();</span>
+        try {
+<span class="nc" id="L144">            conn = DataBaseLocator.getInstance().getConnection();</span>
+<span class="nc" id="L145">            p = conn.prepareStatement(sql);</span>
+<span class="nc" id="L146">            p.setInt(1, codigo);</span>
+<span class="nc" id="L147">            rs = p.executeQuery();</span>
+<span class="nc bnc" id="L148" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L149">                categorias.add(instanciarCategoria(rs));</span>
+            }
+<span class="nc" id="L151">            return categorias;</span>
+        } finally {
+<span class="nc" id="L153">            closeResources(conn, p);</span>
+        }
+    }
+
+    private static Categoria instanciarCategoria(ResultSet rs) throws SQLException {
+<span class="fc" id="L158">        return new Categoria(</span>
+<span class="fc" id="L159">                rs.getInt(&quot;cod_cat&quot;),</span>
+<span class="fc" id="L160">                rs.getString(&quot;nome_cat&quot;),</span>
+<span class="fc" id="L161">                rs.getString(&quot;descricao_cat&quot;)</span>
+        );
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

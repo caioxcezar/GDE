@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>FuncionarioDao.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;GDE&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">dao</a> &gt; <span class="el_source">FuncionarioDao.java</span></div><h1>FuncionarioDao.java</h1><pre class="source lang-java linenums">package dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import model.Funcionario;
+
+/**
+ *
+ * @author ccezar
+ */
+<span class="nc" id="L15">public class FuncionarioDao extends dao {</span>
+
+    public static void salvar(Funcionario funcionario) throws SQLException, ClassNotFoundException {
+<span class="nc" id="L18">        Connection conn = null;</span>
+<span class="nc" id="L19">        PreparedStatement p = null;</span>
+<span class="nc" id="L20">        String sql = &quot;INSERT INTO gde.funcionarios_tb &quot;</span>
+                + &quot;(cod_func,nome_func,telefone_func,cpf_func,rua_func,numero_func,&quot;
+                + &quot;complemento_func,bairro_func,cep_func,cargo_func,estado_func,cidade_func, salario_func)\n&quot;
+                + &quot;	VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?);&quot;;
+        try {
+<span class="nc" id="L25">            conn = DataBaseLocator.getInstance().getConnection();</span>
+<span class="nc" id="L26">            p = conn.prepareStatement(sql);</span>
+<span class="nc" id="L27">            p.setInt(1, funcionario.getCodigo());</span>
+<span class="nc" id="L28">            p.setString(2, funcionario.getNome());</span>
+<span class="nc" id="L29">            p.setString(3, funcionario.getTelefone());</span>
+<span class="nc" id="L30">            p.setString(4, funcionario.getCpf());</span>
+<span class="nc" id="L31">            p.setString(5, funcionario.getRua());</span>
+<span class="nc" id="L32">            p.setInt(6, funcionario.getNumero());</span>
+<span class="nc" id="L33">            p.setString(7, funcionario.getComplemento());</span>
+<span class="nc" id="L34">            p.setString(8, funcionario.getBairro());</span>
+<span class="nc" id="L35">            p.setString(9, funcionario.getCep());</span>
+<span class="nc" id="L36">            p.setInt(10, funcionario.getCargo().getCodigo());</span>
+<span class="nc" id="L37">            p.setString(11, funcionario.getEstado().getSigla());</span>
+<span class="nc" id="L38">            p.setString(12, funcionario.getCidade());</span>
+<span class="nc" id="L39">            p.setFloat(13, funcionario.getSalario());</span>
+<span class="nc" id="L40">            p.execute();</span>
+        } finally {
+<span class="nc" id="L42">            closeResources(conn, p);</span>
+<span class="nc" id="L43">        }</span>
+<span class="nc" id="L44">    }</span>
+
+    public static void apagar(Funcionario func) throws SQLException, ClassNotFoundException {
+<span class="nc" id="L47">        Connection conn = null;</span>
+<span class="nc" id="L48">        PreparedStatement p = null;</span>
+<span class="nc" id="L49">        String sql = &quot;DELETE FROM gde.funcionarios_tb WHERE cod_func = ?&quot;;</span>
+        try {
+<span class="nc" id="L51">            conn = DataBaseLocator.getInstance().getConnection();</span>
+<span class="nc" id="L52">            p = conn.prepareStatement(sql);</span>
+<span class="nc" id="L53">            p.setInt(1, func.getCodigo());</span>
+<span class="nc" id="L54">            p.execute();</span>
+        } finally {
+<span class="nc" id="L56">            closeResources(conn, p);</span>
+<span class="nc" id="L57">        }</span>
+<span class="nc" id="L58">    }</span>
+
+    public static ArrayList&lt;Funcionario&gt; listar() throws SQLException, ClassNotFoundException {
+<span class="nc" id="L61">        Connection conn = null;</span>
+<span class="nc" id="L62">        Statement st = null;</span>
+<span class="nc" id="L63">        ArrayList&lt;Funcionario&gt; funcionarios = new ArrayList&lt;&gt;();</span>
+        try {
+<span class="nc" id="L65">            conn = DataBaseLocator.getInstance().getConnection();</span>
+<span class="nc" id="L66">            st = conn.createStatement();</span>
+<span class="nc" id="L67">            Statement stmt = conn.createStatement();</span>
+<span class="nc" id="L68">            ResultSet rs = stmt.executeQuery(&quot;SELECT * FROM gde.funcionarios_tb&quot;);</span>
+<span class="nc bnc" id="L69" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L70">                funcionarios.add(instanciarFuncionario(rs));</span>
+            }
+<span class="nc" id="L72">            return funcionarios;</span>
+        } finally {
+<span class="nc" id="L74">            closeResources(conn, st);</span>
+        }
+    }
+
+    public static Funcionario get(int codFunc) throws SQLException, ClassNotFoundException {
+<span class="fc" id="L79">        Connection conn = null;</span>
+<span class="fc" id="L80">        PreparedStatement p = null;</span>
+<span class="fc" id="L81">        ResultSet rs = null;</span>
+<span class="fc" id="L82">        String sql = &quot;SELECT * FROM gde.funcionarios_tb WHERE cod_func = ?&quot;;</span>
+        try {
+<span class="fc" id="L84">            conn = DataBaseLocator.getInstance().getConnection();</span>
+<span class="fc" id="L85">            p = conn.prepareStatement(sql);</span>
+<span class="fc" id="L86">            p.setInt(1, codFunc);</span>
+<span class="fc" id="L87">            rs = p.executeQuery();</span>
+<span class="fc" id="L88">            rs.next();</span>
+<span class="fc" id="L89">            return instanciarFuncionario(rs);</span>
+        } finally {
+<span class="pc" id="L91">            closeResources(conn, p);</span>
+        }
+    }
+
+    public static void alterar(Funcionario funcionario) throws SQLException, ClassNotFoundException {
+<span class="nc" id="L96">        Connection conn = null;</span>
+<span class="nc" id="L97">        PreparedStatement p = null;</span>
+<span class="nc" id="L98">        String sql = &quot;UPDATE gde.funcionarios_tb &quot;</span>
+                + &quot;SET nome_func = ?, telefone_func = ?, cpf_func = ?, rua_func = ?, &quot;
+                + &quot;numero_func = ?, complemento_func = ?, bairro_func = ?, cep_func = ?, &quot;
+                + &quot;cargo_func = ?, cidade_func = ?, salario_func = ? &quot;
+                + &quot;WHERE cod_func = ?&quot;;
+        try {
+<span class="nc" id="L104">            conn = DataBaseLocator.getInstance().getConnection();</span>
+<span class="nc" id="L105">            p = conn.prepareStatement(sql);</span>
+<span class="nc" id="L106">            p.setString(1, funcionario.getNome());</span>
+<span class="nc" id="L107">            p.setString(2, funcionario.getTelefone());</span>
+<span class="nc" id="L108">            p.setString(3, funcionario.getCpf());</span>
+<span class="nc" id="L109">            p.setString(4, funcionario.getRua());</span>
+<span class="nc" id="L110">            p.setInt(5, funcionario.getNumero());</span>
+<span class="nc" id="L111">            p.setString(6, funcionario.getComplemento());</span>
+<span class="nc" id="L112">            p.setString(7, funcionario.getBairro());</span>
+<span class="nc" id="L113">            p.setString(8, funcionario.getCep());</span>
+<span class="nc" id="L114">            p.setInt(9, funcionario.getCargo().getCodigo());</span>
+<span class="nc" id="L115">            p.setString(10, funcionario.getCidade());</span>
+<span class="nc" id="L116">            p.setFloat(11, funcionario.getSalario());</span>
+<span class="nc" id="L117">            p.setInt(12, funcionario.getCodigo());</span>
+<span class="nc" id="L118">            p.execute();</span>
+        } finally {
+<span class="nc" id="L120">            closeResources(conn, p);</span>
+<span class="nc" id="L121">        }</span>
+<span class="nc" id="L122">    }</span>
+
+    public static ArrayList&lt;Funcionario&gt; listar(String nome) throws SQLException, ClassNotFoundException {
+<span class="nc" id="L125">        Connection conn = null;</span>
+<span class="nc" id="L126">        PreparedStatement p = null;</span>
+<span class="nc" id="L127">        ResultSet rs = null;</span>
+<span class="nc" id="L128">        String sql = &quot;SELECT * FROM gde.funcionarios_tb WHERE nome_func like ?&quot;;</span>
+<span class="nc" id="L129">        ArrayList&lt;Funcionario&gt; funcionarios = new ArrayList&lt;Funcionario&gt;();</span>
+        try {
+<span class="nc" id="L131">            conn = DataBaseLocator.getInstance().getConnection();</span>
+<span class="nc" id="L132">            p = conn.prepareStatement(sql);</span>
+<span class="nc" id="L133">            p.setString(1,&quot;%&quot; + nome + &quot;%&quot;);</span>
+<span class="nc" id="L134">            rs = p.executeQuery();</span>
+<span class="nc bnc" id="L135" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L136">                funcionarios.add(instanciarFuncionario(rs));</span>
+            }
+<span class="nc" id="L138">            return funcionarios;</span>
+        } finally {
+<span class="nc" id="L140">            closeResources(conn, p);</span>
+        }
+    }
+
+    public static ArrayList&lt;Funcionario&gt; listar(int codigo) throws SQLException, ClassNotFoundException {
+<span class="nc" id="L145">        Connection conn = null;</span>
+<span class="nc" id="L146">        PreparedStatement p = null;</span>
+<span class="nc" id="L147">        ResultSet rs = null;</span>
+<span class="nc" id="L148">        String sql = &quot;SELECT * FROM gde.funcionarios_tb WHERE cod_func = ?&quot;;</span>
+<span class="nc" id="L149">        ArrayList&lt;Funcionario&gt; funcionarios = new ArrayList&lt;Funcionario&gt;();</span>
+        try {
+<span class="nc" id="L151">            conn = DataBaseLocator.getInstance().getConnection();</span>
+<span class="nc" id="L152">            p = conn.prepareStatement(sql);</span>
+<span class="nc" id="L153">            p.setInt(1, codigo);</span>
+<span class="nc" id="L154">            rs = p.executeQuery();</span>
+<span class="nc bnc" id="L155" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L156">                funcionarios.add(instanciarFuncionario(rs));</span>
+            }
+<span class="nc" id="L158">            return funcionarios;</span>
+        } finally {
+<span class="nc" id="L160">            closeResources(conn, p);</span>
+        }
+    }
+
+    public static ArrayList&lt;Funcionario&gt; listarVendedores() throws SQLException, ClassNotFoundException {
+<span class="nc" id="L165">        Connection conn = null;</span>
+<span class="nc" id="L166">        Statement st = null;</span>
+<span class="nc" id="L167">        ArrayList&lt;Funcionario&gt; funcionarios = new ArrayList&lt;&gt;();</span>
+        try {
+<span class="nc" id="L169">            conn = DataBaseLocator.getInstance().getConnection();</span>
+<span class="nc" id="L170">            st = conn.createStatement();</span>
+<span class="nc" id="L171">            Statement stmt = conn.createStatement();</span>
+<span class="nc" id="L172">            ResultSet rs = stmt.executeQuery(&quot;SELECT * FROM gde.funcionarios_tb f\n&quot;</span>
+                    + &quot;inner join gde.cargos_tb c\n&quot;
+                    + &quot;on c.cod_cargo = f.cargo_func\n&quot;
+                    + &quot;where c.nome_cargo = \&quot;Vendedor\&quot;;&quot;);
+<span class="nc bnc" id="L176" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L177">                funcionarios.add(instanciarFuncionario(rs));</span>
+            }
+<span class="nc" id="L179">            return funcionarios;</span>
+        } finally {
+<span class="nc" id="L181">            closeResources(conn, st);</span>
+        }
+    }
+
+    public static int lastId() throws SQLException, ClassNotFoundException {
+<span class="nc" id="L186">        Connection conn = null;</span>
+<span class="nc" id="L187">        Statement st = null;</span>
+        try {
+<span class="nc" id="L189">            conn = DataBaseLocator.getInstance().getConnection();</span>
+<span class="nc" id="L190">            st = conn.createStatement();</span>
+<span class="nc" id="L191">            Statement stmt = conn.createStatement();</span>
+<span class="nc" id="L192">            ResultSet rs = stmt.executeQuery(&quot;SELECT MAX(cod_func) as max_cod FROM gde.funcionarios_tb&quot;);</span>
+<span class="nc" id="L193">            rs.next();</span>
+<span class="nc" id="L194">            return rs.getInt(&quot;max_cod&quot;);</span>
+        } finally {
+<span class="nc" id="L196">            closeResources(conn, st);</span>
+        }
+    }
+
+    private static Funcionario instanciarFuncionario(ResultSet rs) throws SQLException, ClassNotFoundException {
+<span class="fc" id="L201">        return new Funcionario(rs.getString(&quot;cpf_func&quot;),</span>
+<span class="fc" id="L202">                CargoDao.get(rs.getInt(&quot;cargo_func&quot;)),</span>
+<span class="fc" id="L203">                rs.getString(&quot;nome_func&quot;),</span>
+<span class="fc" id="L204">                rs.getString(&quot;telefone_func&quot;),</span>
+<span class="fc" id="L205">                rs.getInt(&quot;numero_func&quot;),</span>
+<span class="fc" id="L206">                rs.getInt(&quot;cod_func&quot;),</span>
+<span class="fc" id="L207">                rs.getString(&quot;cep_func&quot;),</span>
+<span class="fc" id="L208">                rs.getString(&quot;rua_func&quot;),</span>
+<span class="fc" id="L209">                rs.getString(&quot;bairro_func&quot;),</span>
+<span class="fc" id="L210">                rs.getString(&quot;cidade_func&quot;),</span>
+<span class="fc" id="L211">                rs.getString(&quot;complemento_func&quot;),</span>
+<span class="fc" id="L212">                EstadoDao.get(rs.getString(&quot;estado_func&quot;)),</span>
+<span class="fc" id="L213">                rs.getFloat(&quot;salario_func&quot;)</span>
+        );
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

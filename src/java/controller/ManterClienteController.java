@@ -2,6 +2,7 @@ package controller;
 
 import dao.ClienteDao;
 import dao.EstadoDao;
+import dao.IClienteDao;
 import java.io.IOException;
 import java.sql.SQLException;
 import javax.servlet.ServletException;
@@ -16,7 +17,7 @@ import model.Estado;
  * @author ccezar
  */
 public class ManterClienteController extends HttpServlet {
-
+    public IClienteDao cliDao = ClienteDao.INSTANCE;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -85,7 +86,7 @@ public class ManterClienteController extends HttpServlet {
             request.setAttribute("estados", EstadoDao.listar());
             if (!operacao.equals("incluir")) {
                 int cod = Integer.parseInt(request.getParameter("cod"));
-                request.setAttribute("cliente", ClienteDao.get(cod));
+                request.setAttribute("cliente", cliDao.get(cod));
             }
             request.getRequestDispatcher("/manterCliente.jsp").forward(request, response);
         } catch (Exception e) {
@@ -100,7 +101,7 @@ public class ManterClienteController extends HttpServlet {
             if (!request.getParameter("inputCodigo").equals("")) {
                 codigo = Integer.parseInt(request.getParameter("inputCodigo"));
             } else {
-                codigo = ClienteDao.lastId() + 1;
+                codigo = cliDao.lastId() + 1;
             }
 
             String cnpj = request.getParameter("inputCnpj");
@@ -117,14 +118,13 @@ public class ManterClienteController extends HttpServlet {
             Cliente cliente = new Cliente(cnpj, nome, telefone, numero, codigo, cep, rua, bairro, cidade, complemento, estado);
             switch (operacao) {
                 case "incluir":
-                    ClienteDao.salvar(cliente);
+                    cliDao.salvar(cliente);
                     break;
                 case "excluir":
-                    ClienteDao.apagar(cliente);
+                    cliDao.apagar(cliente);
                     break;
                 case "alterar":
-                    ClienteDao.alterar(cliente);
-                    break;
+                    cliDao.alterar(cliente);
             }
             //request.getRequestDispatcher("/categorias.jsp").forward(request, response);
             response.sendRedirect(request.getContextPath() + "/clientes");

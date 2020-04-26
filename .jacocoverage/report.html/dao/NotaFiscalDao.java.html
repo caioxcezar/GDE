@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>NotaFiscalDao.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;GDE&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">dao</a> &gt; <span class="el_source">NotaFiscalDao.java</span></div><h1>NotaFiscalDao.java</h1><pre class="source lang-java linenums">package dao;
+
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import model.NotaFiscal;
+
+/**
+ *
+ * @author ccezar
+ */
+public class NotaFiscalDao extends dao {
+
+<span class="fc" id="L18">    private static final NotaFiscalDao INSTANCE = new NotaFiscalDao();</span>
+
+<span class="fc" id="L20">    private NotaFiscalDao() {</span>
+<span class="fc" id="L21">    }</span>
+
+    public static NotaFiscal get(int cod) throws SQLException, ClassNotFoundException {
+<span class="nc" id="L24">        Connection conn = null;</span>
+<span class="nc" id="L25">        PreparedStatement p = null;</span>
+<span class="nc" id="L26">        ResultSet rs = null;</span>
+<span class="nc" id="L27">        String sql = &quot;SELECT * FROM notas_fiscais_tb WHERE cod_nota = ?&quot;;</span>
+        try {
+<span class="nc" id="L29">            conn = DataBaseLocator.getInstance().getConnection();</span>
+<span class="nc" id="L30">            p = conn.prepareStatement(sql);</span>
+<span class="nc" id="L31">            p.setInt(1, cod);</span>
+<span class="nc" id="L32">            rs = p.executeQuery();</span>
+<span class="nc" id="L33">            rs.next();</span>
+<span class="nc" id="L34">            return instanciarNotaFiscal(rs);</span>
+        } finally {
+<span class="nc" id="L36">            closeResources(conn, p);</span>
+        }
+    }
+
+    public static int lastId() throws SQLException, ClassNotFoundException {
+<span class="fc" id="L41">        Connection conn = null;</span>
+<span class="fc" id="L42">        Statement st = null;</span>
+        try {
+<span class="fc" id="L44">            conn = DataBaseLocator.getInstance().getConnection();</span>
+<span class="fc" id="L45">            st = conn.createStatement();</span>
+<span class="fc" id="L46">            Statement stmt = conn.createStatement();</span>
+<span class="fc" id="L47">            ResultSet rs = stmt.executeQuery(&quot;SELECT MAX(cod_nota) as max_cod FROM gde.notas_fiscais_tb&quot;);</span>
+<span class="fc" id="L48">            rs.next();</span>
+<span class="fc" id="L49">            return rs.getInt(&quot;max_cod&quot;);</span>
+        } finally {
+<span class="pc" id="L51">            closeResources(conn, st);</span>
+        }
+    }
+
+    public static void salvar(NotaFiscal nota) throws SQLException, ClassNotFoundException {
+<span class="fc" id="L56">        Connection conn = null;</span>
+<span class="fc" id="L57">        PreparedStatement p = null;</span>
+<span class="fc" id="L58">        String sql = &quot;INSERT INTO notas_fiscais_tb &quot;</span>
+                + &quot;(cod_nota, data_nota, pedido_nota) &quot;
+                + &quot;VALUES (?, ?, ?);&quot;;
+        try {
+<span class="fc" id="L62">            conn = DataBaseLocator.getInstance().getConnection();</span>
+<span class="fc" id="L63">            p = conn.prepareStatement(sql);</span>
+<span class="fc" id="L64">            p.setInt(1, nota.getCodigo());</span>
+<span class="fc" id="L65">            p.setDate(2, nota.getData());</span>
+<span class="fc" id="L66">            p.setInt(3, nota.getPedido().getCodigo());</span>
+<span class="fc" id="L67">            p.execute();</span>
+        } finally {
+<span class="pc" id="L69">            closeResources(conn, p);</span>
+<span class="fc" id="L70">        }</span>
+<span class="fc" id="L71">    }</span>
+
+    public static void alterar(NotaFiscal nota) throws SQLException, ClassNotFoundException {
+<span class="nc" id="L74">        Connection conn = null;</span>
+<span class="nc" id="L75">        PreparedStatement p = null;</span>
+<span class="nc" id="L76">        String sql = &quot;UPDATE notas_fiscais_tb &quot;</span>
+                + &quot;SET data_nota = ?, pedido_nota = ? &quot;
+                + &quot;WHERE cod_nota = ?&quot;;
+        try {
+<span class="nc" id="L80">            conn = DataBaseLocator.getInstance().getConnection();</span>
+<span class="nc" id="L81">            p = conn.prepareStatement(sql);</span>
+<span class="nc" id="L82">            p.setDate(1, nota.getData());</span>
+<span class="nc" id="L83">            p.setInt(2, nota.getPedido().getCodigo());</span>
+<span class="nc" id="L84">            p.setInt(3, nota.getCodigo());</span>
+<span class="nc" id="L85">            p.execute();</span>
+        } finally {
+<span class="nc" id="L87">            closeResources(conn, p);</span>
+<span class="nc" id="L88">        }</span>
+<span class="nc" id="L89">    }</span>
+
+    public static void apagar(NotaFiscal nota) throws SQLException, ClassNotFoundException {
+<span class="nc" id="L92">        Connection conn = null;</span>
+<span class="nc" id="L93">        PreparedStatement p = null;</span>
+<span class="nc" id="L94">        String sql = &quot;DELETE FROM gde.notas_fiscais_tb WHERE cod_nota = ?&quot;;</span>
+        try {
+<span class="nc" id="L96">            conn = DataBaseLocator.getInstance().getConnection();</span>
+<span class="nc" id="L97">            p = conn.prepareStatement(sql);</span>
+<span class="nc" id="L98">            p.setInt(1, nota.getCodigo());</span>
+<span class="nc" id="L99">            p.execute();</span>
+        } finally {
+<span class="nc" id="L101">            closeResources(conn, p);</span>
+<span class="nc" id="L102">        }</span>
+<span class="nc" id="L103">    }</span>
+
+    public static ArrayList&lt;NotaFiscal&gt; listar() throws SQLException, ClassNotFoundException {
+<span class="nc" id="L106">        Connection conn = null;</span>
+<span class="nc" id="L107">        Statement st = null;</span>
+<span class="nc" id="L108">        ArrayList&lt;NotaFiscal&gt; cargos = new ArrayList&lt;&gt;();</span>
+        try {
+<span class="nc" id="L110">            conn = DataBaseLocator.getInstance().getConnection();</span>
+<span class="nc" id="L111">            st = conn.createStatement();</span>
+<span class="nc" id="L112">            Statement stmt = conn.createStatement();</span>
+<span class="nc" id="L113">            ResultSet rs = stmt.executeQuery(&quot;SELECT * FROM notas_fiscais_tb&quot;);</span>
+<span class="nc bnc" id="L114" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L115">                cargos.add(instanciarNotaFiscal(rs));</span>
+            }
+<span class="nc" id="L117">            return cargos;</span>
+        } finally {
+<span class="nc" id="L119">            closeResources(conn, st);</span>
+        }
+    }
+
+    public static ArrayList&lt;NotaFiscal&gt; listar(int codigo) throws SQLException, ClassNotFoundException {
+<span class="nc" id="L124">        Connection conn = null;</span>
+<span class="nc" id="L125">        PreparedStatement p = null;</span>
+<span class="nc" id="L126">        ArrayList&lt;NotaFiscal&gt; cargos = new ArrayList&lt;&gt;();</span>
+        try {
+<span class="nc" id="L128">            conn = DataBaseLocator.getInstance().getConnection();</span>
+<span class="nc" id="L129">            p = conn.prepareStatement(&quot;SELECT * FROM notas_fiscais_tb where cod_nota = ?&quot;);</span>
+<span class="nc" id="L130">            p.setInt(1, codigo);</span>
+<span class="nc" id="L131">            ResultSet rs = p.executeQuery();</span>
+<span class="nc bnc" id="L132" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L133">                cargos.add(instanciarNotaFiscal(rs));</span>
+            }
+<span class="nc" id="L135">            return cargos;</span>
+        } finally {
+<span class="nc" id="L137">            closeResources(conn, p);</span>
+        }
+    }
+
+    public static ArrayList&lt;NotaFiscal&gt; listar(Date data) throws SQLException, ClassNotFoundException {
+<span class="nc" id="L142">        Connection conn = null;</span>
+<span class="nc" id="L143">        PreparedStatement p = null;</span>
+<span class="nc" id="L144">        ArrayList&lt;NotaFiscal&gt; cargos = new ArrayList&lt;&gt;();</span>
+        try {
+<span class="nc" id="L146">            conn = DataBaseLocator.getInstance().getConnection();</span>
+<span class="nc" id="L147">            p = conn.prepareStatement(&quot;SELECT * FROM notas_fiscais_tb where data_nota = ?&quot;);</span>
+<span class="nc" id="L148">            p.setDate(1, data);</span>
+<span class="nc" id="L149">            ResultSet rs = p.executeQuery(&quot;&quot;);</span>
+<span class="nc bnc" id="L150" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L151">                cargos.add(instanciarNotaFiscal(rs));</span>
+            }
+<span class="nc" id="L153">            return cargos;</span>
+        } finally {
+<span class="nc" id="L155">            closeResources(conn, p);</span>
+        }
+    }
+
+    private static NotaFiscal instanciarNotaFiscal(ResultSet rs) throws SQLException, ClassNotFoundException {
+<span class="nc" id="L160">        return new NotaFiscal(</span>
+<span class="nc" id="L161">                rs.getInt(&quot;cod_nota&quot;),</span>
+<span class="nc" id="L162">                rs.getDate(&quot;data_nota&quot;),</span>
+<span class="nc" id="L163">                PedidoDao.get(rs.getInt(&quot;pedido_nota&quot;)));</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

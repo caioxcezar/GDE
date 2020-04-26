@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>ManterPagamentoController.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;GDE&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">controller</a> &gt; <span class="el_source">ManterPagamentoController.java</span></div><h1>ManterPagamentoController.java</h1><pre class="source lang-java linenums">package controller;
+
+import dao.NotaFiscalDao;
+import dao.PedidoDao;
+import java.io.IOException;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Calendar;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import model.NotaFiscal;
+import model.Pedido;
+
+/**
+ *
+ * @author caioc
+ */
+<span class="fc" id="L20">public class ManterPagamentoController extends HttpServlet {</span>
+
+    /**
+     * Processes requests for both HTTP &lt;code&gt;GET&lt;/code&gt; and &lt;code&gt;POST&lt;/code&gt;
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+<span class="fc" id="L33">        request.setCharacterEncoding(&quot;UTF-8&quot;);</span>
+<span class="fc" id="L34">        String acao = request.getParameter(&quot;acao&quot;);</span>
+<span class="pc bpc" id="L35" title="7 of 10 branches missed.">        switch (acao) {</span>
+            case &quot;prepararOperacao&quot;:
+<span class="nc" id="L37">                prepararOperacao(request, response);</span>
+<span class="nc" id="L38">                break;</span>
+            case &quot;confirmarOperacao&quot;:
+<span class="fc" id="L40">                confirmarOperacao(request, response);</span>
+                break;
+        }
+<span class="fc" id="L43">    }</span>
+
+    private void prepararOperacao(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+        try {
+<span class="nc" id="L47">            String operacao = request.getParameter(&quot;operacao&quot;);</span>
+<span class="nc" id="L48">            request.setAttribute(&quot;operacao&quot;, operacao);</span>
+<span class="nc" id="L49">            ArrayList&lt;Pedido&gt; pedidos = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L50" title="All 2 branches missed.">            if (!operacao.equals(&quot;incluir&quot;)) {</span>
+<span class="nc" id="L51">                NotaFiscal nota = NotaFiscalDao.get(Integer.parseInt(request.getParameter(&quot;cod&quot;)));</span>
+<span class="nc" id="L52">                request.setAttribute(&quot;notaFiscal&quot;, nota);</span>
+<span class="nc" id="L53">                pedidos.add(nota.getPedido());</span>
+<span class="nc" id="L54">            } else {</span>
+<span class="nc" id="L55">                pedidos = PedidoDao.listarPendentesExterno();</span>
+            }
+<span class="nc" id="L57">            request.setAttribute(&quot;pedidos&quot;, pedidos);</span>
+<span class="nc" id="L58">            request.getRequestDispatcher(&quot;/manterPagamento.jsp&quot;).forward(request, response);</span>
+<span class="nc" id="L59">        } catch (Exception ex) {</span>
+<span class="nc" id="L60">            throw new ServletException(ex.getMessage());</span>
+<span class="nc" id="L61">        }</span>
+<span class="nc" id="L62">    }</span>
+
+    private void confirmarOperacao(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+        try {
+<span class="fc" id="L66">            String operacao = request.getParameter(&quot;operacao&quot;);</span>
+<span class="fc" id="L67">            int codigo = 0;</span>
+<span class="pc bpc" id="L68" title="1 of 2 branches missed.">            if (!request.getParameter(&quot;inputCodigo&quot;).equals(&quot;&quot;)) {</span>
+<span class="nc" id="L69">                codigo = Integer.parseInt(request.getParameter(&quot;inputCodigo&quot;));</span>
+            } else {
+<span class="fc" id="L71">                codigo = NotaFiscalDao.lastId() + 1;</span>
+            }
+<span class="fc" id="L73">            Pedido pedido = PedidoDao.get(Integer.parseInt(request.getParameter(&quot;inputPedido&quot;)));</span>
+<span class="fc" id="L74">            Date data = new Date(Calendar.getInstance().getTime().getTime());</span>
+
+<span class="fc" id="L76">            NotaFiscal nFical = new NotaFiscal(codigo, data, pedido);</span>
+<span class="pc bpc" id="L77" title="7 of 13 branches missed.">            switch (operacao) {</span>
+                case &quot;incluir&quot;:
+<span class="fc" id="L79">                    NotaFiscalDao.salvar(nFical);</span>
+<span class="fc" id="L80">                    pedido.setEstado(&quot;Pago&quot;);</span>
+<span class="fc" id="L81">                    PedidoDao.alterar(pedido);</span>
+<span class="fc" id="L82">                    break;</span>
+                case &quot;excluir&quot;: {
+<span class="nc" id="L84">                    NotaFiscalDao.apagar(nFical);</span>
+<span class="nc" id="L85">                    break;</span>
+                }
+                case &quot;visualizar&quot;: {
+                    break;
+                }
+            }
+            //request.getRequestDispatcher(&quot;/pedidos.jsp&quot;).forward(request, response);
+<span class="fc" id="L92">            response.sendRedirect(request.getContextPath() + &quot;/notasFiscais&quot;);</span>
+<span class="nc" id="L93">        } catch (Exception e) {</span>
+<span class="nc" id="L94">            throw new ServletException(&quot;Erro ao processar controller: &quot; + e.getMessage());</span>
+<span class="fc" id="L95">        }</span>
+<span class="fc" id="L96">    }</span>
+
+    // &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;HttpServlet methods. Click on the + sign on the left to edit the code.&quot;&gt;
+    /**
+     * Handles the HTTP &lt;code&gt;GET&lt;/code&gt; method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+<span class="nc" id="L110">        processRequest(request, response);</span>
+<span class="nc" id="L111">    }</span>
+
+    /**
+     * Handles the HTTP &lt;code&gt;POST&lt;/code&gt; method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+<span class="nc" id="L124">        processRequest(request, response);</span>
+<span class="nc" id="L125">    }</span>
+
+    /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
+    @Override
+    public String getServletInfo() {
+<span class="nc" id="L134">        return &quot;Short description&quot;;</span>
+    }// &lt;/editor-fold&gt;
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

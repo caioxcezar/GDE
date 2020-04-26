@@ -202,7 +202,7 @@ public class PedidoDao extends dao {
                 rs.getInt("cod_pedido"),
                 PedidoProdutoDao.listar(rs.getInt("cod_pedido")),
                 FuncionarioDao.get(rs.getInt("funcionario_pedido")),
-                ClienteDao.get(rs.getInt("cliente_pedido")),
+                ClienteDao.INSTANCE.get(rs.getInt("cliente_pedido")),
                 rs.getDate("data_pedido"),
                 rs.getString("estado_pedido"),
                 rs.getString("tipo_pedido"));

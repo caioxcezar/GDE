@@ -27,7 +27,7 @@ import service.PedidoProdutoService;
  * @author caioc
  */
 public class ManterPedidoController extends HttpServlet {
-
+    public ClienteDao cliDao = ClienteDao.INSTANCE;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -96,7 +96,7 @@ public class ManterPedidoController extends HttpServlet {
             request.setAttribute("operacao", operacao);
             ArrayList<Funcionario> funcionarios = FuncionarioDao.listarVendedores();
             request.setAttribute("funcionarios", funcionarios);
-            request.setAttribute("clientes", ClienteDao.listar());
+            request.setAttribute("clientes", cliDao.listar());
             request.setAttribute("produtos", ProdutoDao.listar());
             StringBuilder produtos = new StringBuilder("");
             if (!operacao.equals("incluir")) {
@@ -144,7 +144,7 @@ public class ManterPedidoController extends HttpServlet {
             }
 
             Funcionario funcionario = FuncionarioDao.get(Integer.parseInt(request.getParameter("inputFuncionario")));
-            Cliente cliente = ClienteDao.get(Integer.parseInt(request.getParameter("inputCliente")));
+            Cliente cliente = cliDao.get(Integer.parseInt(request.getParameter("inputCliente")));
             Date data = new Date(Calendar.getInstance().getTime().getTime());
             String estado = request.getParameter("inputEstado");
 

@@ -12,9 +12,14 @@ import model.Cliente;
  *
  * @author ccezar
  */
-public class ClienteDao extends dao {
+public class ClienteDao extends dao implements IClienteDao {
 
-    public static void salvar(Cliente cliente) throws SQLException, ClassNotFoundException {
+    public static final ClienteDao INSTANCE = new ClienteDao();
+    
+    private ClienteDao() { }
+    
+    @Override
+    public void salvar(Cliente cliente) throws SQLException, ClassNotFoundException {
         Connection conn = null;
         PreparedStatement p = null;
         String sql = "INSERT INTO gde.clientes_tb "
@@ -40,7 +45,8 @@ public class ClienteDao extends dao {
         }
     }
 
-    public static int lastId() throws SQLException, ClassNotFoundException {
+    @Override
+    public int lastId() throws SQLException, ClassNotFoundException {
         Connection conn = null;
         Statement st = null;
         try {
@@ -55,7 +61,8 @@ public class ClienteDao extends dao {
         }
     }
 
-    public static void apagar(Cliente cliente) throws SQLException, ClassNotFoundException {
+    @Override
+    public void apagar(Cliente cliente) throws SQLException, ClassNotFoundException {
         Connection conn = null;
         PreparedStatement p = null;
         String sql = "DELETE FROM clientes_tb WHERE cod_cli = ?";
@@ -69,7 +76,8 @@ public class ClienteDao extends dao {
         }
     }
 
-    public static Cliente get(int cod) throws SQLException, ClassNotFoundException {
+    @Override
+    public Cliente get(int cod) throws SQLException, ClassNotFoundException {
         Connection conn = null;
         PreparedStatement p = null;
         ResultSet rs = null;
@@ -86,7 +94,8 @@ public class ClienteDao extends dao {
         }
     }
 
-    public static void alterar(Cliente cliente) throws SQLException, ClassNotFoundException {
+    @Override
+    public void alterar(Cliente cliente) throws SQLException, ClassNotFoundException {
         Connection conn = null;
         PreparedStatement p = null;
         String sql = "UPDATE gde.clientes_tb "
@@ -114,7 +123,7 @@ public class ClienteDao extends dao {
         }
     }
 
-    public static ArrayList<Cliente> listar() throws SQLException, ClassNotFoundException {
+    public ArrayList<Cliente> listar() throws SQLException, ClassNotFoundException {
         Connection conn = null;
         Statement st = null;
         ArrayList<Cliente> clientes = new ArrayList<>();
@@ -132,7 +141,7 @@ public class ClienteDao extends dao {
         }
     }
 
-    public static ArrayList<Cliente> listar(String nome) throws SQLException, ClassNotFoundException {
+    public ArrayList<Cliente> listar(String nome) throws SQLException, ClassNotFoundException {
         Connection conn = null;
         PreparedStatement p = null;
         ResultSet rs = null;
@@ -152,7 +161,7 @@ public class ClienteDao extends dao {
         }
     }
 
-    public static ArrayList<Cliente> listar(int cod) throws SQLException, ClassNotFoundException {
+    public ArrayList<Cliente> listar(int cod) throws SQLException, ClassNotFoundException {
         Connection conn = null;
         PreparedStatement p = null;
         ResultSet rs = null;
@@ -172,7 +181,7 @@ public class ClienteDao extends dao {
         }
     }
 
-    private static Cliente instanciarCliente(ResultSet rs) throws SQLException, ClassNotFoundException {
+    private Cliente instanciarCliente(ResultSet rs) throws SQLException, ClassNotFoundException {
         return new Cliente(rs.getString("cnpj_cli"),
                 rs.getString("nome_cli"),
                 rs.getString("telefone_cli"),

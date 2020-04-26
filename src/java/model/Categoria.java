@@ -1,5 +1,7 @@
 package model;
 
+import java.sql.Date;
+
 /**
  *
  * @author ccezar
@@ -7,16 +9,19 @@ package model;
 public class Categoria {
     private int codigo;
     private String nome, descricao;
+    private Date data;
 
-    public Categoria(String nome, String descricao) {
+    public Categoria(String nome, String descricao, Date data) {
         this.nome = nome;
         this.descricao = descricao;
+        this.data = data;
     }
 
-    public Categoria(int codigo, String nome, String descricao) {
+    public Categoria(int codigo, String nome, String descricao, Date data) {
         this.codigo = codigo;
         this.nome = nome;
         this.descricao = descricao;
+        this.data = data;
     }
 
     public int getCodigo() {
@@ -41,6 +46,14 @@ public class Categoria {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
+    }
+
+    public Date getData() {
+        return data;
+    }
+
+    public void setData(Date data) {
+        this.data = data;
     }
     
 }

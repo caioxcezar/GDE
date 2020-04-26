@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>CargoDao.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;GDE&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">dao</a> &gt; <span class="el_source">CargoDao.java</span></div><h1>CargoDao.java</h1><pre class="source lang-java linenums">package dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import model.Cargo;
+
+/**
+ *
+ * @author ccezar
+ */
+<span class="nc" id="L15">public class CargoDao extends dao {</span>
+
+    public static Cargo get(int cod) throws SQLException, ClassNotFoundException {
+<span class="fc" id="L18">        Connection conn = null;</span>
+<span class="fc" id="L19">        PreparedStatement p = null;</span>
+<span class="fc" id="L20">        ResultSet rs = null;</span>
+<span class="fc" id="L21">        String sql = &quot;SELECT * FROM cargos_tb WHERE cod_cargo = ?&quot;;</span>
+        try {
+<span class="fc" id="L23">            conn = DataBaseLocator.getInstance().getConnection();</span>
+<span class="fc" id="L24">            p = conn.prepareStatement(sql);</span>
+<span class="fc" id="L25">            p.setInt(1, cod);</span>
+<span class="fc" id="L26">            rs = p.executeQuery();</span>
+<span class="fc" id="L27">            rs.next();</span>
+<span class="fc" id="L28">            return instanciarCargo(rs);</span>
+        } finally {
+<span class="pc" id="L30">            closeResources(conn, p);</span>
+        }
+    }
+
+    public static int lastId() throws SQLException, ClassNotFoundException {
+<span class="fc" id="L35">        Connection conn = null;</span>
+<span class="fc" id="L36">        Statement st = null;</span>
+        try {
+<span class="fc" id="L38">            conn = DataBaseLocator.getInstance().getConnection();</span>
+<span class="fc" id="L39">            st = conn.createStatement();</span>
+<span class="fc" id="L40">            Statement stmt = conn.createStatement();</span>
+<span class="fc" id="L41">            ResultSet rs = stmt.executeQuery(&quot;SELECT MAX(cod_cargo) as max_cod FROM gde.cargos_tb&quot;);</span>
+<span class="fc" id="L42">            rs.next();</span>
+<span class="fc" id="L43">            return rs.getInt(&quot;max_cod&quot;);</span>
+        } finally {
+<span class="pc" id="L45">            closeResources(conn, st);</span>
+        }
+    }
+
+    public static void salvar(Cargo cargo) throws SQLException, ClassNotFoundException {
+<span class="fc" id="L50">        Connection conn = null;</span>
+<span class="fc" id="L51">        PreparedStatement p = null;</span>
+<span class="fc" id="L52">        String sql = &quot;INSERT INTO cargos_tb &quot;</span>
+                + &quot;(cod_cargo, nome_cargo, descricao_cargo) &quot;
+                + &quot;VALUES (?, ?, ?);&quot;;
+        try {
+<span class="fc" id="L56">            conn = DataBaseLocator.getInstance().getConnection();</span>
+<span class="fc" id="L57">            p = conn.prepareStatement(sql);</span>
+<span class="fc" id="L58">            p.setInt(1, cargo.getCodigo());</span>
+<span class="fc" id="L59">            p.setString(2, cargo.getNome());</span>
+<span class="fc" id="L60">            p.setString(3, cargo.getDescricao());</span>
+<span class="fc" id="L61">            p.executeUpdate();</span>
+        } finally {
+<span class="pc" id="L63">            closeResources(conn, p);</span>
+<span class="fc" id="L64">        }</span>
+<span class="fc" id="L65">    }</span>
+
+    public static void alterar(Cargo cargo) throws SQLException, ClassNotFoundException {
+<span class="fc" id="L68">        Connection conn = null;</span>
+<span class="fc" id="L69">        PreparedStatement p = null;</span>
+<span class="fc" id="L70">        String sql = &quot;UPDATE cargos_tb &quot;</span>
+                + &quot;SET nome_cargo = ?, descricao_cargo = ? &quot;
+                + &quot;WHERE cod_cargo = ?&quot;;
+        try {
+<span class="fc" id="L74">            conn = DataBaseLocator.getInstance().getConnection();</span>
+<span class="fc" id="L75">            p = conn.prepareStatement(sql);</span>
+<span class="fc" id="L76">            p.setString(1, cargo.getNome());</span>
+<span class="fc" id="L77">            p.setString(2, cargo.getDescricao());</span>
+<span class="fc" id="L78">            p.setInt(3, cargo.getCodigo());</span>
+<span class="fc" id="L79">            p.execute();</span>
+        } finally {
+<span class="pc" id="L81">            closeResources(conn, p);</span>
+<span class="fc" id="L82">        }</span>
+<span class="fc" id="L83">    }</span>
+
+    public static void apagar(Cargo cargo) throws SQLException, ClassNotFoundException {
+<span class="fc" id="L86">        Connection conn = null;</span>
+<span class="fc" id="L87">        PreparedStatement p = null;</span>
+<span class="fc" id="L88">        String sql = &quot;DELETE FROM gde.cargos_tb WHERE cod_cargo = ?&quot;;</span>
+        try {
+<span class="fc" id="L90">            conn = DataBaseLocator.getInstance().getConnection();</span>
+<span class="fc" id="L91">            p = conn.prepareStatement(sql);</span>
+<span class="fc" id="L92">            p.setInt(1, cargo.getCodigo());</span>
+<span class="fc" id="L93">            p.execute();</span>
+        } finally {
+<span class="pc" id="L95">            closeResources(conn, p);</span>
+<span class="fc" id="L96">        }</span>
+<span class="fc" id="L97">    }</span>
+
+    public static ArrayList&lt;Cargo&gt; listar() throws SQLException, ClassNotFoundException {
+<span class="nc" id="L100">        Connection conn = null;</span>
+<span class="nc" id="L101">        Statement st = null;</span>
+<span class="nc" id="L102">        ArrayList&lt;Cargo&gt; cargos = new ArrayList&lt;&gt;();</span>
+        try {
+<span class="nc" id="L104">            conn = DataBaseLocator.getInstance().getConnection();</span>
+<span class="nc" id="L105">            st = conn.createStatement();</span>
+<span class="nc" id="L106">            Statement stmt = conn.createStatement();</span>
+<span class="nc" id="L107">            ResultSet rs = stmt.executeQuery(&quot;SELECT * FROM cargos_tb&quot;);</span>
+<span class="nc bnc" id="L108" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L109">                cargos.add(instanciarCargo(rs));</span>
+            }
+<span class="nc" id="L111">            return cargos;</span>
+        } finally {
+<span class="nc" id="L113">            closeResources(conn, st);</span>
+        }
+    }
+
+    public static ArrayList&lt;Cargo&gt; listar(String nome) throws SQLException, ClassNotFoundException {
+<span class="nc" id="L118">        Connection conn = null;</span>
+<span class="nc" id="L119">        PreparedStatement p = null;</span>
+<span class="nc" id="L120">        ResultSet rs = null;</span>
+<span class="nc" id="L121">        String sql = &quot;SELECT * FROM gde.cargos_tb WHERE nome_cargo like ?&quot;;</span>
+<span class="nc" id="L122">        ArrayList&lt;Cargo&gt; cargos = new ArrayList&lt;&gt;();</span>
+        try {
+<span class="nc" id="L124">            conn = DataBaseLocator.getInstance().getConnection();</span>
+<span class="nc" id="L125">            p = conn.prepareStatement(sql);</span>
+<span class="nc" id="L126">            p.setString(1, &quot;%&quot; + nome + &quot;%&quot;);</span>
+<span class="nc" id="L127">            rs = p.executeQuery();</span>
+<span class="nc bnc" id="L128" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L129">                cargos.add(instanciarCargo(rs));</span>
+            }
+<span class="nc" id="L131">            return cargos;</span>
+        } finally {
+<span class="nc" id="L133">            closeResources(conn, p);</span>
+        }
+    }
+
+    public static ArrayList&lt;Cargo&gt; listar(int codigo) throws SQLException, ClassNotFoundException {
+<span class="nc" id="L138">        Connection conn = null;</span>
+<span class="nc" id="L139">        PreparedStatement p = null;</span>
+<span class="nc" id="L140">        ResultSet rs = null;</span>
+<span class="nc" id="L141">        String sql = &quot;SELECT * FROM gde.cargos_tb WHERE cod_cargo = ?&quot;;</span>
+<span class="nc" id="L142">        ArrayList&lt;Cargo&gt; cargos = new ArrayList&lt;&gt;();</span>
+        try {
+<span class="nc" id="L144">            conn = DataBaseLocator.getInstance().getConnection();</span>
+<span class="nc" id="L145">            p = conn.prepareStatement(sql);</span>
+<span class="nc" id="L146">            p.setInt(1, codigo);</span>
+<span class="nc" id="L147">            rs = p.executeQuery();</span>
+<span class="nc bnc" id="L148" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L149">                cargos.add(instanciarCargo(rs));</span>
+            }
+<span class="nc" id="L151">            return cargos;</span>
+        } finally {
+<span class="nc" id="L153">            closeResources(conn, p);</span>
+        }
+    }
+
+    private static Cargo instanciarCargo(ResultSet rs) throws SQLException {
+<span class="fc" id="L158">        return new Cargo(</span>
+<span class="fc" id="L159">                rs.getInt(&quot;cod_cargo&quot;),</span>
+<span class="fc" id="L160">                rs.getString(&quot;nome_cargo&quot;),</span>
+<span class="fc" id="L161">                rs.getString(&quot;descricao_cargo&quot;)</span>
+        );
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

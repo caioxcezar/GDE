@@ -3,17 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/caioc/Documents/NetBeansProjects/GDE/src/java/controller/ManterEstoqueController.java</file>
-            <file>file:/C:/Users/caioc/Documents/NetBeansProjects/GDE/web/index.jsp</file>
-            <file>file:/C:/Users/caioc/Documents/NetBeansProjects/GDE/web/manterEstoque.jsp</file>
-            <file>file:/C:/Users/caioc/Documents/NetBeansProjects/GDE/src/java/dao/PedidoDao.java</file>
-            <file>file:/C:/Users/caioc/Documents/NetBeansProjects/GDE/src/java/controller/ManterPedidoController.java</file>
-            <file>file:/C:/Users/caioc/Documents/NetBeansProjects/GDE/web/templates/footer.jsp</file>
-            <file>file:/C:/Users/caioc/Documents/NetBeansProjects/GDE/src/java/dao/dao.java</file>
+            <file>file:/C:/Users/caioc/Documents/NetBeansProjects/GDE/test/controller/ManterClienteControllerTest.java</file>
+            <file>file:/C:/Users/caioc/Documents/NetBeansProjects/GDE/src/java/dao/ClienteDao.java</file>
+            <file>file:/C:/Users/caioc/Documents/NetBeansProjects/GDE/src/java/dao/IClienteDao.java</file>
             <file>file:/C:/Users/caioc/Documents/NetBeansProjects/GDE/src/java/controller/ManterClienteController.java</file>
-            <file>file:/C:/Users/caioc/Documents/NetBeansProjects/GDE/test/controller/PedidosControllerTest.java</file>
-            <file>file:/C:/Users/caioc/Documents/NetBeansProjects/GDE/src/java/controller/ManterCargoController.java</file>
-            <file>file:/C:/Users/caioc/Documents/NetBeansProjects/GDE/web/templates/header.jsp</file>
+            <file>file:/C:/Users/caioc/Documents/NetBeansProjects/GDE/src/java/controller/erroGenericoController.java</file>
         </group>
     </open-files>
 </project-private>

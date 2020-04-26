@@ -159,3 +159,31 @@ INSERT INTO clientes_tb
 (cod_cli, nome_cli, telefone_cli, cnpj_cli, rua_cli, complemento_cli, numero_cli, bairro_cli, cidade_cli, estado_cli, cep_cli)
 VALUES (1, "GDE", "(32) 3261-9856", "77.197.110/0001-10","Rua Izabel Correa de Souza", "Ap. 145", 2375,"SÃ£o Pedro", "Juiz de Fora", "MG", "36037-050");
 
+INSERT INTO clientes_tb
+(cod_cli, nome_cli, telefone_cli, cnpj_cli, rua_cli, complemento_cli, numero_cli, bairro_cli, cidade_cli, estado_cli, cep_cli)
+VALUES (2, "Luiz Design", "(32) 3261-9856", "77.197.110/0001-10","Rua Izabel Correa de Souza", "Ap. 145", 2375,"SÃ£o Pedro", "Juiz de Fora", "MG", "36037-050");
+
+INSERT INTO funcionarios_tb
+(cod_func, nome_func, telefone_func, cpf_func, rua_func, complemento_func, numero_func, bairro_func, cidade_func, estado_func, cep_func, cargo_func, salario_func )
+VALUES (1, "Helio", "(32) 3261-9856", "145.325.362-45","Rua Izabel Correa de Souza", "Ap. 145", 2375,"São Pedro", "Juiz de Fora", "MG", "36037-050", 1, 800.00);
+
+INSERT INTO funcionarios_tb
+(cod_func, nome_func, telefone_func, cpf_func, rua_func, complemento_func, numero_func, bairro_func, cidade_func, estado_func, cep_func, cargo_func, salario_func )
+VALUES (2, "Phillipe", "(32) 3261-9856", "145.325.362-45","Rua Izabel Correa de Souza", "Ap. 145", 2375,"São Pedro", "Juiz de Fora", "MG", "36037-050", 2, 3000.00);
+
+insert into categorias_tb (cod_cat,nome_cat,descricao_cat) 
+values (1, "Eletronicos", "Descrição dos eletronicos");
+
+insert into produtos_tb (cod_prod, nome_prod, descricao_prod, categoria_prod, valor_produto) 
+values (1, "HD 2TB", "Disco Rigido", 1, "234.71");
+
+INSERT INTO gde.pedidos_tb (cod_pedido,cliente_pedido,funcionario_pedido,estado_pedido,tipo_pedido,data_pedido) 
+VALUES (1,1,1,'Pago','Interno','2020-04-25');
+
+INSERT INTO gde.pedido_produtos_tb (pedido_pprod,produto_pprod,qtd_pprod) 
+VALUES (1,1,2);
+
+INSERT INTO gde.estoque_tb (cod_estoque,produto_estoque,data_estoque,quantidade_estoque,pedido_estoque,data_alteracao) 
+VALUES (1,1,'2020-04-25',2,1,NULL);
+
+

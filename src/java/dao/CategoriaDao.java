@@ -18,14 +18,15 @@ public class CategoriaDao extends dao {
         Connection conn = null;
         PreparedStatement p = null;
         String sql = "INSERT INTO categorias_tb "
-                + "(cod_cat, nome_cat, descricao_cat) "
-                + "VALUES (?, ?, ?);";
+                + "(cod_cat, nome_cat, descricao_cat, data_cat) "
+                + "VALUES (?, ?, ?,?);";
         try {
             conn = DataBaseLocator.getInstance().getConnection();
             p = conn.prepareStatement(sql);
             p.setInt(1, categoria.getCodigo());
             p.setString(2, categoria.getNome());
             p.setString(3, categoria.getDescricao());
+            p.setDate(4,categoria.getData());
             p.executeUpdate();
         } finally {
             closeResources(conn, p);
@@ -82,7 +83,7 @@ public class CategoriaDao extends dao {
         Connection conn = null;
         PreparedStatement p = null;
         String sql = "UPDATE gde.categorias_tb "
-                + "SET nome_cat = ?, descricao_cat = ? "
+                + "SET nome_cat = ?, descricao_cat = ?, data_cat = ? "
                 + "WHERE cod_cat = ?";
         try {
             conn = DataBaseLocator.getInstance().getConnection();
@@ -90,6 +91,7 @@ public class CategoriaDao extends dao {
             p.setString(1, categoria.getNome());
             p.setString(2, categoria.getDescricao());
             p.setInt(3, categoria.getCodigo());
+            p.setDate(4,categoria.getData());
             p.executeUpdate();
         } finally {
             closeResources(conn, p);
@@ -158,7 +160,8 @@ public class CategoriaDao extends dao {
         return new Categoria(
                 rs.getInt("cod_cat"),
                 rs.getString("nome_cat"),
-                rs.getString("descricao_cat")
+                rs.getString("descricao_cat"),
+                rs.getDate("data_cat")
         );
     }
 }

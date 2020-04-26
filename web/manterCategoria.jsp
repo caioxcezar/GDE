@@ -20,6 +20,10 @@
                 <label for="inputNome">Nome</label>
                 <input type="text" value="${categoria.nome}" class="form-control" name="inputNome" id="inputNome" required="true">
             </div>
+               <div class="form-group col-md-6">
+                <label for="inputNome">Data</label>
+                <input type="date" value="${categoria.data}" class="form-control" name="inputData" id="inputNome" >
+            </div>
         </div>
         <div class="form-group">
             <label for="inputDescricao">Descrição</label>

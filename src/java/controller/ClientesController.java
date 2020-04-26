@@ -15,7 +15,7 @@ import model.Cliente;
  * @author ccezar
  */
 public class ClientesController extends HttpServlet {
-
+    public ClienteDao cliDao = ClienteDao.INSTANCE;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -43,7 +43,7 @@ public class ClientesController extends HttpServlet {
             throws ServletException, IOException {
         processRequest(request, response);
         try {
-            ArrayList<Cliente> clientes = ClienteDao.listar();
+            ArrayList<Cliente> clientes = cliDao.listar();
             request.setAttribute("clientes", clientes);
             RequestDispatcher view = request.getRequestDispatcher("/clientes.jsp");
             view.forward(request, response);
@@ -69,9 +69,9 @@ public class ClientesController extends HttpServlet {
             String termo = request.getParameter("inputTermo");
             ArrayList<Cliente> clientes = new ArrayList<>();
             try {
-                clientes = ClienteDao.listar(Integer.parseInt(termo));
+                clientes = cliDao.listar(Integer.parseInt(termo));
             } catch (NumberFormatException ex) {
-                clientes = ClienteDao.listar(termo);
+                clientes = cliDao.listar(termo);
             }
             request.setAttribute("clientes", clientes);
             RequestDispatcher view = request.getRequestDispatcher("/clientes.jsp");

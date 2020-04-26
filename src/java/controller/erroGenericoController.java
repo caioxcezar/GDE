@@ -26,13 +26,15 @@ public class erroGenericoController extends HttpServlet {
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         DispatcherType dt = request.getDispatcherType();
-        if (dt.name().equals("ERROR")){
-            Integer errorCode = (Integer)request.getAttribute("javax.servlet.error.status_code");
-            String mensagem = (String)request.getAttribute("javax.servlet.error.message");
+        if (dt.name().equals("ERROR")) {
+            Throwable throwable = (Throwable) request.getAttribute("javax.servlet.error.exception");
+            Integer errorCode = (Integer) request.getAttribute("javax.servlet.error.status_code");
+            String mensagem = throwable.getMessage();
             request.setAttribute("errorCode", errorCode);
             request.setAttribute("mensagem", mensagem);
+
             request.getRequestDispatcher("/erroGenerico.jsp").forward(request, response);
-        }else{
+        } else {
             request.getRequestDispatcher("/index.jsp").forward(request, response);
         }
     }

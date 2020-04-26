@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>PedidoDao.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;GDE&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">dao</a> &gt; <span class="el_source">PedidoDao.java</span></div><h1>PedidoDao.java</h1><pre class="source lang-java linenums">package dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import model.Pedido;
+
+/**
+ *
+ * @author ccezar
+ */
+<span class="nc" id="L15">public class PedidoDao extends dao {</span>
+
+    public static Pedido get(int cod) throws SQLException, ClassNotFoundException {
+<span class="fc" id="L18">        Connection conn = null;</span>
+<span class="fc" id="L19">        PreparedStatement p = null;</span>
+<span class="fc" id="L20">        ResultSet rs = null;</span>
+<span class="fc" id="L21">        String sql = &quot;SELECT * FROM pedidos_tb WHERE cod_pedido = ?&quot;;</span>
+        try {
+<span class="fc" id="L23">            conn = DataBaseLocator.getInstance().getConnection();</span>
+<span class="fc" id="L24">            p = conn.prepareStatement(sql);</span>
+<span class="fc" id="L25">            p.setInt(1, cod);</span>
+<span class="fc" id="L26">            rs = p.executeQuery();</span>
+<span class="fc" id="L27">            rs.next();</span>
+<span class="fc" id="L28">            return instanciarPedido(rs);</span>
+        } finally {
+<span class="fc" id="L30">            closeResources(conn, p);</span>
+        }
+    }
+
+    public static void salvar(Pedido pedido) throws SQLException, ClassNotFoundException {
+<span class="fc" id="L35">        Connection conn = null;</span>
+<span class="fc" id="L36">        PreparedStatement p = null;</span>
+<span class="fc" id="L37">        String sql = &quot;INSERT INTO pedidos_tb &quot;</span>
+                + &quot;(cod_pedido, funcionario_pedido, cliente_pedido, data_pedido, tipo_pedido, estado_pedido) &quot;
+                + &quot;VALUES (?, ?, ?, ?, ?, ?);&quot;;
+        try {
+<span class="fc" id="L41">            conn = DataBaseLocator.getInstance().getConnection();</span>
+<span class="fc" id="L42">            p = conn.prepareStatement(sql);</span>
+<span class="fc" id="L43">            p.setInt(1, pedido.getCodigo());</span>
+<span class="fc" id="L44">            p.setInt(2, pedido.getFuncionario().getCodigo());</span>
+<span class="fc" id="L45">            p.setInt(3, pedido.getCliente().getCodigo());</span>
+<span class="fc" id="L46">            p.setDate(4, pedido.getData());</span>
+<span class="fc" id="L47">            p.setString(5, pedido.getTipo());</span>
+<span class="fc" id="L48">            p.setString(6, pedido.getEstado());</span>
+<span class="fc" id="L49">            p.execute();</span>
+        } finally {
+<span class="pc" id="L51">            closeResources(conn, p);</span>
+<span class="fc" id="L52">        }</span>
+<span class="fc" id="L53">    }</span>
+
+    public static int lastId() throws SQLException, ClassNotFoundException {
+<span class="fc" id="L56">        Connection conn = null;</span>
+<span class="fc" id="L57">        Statement st = null;</span>
+        try {
+<span class="fc" id="L59">            conn = DataBaseLocator.getInstance().getConnection();</span>
+<span class="fc" id="L60">            st = conn.createStatement();</span>
+<span class="fc" id="L61">            Statement stmt = conn.createStatement();</span>
+<span class="fc" id="L62">            ResultSet rs = stmt.executeQuery(&quot;SELECT MAX(cod_pedido) as max_cod FROM gde.pedidos_tb&quot;);</span>
+<span class="fc" id="L63">            rs.next();</span>
+<span class="fc" id="L64">            return rs.getInt(&quot;max_cod&quot;);</span>
+        } finally {
+<span class="pc" id="L66">            closeResources(conn, st);</span>
+        }
+    }
+
+    public static void alterar(Pedido pedido) throws SQLException, ClassNotFoundException {
+<span class="fc" id="L71">        Connection conn = null;</span>
+<span class="fc" id="L72">        PreparedStatement p = null;</span>
+<span class="fc" id="L73">        String sql = &quot;UPDATE pedidos_tb &quot;</span>
+                + &quot;SET funcionario_pedido = ?, cliente_pedido = ?&quot;
+                + &quot;, data_pedido = ?, tipo_pedido = ?, estado_pedido = ? &quot;
+                + &quot;WHERE cod_pedido = ?&quot;;
+        try {
+<span class="fc" id="L78">            conn = DataBaseLocator.getInstance().getConnection();</span>
+<span class="fc" id="L79">            p = conn.prepareStatement(sql);</span>
+<span class="fc" id="L80">            p.setInt(1, pedido.getFuncionario().getCodigo());</span>
+<span class="fc" id="L81">            p.setInt(2, pedido.getCliente().getCodigo());</span>
+<span class="fc" id="L82">            p.setDate(3, pedido.getData());</span>
+<span class="fc" id="L83">            p.setString(4, pedido.getTipo());</span>
+<span class="fc" id="L84">            p.setString(5, pedido.getEstado());</span>
+<span class="fc" id="L85">            p.setInt(6, pedido.getCodigo());</span>
+<span class="fc" id="L86">            p.execute();</span>
+        } finally {
+<span class="pc" id="L88">            closeResources(conn, p);</span>
+<span class="fc" id="L89">        }</span>
+<span class="fc" id="L90">    }</span>
+
+    public static void apagar(Pedido pedido) throws SQLException, ClassNotFoundException {
+<span class="nc" id="L93">        Connection conn = null;</span>
+<span class="nc" id="L94">        PreparedStatement p = null;</span>
+<span class="nc" id="L95">        String sql = &quot;DELETE FROM gde.pedidos_tb WHERE cod_pedido = ?&quot;;</span>
+        try {
+<span class="nc" id="L97">            conn = DataBaseLocator.getInstance().getConnection();</span>
+<span class="nc" id="L98">            p = conn.prepareStatement(sql);</span>
+<span class="nc" id="L99">            p.setInt(1, pedido.getCodigo());</span>
+<span class="nc" id="L100">            p.execute();</span>
+        } finally {
+<span class="nc" id="L102">            closeResources(conn, p);</span>
+<span class="nc" id="L103">        }</span>
+<span class="nc" id="L104">    }</span>
+
+    public static ArrayList&lt;Pedido&gt; listar() throws SQLException, ClassNotFoundException {
+<span class="nc" id="L107">        Connection conn = null;</span>
+<span class="nc" id="L108">        Statement st = null;</span>
+<span class="nc" id="L109">        ArrayList&lt;Pedido&gt; pedidos = new ArrayList&lt;&gt;();</span>
+        try {
+<span class="nc" id="L111">            conn = DataBaseLocator.getInstance().getConnection();</span>
+<span class="nc" id="L112">            st = conn.createStatement();</span>
+<span class="nc" id="L113">            Statement stmt = conn.createStatement();</span>
+<span class="nc" id="L114">            ResultSet rs = stmt.executeQuery(&quot;SELECT * FROM pedidos_tb&quot;);</span>
+<span class="nc bnc" id="L115" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L116">                pedidos.add(instanciarPedido(rs));</span>
+            }
+<span class="nc" id="L118">            return pedidos;</span>
+        } finally {
+<span class="nc" id="L120">            closeResources(conn, st);</span>
+        }
+    }
+
+    public static ArrayList&lt;Pedido&gt; listar(int codigo) throws SQLException, ClassNotFoundException {
+<span class="nc" id="L125">        Connection conn = null;</span>
+<span class="nc" id="L126">        PreparedStatement p = null;</span>
+<span class="nc" id="L127">        ArrayList&lt;Pedido&gt; pedidos = new ArrayList&lt;&gt;();</span>
+        try {
+<span class="nc" id="L129">            conn = DataBaseLocator.getInstance().getConnection();</span>
+<span class="nc" id="L130">            p = conn.prepareStatement(&quot;SELECT * FROM pedidos_tb where cod_pedido = ?&quot;);</span>
+<span class="nc" id="L131">            p.setInt(1, codigo);</span>
+<span class="nc" id="L132">            ResultSet rs = p.executeQuery();</span>
+<span class="nc bnc" id="L133" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L134">                pedidos.add(instanciarPedido(rs));</span>
+            }
+<span class="nc" id="L136">            return pedidos;</span>
+        } finally {
+<span class="nc" id="L138">            closeResources(conn, p);</span>
+        }
+    }
+
+    public static ArrayList&lt;Pedido&gt; listarPendente() throws SQLException, ClassNotFoundException {
+<span class="nc" id="L143">        Connection conn = null;</span>
+<span class="nc" id="L144">        Statement st = null;</span>
+<span class="nc" id="L145">        ArrayList&lt;Pedido&gt; pedidos = new ArrayList&lt;&gt;();</span>
+        try {
+<span class="nc" id="L147">            conn = DataBaseLocator.getInstance().getConnection();</span>
+<span class="nc" id="L148">            st = conn.createStatement();</span>
+<span class="nc" id="L149">            Statement stmt = conn.createStatement();</span>
+<span class="nc" id="L150">            ResultSet rs = stmt.executeQuery(&quot;SELECT * FROM pedidos_tb where estado_pedido = 'pendente'&quot;);</span>
+<span class="nc bnc" id="L151" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L152">                pedidos.add(instanciarPedido(rs));</span>
+            }
+<span class="nc" id="L154">            return pedidos;</span>
+        } finally {
+<span class="nc" id="L156">            closeResources(conn, st);</span>
+        }
+    }
+
+    public static ArrayList&lt;Pedido&gt; listarPendentesInterno() throws SQLException, ClassNotFoundException {
+<span class="nc" id="L161">        Connection conn = null;</span>
+<span class="nc" id="L162">        Statement st = null;</span>
+<span class="nc" id="L163">        ArrayList&lt;Pedido&gt; pedidos = new ArrayList&lt;&gt;();</span>
+        try {
+<span class="nc" id="L165">            conn = DataBaseLocator.getInstance().getConnection();</span>
+<span class="nc" id="L166">            st = conn.createStatement();</span>
+<span class="nc" id="L167">            Statement stmt = conn.createStatement();</span>
+<span class="nc" id="L168">            ResultSet rs = stmt.executeQuery(&quot;SELECT * FROM pedidos_tb &quot;</span>
+                    + &quot;where estado_pedido = 'Pendente' &quot;
+                    + &quot;and tipo_pedido = 'Interno'&quot;);
+<span class="nc bnc" id="L171" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L172">                pedidos.add(instanciarPedido(rs));</span>
+            }
+<span class="nc" id="L174">            return pedidos;</span>
+        } finally {
+<span class="nc" id="L176">            closeResources(conn, st);</span>
+        }
+    }
+
+    public static ArrayList&lt;Pedido&gt; listarPendentesExterno() throws SQLException, ClassNotFoundException {
+<span class="nc" id="L181">        Connection conn = null;</span>
+<span class="nc" id="L182">        Statement st = null;</span>
+<span class="nc" id="L183">        ArrayList&lt;Pedido&gt; pedidos = new ArrayList&lt;&gt;();</span>
+        try {
+<span class="nc" id="L185">            conn = DataBaseLocator.getInstance().getConnection();</span>
+<span class="nc" id="L186">            st = conn.createStatement();</span>
+<span class="nc" id="L187">            Statement stmt = conn.createStatement();</span>
+<span class="nc" id="L188">            ResultSet rs = stmt.executeQuery(&quot;SELECT * FROM pedidos_tb &quot;</span>
+                    + &quot;where estado_pedido = 'Pendente' &quot;
+                    + &quot;and tipo_pedido = 'Externo'&quot;);
+<span class="nc bnc" id="L191" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L192">                pedidos.add(instanciarPedido(rs));</span>
+            }
+<span class="nc" id="L194">            return pedidos;</span>
+        } finally {
+<span class="nc" id="L196">            closeResources(conn, st);</span>
+        }
+    }
+
+    private static Pedido instanciarPedido(ResultSet rs) throws SQLException, ClassNotFoundException {
+<span class="fc" id="L201">        return new Pedido(</span>
+<span class="fc" id="L202">                rs.getInt(&quot;cod_pedido&quot;),</span>
+<span class="fc" id="L203">                PedidoProdutoDao.listar(rs.getInt(&quot;cod_pedido&quot;)),</span>
+<span class="fc" id="L204">                FuncionarioDao.get(rs.getInt(&quot;funcionario_pedido&quot;)),</span>
+<span class="fc" id="L205">                ClienteDao.get(rs.getInt(&quot;cliente_pedido&quot;)),</span>
+<span class="fc" id="L206">                rs.getDate(&quot;data_pedido&quot;),</span>
+<span class="fc" id="L207">                rs.getString(&quot;estado_pedido&quot;),</span>
+<span class="fc" id="L208">                rs.getString(&quot;tipo_pedido&quot;));</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>
