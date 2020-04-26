@@ -90,8 +90,8 @@ public class CategoriaDao extends dao {
             p = conn.prepareStatement(sql);
             p.setString(1, categoria.getNome());
             p.setString(2, categoria.getDescricao());
-            p.setInt(3, categoria.getCodigo());
-            p.setDate(4,categoria.getData());
+            p.setDate(3,categoria.getData());
+            p.setInt(4, categoria.getCodigo());
             p.executeUpdate();
         } finally {
             closeResources(conn, p);
