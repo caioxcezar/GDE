@@ -71,7 +71,8 @@ CREATE TABLE produtos_tb (
 CREATE TABLE categorias_tb (
 	cod_cat int PRIMARY KEY,
 	nome_cat nvarchar(150) NOT NULL,
-	descricao_cat nvarchar(255) NOT NULL
+	descricao_cat nvarchar(255) NOT NULL,
+	data_cat Date 
 );
 CREATE TABLE estados_tb (
 	sigla_estado CHAR(2) PRIMARY KEY,
