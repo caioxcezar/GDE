@@ -27,7 +27,7 @@ import service.PedidoProdutoService;
  * @author caioc
  */
 <span class="fc" id="L29">public class ManterPedidoController extends HttpServlet {</span>
-
+<span class="fc" id="L30">    public ClienteDao cliDao = ClienteDao.INSTANCE;</span>
     /**
      * Processes requests for both HTTP &lt;code&gt;GET&lt;/code&gt; and &lt;code&gt;POST&lt;/code&gt;
      * methods.
@@ -96,7 +96,7 @@ import service.PedidoProdutoService;
 <span class="nc" id="L96">            request.setAttribute(&quot;operacao&quot;, operacao);</span>
 <span class="nc" id="L97">            ArrayList&lt;Funcionario&gt; funcionarios = FuncionarioDao.listarVendedores();</span>
 <span class="nc" id="L98">            request.setAttribute(&quot;funcionarios&quot;, funcionarios);</span>
-<span class="nc" id="L99">            request.setAttribute(&quot;clientes&quot;, ClienteDao.listar());</span>
+<span class="nc" id="L99">            request.setAttribute(&quot;clientes&quot;, cliDao.listar());</span>
 <span class="nc" id="L100">            request.setAttribute(&quot;produtos&quot;, ProdutoDao.listar());</span>
 <span class="nc" id="L101">            StringBuilder produtos = new StringBuilder(&quot;&quot;);</span>
 <span class="nc bnc" id="L102" title="All 2 branches missed.">            if (!operacao.equals(&quot;incluir&quot;)) {</span>
@@ -134,7 +134,7 @@ import service.PedidoProdutoService;
 <span class="fc" id="L134">                    PedidoProduto produto = new PedidoProduto(</span>
 <span class="fc" id="L135">                            Integer.parseInt(prod[1]),</span>
 <span class="fc" id="L136">                            ProdutoDao.get(Integer.parseInt(prod[0])));</span>
-<span class="pc bpc" id="L137" title="1 of 6 branches missed.">                    if (!EstoqueService.verificarDisponibilidade(produto) &amp;&amp; tipo.equals(&quot;Externo&quot;) &amp;&amp; !operacao.equals(&quot;excluir&quot;)) {</span>
+<span class="pc bpc" id="L137" title="2 of 6 branches missed.">                    if (!EstoqueService.verificarDisponibilidade(produto) &amp;&amp; tipo.equals(&quot;Externo&quot;) &amp;&amp; !operacao.equals(&quot;excluir&quot;)) {</span>
 <span class="fc" id="L138">                        throw new ServletException(</span>
 <span class="fc" id="L139">                                String.format(&quot;Produto %s indisponivel nessa quantidade, por favor fazer pedido interno&quot;,</span>
 <span class="fc" id="L140">                                        produto.getProduto().getNome()));</span>
@@ -144,12 +144,12 @@ import service.PedidoProdutoService;
             }
 
 <span class="fc" id="L146">            Funcionario funcionario = FuncionarioDao.get(Integer.parseInt(request.getParameter(&quot;inputFuncionario&quot;)));</span>
-<span class="fc" id="L147">            Cliente cliente = ClienteDao.get(Integer.parseInt(request.getParameter(&quot;inputCliente&quot;)));</span>
+<span class="fc" id="L147">            Cliente cliente = cliDao.get(Integer.parseInt(request.getParameter(&quot;inputCliente&quot;)));</span>
 <span class="fc" id="L148">            Date data = new Date(Calendar.getInstance().getTime().getTime());</span>
 <span class="fc" id="L149">            String estado = request.getParameter(&quot;inputEstado&quot;);</span>
 
 <span class="fc" id="L151">            Pedido pedido = new Pedido(codigo, produtos, funcionario, cliente, data, estado, tipo);</span>
-<span class="pc bpc" id="L152" title="7 of 14 branches missed.">            switch (operacao) {</span>
+<span class="pc bpc" id="L152" title="5 of 14 branches missed.">            switch (operacao) {</span>
                 case &quot;incluir&quot;:
 <span class="fc" id="L154">                    pedido.setEstado(&quot;Pendente&quot;);</span>
 <span class="fc" id="L155">                    PedidoDao.salvar(pedido);</span>
@@ -164,16 +164,16 @@ import service.PedidoProdutoService;
 <span class="fc" id="L164">                    }</span>
 <span class="fc" id="L165">                    break;</span>
                 case &quot;excluir&quot;: {
-<span class="nc bnc" id="L167" title="All 2 branches missed.">                    for (PedidoProduto pProd : PedidoDao.get(codigo).getProdutos()) {</span>
-<span class="nc" id="L168">                        PedidoProdutoDao.apagar(pProd);</span>
-<span class="nc" id="L169">                        EstoqueService.adcionarEstoque(pProd);</span>
-<span class="nc" id="L170">                    }</span>
-<span class="nc" id="L171">                    PedidoDao.apagar(pedido);</span>
-<span class="nc" id="L172">                    break;</span>
+<span class="fc bfc" id="L167" title="All 2 branches covered.">                    for (PedidoProduto pProd : PedidoDao.get(codigo).getProdutos()) {</span>
+<span class="fc" id="L168">                        PedidoProdutoDao.apagar(pProd);</span>
+<span class="fc" id="L169">                        EstoqueService.adcionarEstoque(pProd);</span>
+<span class="fc" id="L170">                    }</span>
+<span class="fc" id="L171">                    PedidoDao.apagar(pedido);</span>
+<span class="fc" id="L172">                    break;</span>
                 }
                 case &quot;alterar&quot;: {
-<span class="nc" id="L175">                    PedidoProdutoService.updateProdutos(PedidoDao.get(codigo), pedido.getProdutos());</span>
-<span class="nc" id="L176">                    PedidoDao.alterar(pedido);</span>
+<span class="fc" id="L175">                    PedidoProdutoService.updateProdutos(PedidoDao.get(codigo), pedido.getProdutos());</span>
+<span class="fc" id="L176">                    PedidoDao.alterar(pedido);</span>
                     break;
                 }
             }

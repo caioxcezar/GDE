@@ -8,9 +8,9 @@ public class Cliente extends Pessoa {
     private String cnpj;
 
     public Cliente(String cnpj, String nome, String telefone) {
-<span class="nc" id="L11">        super(nome, telefone);</span>
-<span class="nc" id="L12">        this.cnpj = cnpj;</span>
-<span class="nc" id="L13">    }</span>
+<span class="fc" id="L11">        super(nome, telefone);</span>
+<span class="fc" id="L12">        this.cnpj = cnpj;</span>
+<span class="fc" id="L13">    }</span>
 
     public Cliente(String cnpj, String nome, String telefone, int numero, int codigo, String cep, String rua, String bairro, String cidade, String complemento, Estado estado) {
 <span class="fc" id="L16">        super(nome, telefone, numero, codigo, cep, rua, bairro, cidade, complemento, estado);</span>
@@ -18,7 +18,7 @@ public class Cliente extends Pessoa {
 <span class="fc" id="L18">    }</span>
 
     public String getCnpj() {
-<span class="fc" id="L21">        return cnpj;</span>
+<span class="nc" id="L21">        return cnpj;</span>
     }
 
     public void setCnpj(String cnpj) {

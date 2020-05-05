@@ -14,7 +14,10 @@ import static org.easymock.EasyMock.replay;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.FixMethodOrder;
+import org.junit.runners.MethodSorters;
 
+ @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ManterProdutoControllerTest {
 
     HttpServletRequest request;
@@ -31,7 +34,7 @@ public class ManterProdutoControllerTest {
     }
 
     @Test
-    public void testConfirmarOperacao_inclusao() throws UnsupportedEncodingException, IOException, ServletException {
+    public void test1ConfirmarOperacao_inclusao() throws UnsupportedEncodingException, IOException, ServletException {
         request.setCharacterEncoding("UTF-8");
         expect(request.getContextPath()).andReturn("");
         response.sendRedirect(capture(strArgument));
@@ -42,7 +45,7 @@ public class ManterProdutoControllerTest {
         expect(request.getParameter("inputNome")).andReturn("Teclado");
         expect(request.getParameter("inputDescricao")).andReturn("USB");
         expect(request.getParameter("inputValor")).andReturn("100.0");
-        expect(request.getParameter("inputCategoria")).andReturn("2");
+        expect(request.getParameter("inputCategoria")).andReturn("1");
         
         replay(request);
         replay(response);
@@ -52,18 +55,18 @@ public class ManterProdutoControllerTest {
     }
  
   @Test
-    public void testConfirmarOperacao_alteracao() throws UnsupportedEncodingException, IOException, ServletException {
+    public void test2ConfirmarOperacao_alteracao() throws UnsupportedEncodingException, IOException, ServletException {
         request.setCharacterEncoding("UTF-8");
         expect(request.getContextPath()).andReturn("");
         response.sendRedirect(capture(strArgument));
         
         expect(request.getParameter("acao")).andReturn("confirmarOperacao");
         expect(request.getParameter("operacao")).andReturn("alterar");
-        expect(request.getParameter("inputCodigo")).andReturn("2").andReturn("2");
+        expect(request.getParameter("inputCodigo")).andReturn("1").andReturn("1");
         expect(request.getParameter("inputNome")).andReturn("Teclado");
         expect(request.getParameter("inputDescricao")).andReturn("USB");
         expect(request.getParameter("inputValor")).andReturn("80.0");
-        expect(request.getParameter("inputCategoria")).andReturn("2");
+        expect(request.getParameter("inputCategoria")).andReturn("1");
         
         replay(request);
         replay(response);
@@ -73,7 +76,7 @@ public class ManterProdutoControllerTest {
     }
 
     @Test
-    public void testConfirmarOperacao_exclusao() throws UnsupportedEncodingException, IOException, ServletException {
+    public void test3ConfirmarOperacao_exclusao() throws UnsupportedEncodingException, IOException, ServletException {
         request.setCharacterEncoding("UTF-8");
         expect(request.getContextPath()).andReturn("");
         response.sendRedirect(capture(strArgument));
@@ -84,7 +87,7 @@ public class ManterProdutoControllerTest {
         expect(request.getParameter("inputNome")).andReturn("Teclado");
         expect(request.getParameter("inputDescricao")).andReturn("USB");
         expect(request.getParameter("inputValor")).andReturn("80.0");
-        expect(request.getParameter("inputCategoria")).andReturn("2");
+        expect(request.getParameter("inputCategoria")).andReturn("1");
         
         replay(request);
         replay(response);

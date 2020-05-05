@@ -27,7 +27,7 @@ import model.Pedido;
 <span class="fc" id="L27">            rs.next();</span>
 <span class="fc" id="L28">            return instanciarPedido(rs);</span>
         } finally {
-<span class="fc" id="L30">            closeResources(conn, p);</span>
+<span class="pc" id="L30">            closeResources(conn, p);</span>
         }
     }
 
@@ -90,18 +90,18 @@ import model.Pedido;
 <span class="fc" id="L90">    }</span>
 
     public static void apagar(Pedido pedido) throws SQLException, ClassNotFoundException {
-<span class="nc" id="L93">        Connection conn = null;</span>
-<span class="nc" id="L94">        PreparedStatement p = null;</span>
-<span class="nc" id="L95">        String sql = &quot;DELETE FROM gde.pedidos_tb WHERE cod_pedido = ?&quot;;</span>
+<span class="fc" id="L93">        Connection conn = null;</span>
+<span class="fc" id="L94">        PreparedStatement p = null;</span>
+<span class="fc" id="L95">        String sql = &quot;DELETE FROM gde.pedidos_tb WHERE cod_pedido = ?&quot;;</span>
         try {
-<span class="nc" id="L97">            conn = DataBaseLocator.getInstance().getConnection();</span>
-<span class="nc" id="L98">            p = conn.prepareStatement(sql);</span>
-<span class="nc" id="L99">            p.setInt(1, pedido.getCodigo());</span>
-<span class="nc" id="L100">            p.execute();</span>
+<span class="fc" id="L97">            conn = DataBaseLocator.getInstance().getConnection();</span>
+<span class="fc" id="L98">            p = conn.prepareStatement(sql);</span>
+<span class="fc" id="L99">            p.setInt(1, pedido.getCodigo());</span>
+<span class="fc" id="L100">            p.execute();</span>
         } finally {
-<span class="nc" id="L102">            closeResources(conn, p);</span>
-<span class="nc" id="L103">        }</span>
-<span class="nc" id="L104">    }</span>
+<span class="pc" id="L102">            closeResources(conn, p);</span>
+<span class="fc" id="L103">        }</span>
+<span class="fc" id="L104">    }</span>
 
     public static ArrayList&lt;Pedido&gt; listar() throws SQLException, ClassNotFoundException {
 <span class="nc" id="L107">        Connection conn = null;</span>
@@ -202,7 +202,7 @@ import model.Pedido;
 <span class="fc" id="L202">                rs.getInt(&quot;cod_pedido&quot;),</span>
 <span class="fc" id="L203">                PedidoProdutoDao.listar(rs.getInt(&quot;cod_pedido&quot;)),</span>
 <span class="fc" id="L204">                FuncionarioDao.get(rs.getInt(&quot;funcionario_pedido&quot;)),</span>
-<span class="fc" id="L205">                ClienteDao.get(rs.getInt(&quot;cliente_pedido&quot;)),</span>
+<span class="fc" id="L205">                ClienteDao.INSTANCE.get(rs.getInt(&quot;cliente_pedido&quot;)),</span>
 <span class="fc" id="L206">                rs.getDate(&quot;data_pedido&quot;),</span>
 <span class="fc" id="L207">                rs.getString(&quot;estado_pedido&quot;),</span>
 <span class="fc" id="L208">                rs.getString(&quot;tipo_pedido&quot;));</span>

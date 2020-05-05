@@ -177,7 +177,7 @@ values (1, "Eletronicos", "Descrição dos eletronicos");
 
 insert into produtos_tb (cod_prod, nome_prod, descricao_prod, categoria_prod, valor_produto) 
 values (1, "HD 2TB", "Disco Rigido", 1, "234.71");
-
+/*Para testes da classe pedido*/
 INSERT INTO gde.pedidos_tb (cod_pedido,cliente_pedido,funcionario_pedido,estado_pedido,tipo_pedido,data_pedido) 
 VALUES (1,1,1,'Pago','Interno','2020-04-25');
 
@@ -186,5 +186,21 @@ VALUES (1,1,2);
 
 INSERT INTO gde.estoque_tb (cod_estoque,produto_estoque,data_estoque,quantidade_estoque,pedido_estoque,data_alteracao) 
 VALUES (1,1,'2020-04-25',2,1,NULL);
+/*Para testes da classe estoque*/
+INSERT INTO gde.pedidos_tb (cod_pedido,cliente_pedido,funcionario_pedido,estado_pedido,tipo_pedido,data_pedido) 
+VALUES (2,1,1,'Pendente','Interno','2020-04-25');
 
+INSERT INTO gde.pedido_produtos_tb (pedido_pprod,produto_pprod,qtd_pprod) 
+VALUES (2,1,2);
 
+INSERT INTO gde.pedidos_tb (cod_pedido,cliente_pedido,funcionario_pedido,estado_pedido,tipo_pedido,data_pedido) 
+VALUES (4,1,1,'Pendente','Interno','2020-04-25');
+
+INSERT INTO gde.pedido_produtos_tb (pedido_pprod,produto_pprod,qtd_pprod) 
+VALUES (4,1,2);
+/*Para testes da classe pagamento*/
+INSERT INTO gde.pedidos_tb (cod_pedido,cliente_pedido,funcionario_pedido,estado_pedido,tipo_pedido,data_pedido) 
+VALUES (3,2,1,'Pendente','Externo','2020-04-25');
+
+INSERT INTO gde.pedido_produtos_tb (pedido_pprod,produto_pprod,qtd_pprod) 
+VALUES (3,1,2);

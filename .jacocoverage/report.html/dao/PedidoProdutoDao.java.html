@@ -49,18 +49,18 @@ import model.PedidoProduto;
     }
 
     public static void apagar(PedidoProduto pprod) throws SQLException, ClassNotFoundException {
-<span class="nc" id="L52">        Connection conn = null;</span>
-<span class="nc" id="L53">        PreparedStatement p = null;</span>
-<span class="nc" id="L54">        String sql = &quot;DELETE FROM gde.pedido_produtos_tb WHERE cod_pprod = ?&quot;;</span>
+<span class="fc" id="L52">        Connection conn = null;</span>
+<span class="fc" id="L53">        PreparedStatement p = null;</span>
+<span class="fc" id="L54">        String sql = &quot;DELETE FROM gde.pedido_produtos_tb WHERE cod_pprod = ?&quot;;</span>
         try {
-<span class="nc" id="L56">            conn = DataBaseLocator.getInstance().getConnection();</span>
-<span class="nc" id="L57">            p = conn.prepareStatement(sql);</span>
-<span class="nc" id="L58">            p.setInt(1, pprod.getCodigo());</span>
-<span class="nc" id="L59">            p.execute();</span>
+<span class="fc" id="L56">            conn = DataBaseLocator.getInstance().getConnection();</span>
+<span class="fc" id="L57">            p = conn.prepareStatement(sql);</span>
+<span class="fc" id="L58">            p.setInt(1, pprod.getCodigo());</span>
+<span class="fc" id="L59">            p.execute();</span>
         } finally {
-<span class="nc" id="L61">            closeResources(conn, p);</span>
-<span class="nc" id="L62">        }</span>
-<span class="nc" id="L63">    }</span>
+<span class="pc" id="L61">            closeResources(conn, p);</span>
+<span class="fc" id="L62">        }</span>
+<span class="fc" id="L63">    }</span>
 
     public static PedidoProduto get(int codigo) throws SQLException, ClassNotFoundException {
 <span class="nc" id="L66">        Connection conn = null;</span>
@@ -79,23 +79,23 @@ import model.PedidoProduto;
     }
 
     public static void alterar(PedidoProduto pproduto, Pedido pedido) throws SQLException, ClassNotFoundException {
-<span class="nc" id="L82">        Connection conn = null;</span>
-<span class="nc" id="L83">        PreparedStatement p = null;</span>
-<span class="nc" id="L84">        String sql = &quot;UPDATE gde.pedido_produtos_tb &quot;</span>
+<span class="fc" id="L82">        Connection conn = null;</span>
+<span class="fc" id="L83">        PreparedStatement p = null;</span>
+<span class="fc" id="L84">        String sql = &quot;UPDATE gde.pedido_produtos_tb &quot;</span>
                 + &quot;SET pedido_pprod = ?, produto_pprod = ?, qtd_pprod = ? &quot;
                 + &quot;WHERE cod_pprod = ?&quot;;
         try {
-<span class="nc" id="L88">            conn = DataBaseLocator.getInstance().getConnection();</span>
-<span class="nc" id="L89">            p = conn.prepareStatement(sql);</span>
-<span class="nc" id="L90">            p.setInt(1, pedido.getCodigo());</span>
-<span class="nc" id="L91">            p.setInt(2, pproduto.getProduto().getCodigo());</span>
-<span class="nc" id="L92">            p.setInt(3, pproduto.getQuantidade());</span>
-<span class="nc" id="L93">            p.setInt(4, pproduto.getCodigo());</span>
-<span class="nc" id="L94">            p.execute();</span>
+<span class="fc" id="L88">            conn = DataBaseLocator.getInstance().getConnection();</span>
+<span class="fc" id="L89">            p = conn.prepareStatement(sql);</span>
+<span class="fc" id="L90">            p.setInt(1, pedido.getCodigo());</span>
+<span class="fc" id="L91">            p.setInt(2, pproduto.getProduto().getCodigo());</span>
+<span class="fc" id="L92">            p.setInt(3, pproduto.getQuantidade());</span>
+<span class="fc" id="L93">            p.setInt(4, pproduto.getCodigo());</span>
+<span class="fc" id="L94">            p.execute();</span>
         } finally {
-<span class="nc" id="L96">            closeResources(conn, p);</span>
-<span class="nc" id="L97">        }</span>
-<span class="nc" id="L98">    }</span>
+<span class="pc" id="L96">            closeResources(conn, p);</span>
+<span class="fc" id="L97">        }</span>
+<span class="fc" id="L98">    }</span>
 
     public static ArrayList&lt;PedidoProduto&gt; listar() throws SQLException, ClassNotFoundException {
 <span class="nc" id="L101">        Connection conn = null;</span>

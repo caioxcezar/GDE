@@ -140,7 +140,7 @@ public class ManterPedidoControllerTest {
 
         expect(request.getParameter("acao")).andReturn("confirmarOperacao");
         expect(request.getParameter("operacao")).andReturn("alterar");
-        expect(request.getParameter("inputCodigo")).andReturn("3").andReturn("3");
+        expect(request.getParameter("inputCodigo")).andReturn("6").andReturn("6");
         Estoque estoque = EstoqueDao.get(1);
         int maxEstoque = estoque.getQuantidade()+1;
         expect(request.getParameter("hiddenProdutos")).andReturn("1,"+maxEstoque+";");
@@ -167,7 +167,7 @@ public class ManterPedidoControllerTest {
 
         expect(request.getParameter("acao")).andReturn("confirmarOperacao");
         expect(request.getParameter("operacao")).andReturn("alterar");
-        expect(request.getParameter("inputCodigo")).andReturn("2").andReturn("2");
+        expect(request.getParameter("inputCodigo")).andReturn("5").andReturn("5");
         Estoque estoque = EstoqueDao.get(1);
         int maxEstoque = estoque.getQuantidade();
         expect(request.getParameter("hiddenProdutos")).andReturn("1,"+maxEstoque+";");
@@ -191,7 +191,7 @@ public class ManterPedidoControllerTest {
 
         expect(request.getParameter("acao")).andReturn("confirmarOperacao");
         expect(request.getParameter("operacao")).andReturn("excluir");
-        expect(request.getParameter("inputCodigo")).andReturn("2").andReturn("2");
+        expect(request.getParameter("inputCodigo")).andReturn("6").andReturn("6");
         expect(request.getParameter("hiddenProdutos")).andReturn("1,2;");
         expect(request.getParameter("inputTipo")).andReturn("Externo");
         expect(request.getParameter("inputFuncionario")).andReturn("1");

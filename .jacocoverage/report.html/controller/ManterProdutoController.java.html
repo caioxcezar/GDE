@@ -15,7 +15,7 @@ import model.Produto;
  *
  * @author ccezar
  */
-<span class="nc" id="L18">public class ManterProdutoController extends HttpServlet {</span>
+<span class="fc" id="L18">public class ManterProdutoController extends HttpServlet {</span>
 
     /**
      * Processes requests for both HTTP &lt;code&gt;GET&lt;/code&gt; and &lt;code&gt;POST&lt;/code&gt;
@@ -28,17 +28,17 @@ import model.Produto;
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-<span class="nc" id="L31">        request.setCharacterEncoding(&quot;UTF-8&quot;);</span>
-<span class="nc" id="L32">        String acao = request.getParameter(&quot;acao&quot;);</span>
-<span class="nc bnc" id="L33" title="All 10 branches missed.">        switch (acao) {</span>
+<span class="fc" id="L31">        request.setCharacterEncoding(&quot;UTF-8&quot;);</span>
+<span class="fc" id="L32">        String acao = request.getParameter(&quot;acao&quot;);</span>
+<span class="pc bpc" id="L33" title="7 of 10 branches missed.">        switch (acao) {</span>
             case &quot;prepararOperacao&quot;:
 <span class="nc" id="L35">                prepararOperacao(request, response);</span>
 <span class="nc" id="L36">                break;</span>
             case &quot;confirmarOperacao&quot;:
-<span class="nc" id="L38">                confirmarOperacao(request, response);</span>
+<span class="fc" id="L38">                confirmarOperacao(request, response);</span>
                 break;
         }
-<span class="nc" id="L41">    }</span>
+<span class="fc" id="L41">    }</span>
 
     private void prepararOperacao(HttpServletRequest request, HttpServletResponse response) {
         try {
@@ -57,38 +57,38 @@ import model.Produto;
 <span class="nc" id="L57">    }</span>
 private void confirmarOperacao(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         try {
-<span class="nc" id="L60">            String operacao = request.getParameter(&quot;operacao&quot;);</span>
-<span class="nc" id="L61">            int codigo = 0;</span>
-<span class="nc bnc" id="L62" title="All 2 branches missed.">            if (!request.getParameter(&quot;inputCodigo&quot;).equals(&quot;&quot;)) {</span>
-<span class="nc" id="L63">                codigo = Integer.parseInt(request.getParameter(&quot;inputCodigo&quot;));</span>
+<span class="fc" id="L60">            String operacao = request.getParameter(&quot;operacao&quot;);</span>
+<span class="fc" id="L61">            int codigo = 0;</span>
+<span class="fc bfc" id="L62" title="All 2 branches covered.">            if (!request.getParameter(&quot;inputCodigo&quot;).equals(&quot;&quot;)) {</span>
+<span class="fc" id="L63">                codigo = Integer.parseInt(request.getParameter(&quot;inputCodigo&quot;));</span>
             } else {
-<span class="nc" id="L65">                codigo = ProdutoDao.lastId() + 1;</span>
+<span class="fc" id="L65">                codigo = ProdutoDao.lastId() + 1;</span>
             }
 
-<span class="nc" id="L68">            String nome = request.getParameter(&quot;inputNome&quot;);</span>
-<span class="nc" id="L69">            String strValor = request.getParameter(&quot;inputValor&quot;).replace(',', '.');</span>
-<span class="nc" id="L70">            float valor = Float.parseFloat(strValor);</span>
-<span class="nc" id="L71">            Categoria categoria = CategoriaDao.get(Integer.parseInt(request.getParameter(&quot;inputCategoria&quot;)));</span>
-<span class="nc" id="L72">            String descricao = request.getParameter(&quot;inputDescricao&quot;);</span>
+<span class="fc" id="L68">            String nome = request.getParameter(&quot;inputNome&quot;);</span>
+<span class="fc" id="L69">            String strValor = request.getParameter(&quot;inputValor&quot;).replace(',', '.');</span>
+<span class="fc" id="L70">            float valor = Float.parseFloat(strValor);</span>
+<span class="fc" id="L71">            Categoria categoria = CategoriaDao.get(Integer.parseInt(request.getParameter(&quot;inputCategoria&quot;)));</span>
+<span class="fc" id="L72">            String descricao = request.getParameter(&quot;inputDescricao&quot;);</span>
             
-<span class="nc" id="L74">            Produto produto = new Produto(codigo, nome, descricao, categoria, valor);</span>
-<span class="nc bnc" id="L75" title="All 14 branches missed.">            switch (operacao) {</span>
+<span class="fc" id="L74">            Produto produto = new Produto(codigo, nome, descricao, categoria, valor);</span>
+<span class="pc bpc" id="L75" title="5 of 14 branches missed.">            switch (operacao) {</span>
                 case &quot;incluir&quot;:
-<span class="nc" id="L77">                    ProdutoDao.salvar(produto);</span>
-<span class="nc" id="L78">                    break;</span>
+<span class="fc" id="L77">                    ProdutoDao.salvar(produto);</span>
+<span class="fc" id="L78">                    break;</span>
                 case &quot;excluir&quot;:
-<span class="nc" id="L80">                    ProdutoDao.apagar(produto);</span>
-<span class="nc" id="L81">                    break;</span>
+<span class="fc" id="L80">                    ProdutoDao.apagar(produto);</span>
+<span class="fc" id="L81">                    break;</span>
                 case &quot;alterar&quot;:
-<span class="nc" id="L83">                    ProdutoDao.alterar(produto);</span>
+<span class="fc" id="L83">                    ProdutoDao.alterar(produto);</span>
                     break;
             }
             //request.getRequestDispatcher(&quot;/categorias.jsp&quot;).forward(request, response);
-<span class="nc" id="L87">            response.sendRedirect(request.getContextPath() + &quot;/produtos&quot;);</span>
+<span class="fc" id="L87">            response.sendRedirect(request.getContextPath() + &quot;/produtos&quot;);</span>
 <span class="nc" id="L88">        } catch (Exception e) {</span>
 <span class="nc" id="L89">            throw new ServletException(&quot;Erro ao processar controller: &quot; + e.getMessage());</span>
-<span class="nc" id="L90">        }</span>
-<span class="nc" id="L91">    }</span>
+<span class="fc" id="L90">        }</span>
+<span class="fc" id="L91">    }</span>
 
     // &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;HttpServlet methods. Click on the + sign on the left to edit the code.&quot;&gt;
     /**

@@ -89,18 +89,18 @@ public class NotaFiscalDao extends dao {
 <span class="nc" id="L89">    }</span>
 
     public static void apagar(NotaFiscal nota) throws SQLException, ClassNotFoundException {
-<span class="nc" id="L92">        Connection conn = null;</span>
-<span class="nc" id="L93">        PreparedStatement p = null;</span>
-<span class="nc" id="L94">        String sql = &quot;DELETE FROM gde.notas_fiscais_tb WHERE cod_nota = ?&quot;;</span>
+<span class="fc" id="L92">        Connection conn = null;</span>
+<span class="fc" id="L93">        PreparedStatement p = null;</span>
+<span class="fc" id="L94">        String sql = &quot;DELETE FROM gde.notas_fiscais_tb WHERE cod_nota = ?&quot;;</span>
         try {
-<span class="nc" id="L96">            conn = DataBaseLocator.getInstance().getConnection();</span>
-<span class="nc" id="L97">            p = conn.prepareStatement(sql);</span>
-<span class="nc" id="L98">            p.setInt(1, nota.getCodigo());</span>
-<span class="nc" id="L99">            p.execute();</span>
+<span class="fc" id="L96">            conn = DataBaseLocator.getInstance().getConnection();</span>
+<span class="fc" id="L97">            p = conn.prepareStatement(sql);</span>
+<span class="fc" id="L98">            p.setInt(1, nota.getCodigo());</span>
+<span class="fc" id="L99">            p.execute();</span>
         } finally {
-<span class="nc" id="L101">            closeResources(conn, p);</span>
-<span class="nc" id="L102">        }</span>
-<span class="nc" id="L103">    }</span>
+<span class="pc" id="L101">            closeResources(conn, p);</span>
+<span class="fc" id="L102">        }</span>
+<span class="fc" id="L103">    }</span>
 
     public static ArrayList&lt;NotaFiscal&gt; listar() throws SQLException, ClassNotFoundException {
 <span class="nc" id="L106">        Connection conn = null;</span>

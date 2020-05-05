@@ -32,73 +32,73 @@ import model.Produto;
     }
 
     public static void salvar(Produto produto) throws SQLException, ClassNotFoundException {
-<span class="nc" id="L35">        Connection conn = null;</span>
-<span class="nc" id="L36">        PreparedStatement p = null;</span>
-<span class="nc" id="L37">        String sql = &quot;INSERT INTO gde.produtos_tb &quot;</span>
+<span class="fc" id="L35">        Connection conn = null;</span>
+<span class="fc" id="L36">        PreparedStatement p = null;</span>
+<span class="fc" id="L37">        String sql = &quot;INSERT INTO gde.produtos_tb &quot;</span>
                 + &quot;(cod_prod,nome_prod,descricao_prod,categoria_prod,valor_produto)\n&quot;
                 + &quot;VALUES (?,?,?,?,?);&quot;;
         try {
-<span class="nc" id="L41">            conn = DataBaseLocator.getInstance().getConnection();</span>
-<span class="nc" id="L42">            p = conn.prepareStatement(sql);</span>
-<span class="nc" id="L43">            p.setInt(1, produto.getCodigo());</span>
-<span class="nc" id="L44">            p.setString(2, produto.getNome());</span>
-<span class="nc" id="L45">            p.setString(3, produto.getDescricao());</span>
-<span class="nc" id="L46">            p.setInt(4, produto.getCategoria().getCodigo());</span>
-<span class="nc" id="L47">            p.setFloat(5, produto.getValor());</span>
-<span class="nc" id="L48">            p.execute();</span>
+<span class="fc" id="L41">            conn = DataBaseLocator.getInstance().getConnection();</span>
+<span class="fc" id="L42">            p = conn.prepareStatement(sql);</span>
+<span class="fc" id="L43">            p.setInt(1, produto.getCodigo());</span>
+<span class="fc" id="L44">            p.setString(2, produto.getNome());</span>
+<span class="fc" id="L45">            p.setString(3, produto.getDescricao());</span>
+<span class="fc" id="L46">            p.setInt(4, produto.getCategoria().getCodigo());</span>
+<span class="fc" id="L47">            p.setFloat(5, produto.getValor());</span>
+<span class="fc" id="L48">            p.execute();</span>
         } finally {
-<span class="nc" id="L50">            closeResources(conn, p);</span>
-<span class="nc" id="L51">        }</span>
-<span class="nc" id="L52">    }</span>
+<span class="pc" id="L50">            closeResources(conn, p);</span>
+<span class="fc" id="L51">        }</span>
+<span class="fc" id="L52">    }</span>
 
     public static int lastId() throws SQLException, ClassNotFoundException {
-<span class="nc" id="L55">        Connection conn = null;</span>
-<span class="nc" id="L56">        Statement st = null;</span>
+<span class="fc" id="L55">        Connection conn = null;</span>
+<span class="fc" id="L56">        Statement st = null;</span>
         try {
-<span class="nc" id="L58">            conn = DataBaseLocator.getInstance().getConnection();</span>
-<span class="nc" id="L59">            st = conn.createStatement();</span>
-<span class="nc" id="L60">            Statement stmt = conn.createStatement();</span>
-<span class="nc" id="L61">            ResultSet rs = stmt.executeQuery(&quot;SELECT MAX(cod_prod) as max_cod FROM gde.produtos_tb&quot;);</span>
-<span class="nc" id="L62">            rs.next();</span>
-<span class="nc" id="L63">            return rs.getInt(&quot;max_cod&quot;);</span>
+<span class="fc" id="L58">            conn = DataBaseLocator.getInstance().getConnection();</span>
+<span class="fc" id="L59">            st = conn.createStatement();</span>
+<span class="fc" id="L60">            Statement stmt = conn.createStatement();</span>
+<span class="fc" id="L61">            ResultSet rs = stmt.executeQuery(&quot;SELECT MAX(cod_prod) as max_cod FROM gde.produtos_tb&quot;);</span>
+<span class="fc" id="L62">            rs.next();</span>
+<span class="fc" id="L63">            return rs.getInt(&quot;max_cod&quot;);</span>
         } finally {
-<span class="nc" id="L65">            closeResources(conn, st);</span>
+<span class="pc" id="L65">            closeResources(conn, st);</span>
         }
     }
 
     public static void alterar(Produto produto) throws SQLException, ClassNotFoundException {
-<span class="nc" id="L70">        Connection conn = null;</span>
-<span class="nc" id="L71">        PreparedStatement p = null;</span>
-<span class="nc" id="L72">        String sql = &quot;UPDATE gde.produtos_tb &quot;</span>
+<span class="fc" id="L70">        Connection conn = null;</span>
+<span class="fc" id="L71">        PreparedStatement p = null;</span>
+<span class="fc" id="L72">        String sql = &quot;UPDATE gde.produtos_tb &quot;</span>
                 + &quot;SET nome_prod=?,descricao_prod=?,categoria_prod=?,valor_produto=?&quot;
                 + &quot;WHERE cod_prod=?&quot;;
         try {
-<span class="nc" id="L76">            conn = DataBaseLocator.getInstance().getConnection();</span>
-<span class="nc" id="L77">            p = conn.prepareStatement(sql);</span>
-<span class="nc" id="L78">            p.setString(1, produto.getNome());</span>
-<span class="nc" id="L79">            p.setString(2, produto.getDescricao());</span>
-<span class="nc" id="L80">            p.setInt(3, produto.getCategoria().getCodigo());</span>
-<span class="nc" id="L81">            p.setFloat(4, produto.getValor());</span>
-<span class="nc" id="L82">            p.setInt(5, produto.getCodigo());</span>
-<span class="nc" id="L83">            p.execute();</span>
+<span class="fc" id="L76">            conn = DataBaseLocator.getInstance().getConnection();</span>
+<span class="fc" id="L77">            p = conn.prepareStatement(sql);</span>
+<span class="fc" id="L78">            p.setString(1, produto.getNome());</span>
+<span class="fc" id="L79">            p.setString(2, produto.getDescricao());</span>
+<span class="fc" id="L80">            p.setInt(3, produto.getCategoria().getCodigo());</span>
+<span class="fc" id="L81">            p.setFloat(4, produto.getValor());</span>
+<span class="fc" id="L82">            p.setInt(5, produto.getCodigo());</span>
+<span class="fc" id="L83">            p.execute();</span>
         } finally {
-<span class="nc" id="L85">            closeResources(conn, p);</span>
-<span class="nc" id="L86">        }</span>
-<span class="nc" id="L87">    }</span>
+<span class="pc" id="L85">            closeResources(conn, p);</span>
+<span class="fc" id="L86">        }</span>
+<span class="fc" id="L87">    }</span>
 
     public static void apagar(Produto produto) throws SQLException, ClassNotFoundException {
-<span class="nc" id="L90">        Connection conn = null;</span>
-<span class="nc" id="L91">        PreparedStatement p = null;</span>
-<span class="nc" id="L92">        String sql = &quot;DELETE FROM gde.produtos_tb WHERE cod_prod = ?&quot;;</span>
+<span class="fc" id="L90">        Connection conn = null;</span>
+<span class="fc" id="L91">        PreparedStatement p = null;</span>
+<span class="fc" id="L92">        String sql = &quot;DELETE FROM gde.produtos_tb WHERE cod_prod = ?&quot;;</span>
         try {
-<span class="nc" id="L94">            conn = DataBaseLocator.getInstance().getConnection();</span>
-<span class="nc" id="L95">            p = conn.prepareStatement(sql);</span>
-<span class="nc" id="L96">            p.setInt(1, produto.getCodigo());</span>
-<span class="nc" id="L97">            p.execute();</span>
+<span class="fc" id="L94">            conn = DataBaseLocator.getInstance().getConnection();</span>
+<span class="fc" id="L95">            p = conn.prepareStatement(sql);</span>
+<span class="fc" id="L96">            p.setInt(1, produto.getCodigo());</span>
+<span class="fc" id="L97">            p.execute();</span>
         } finally {
-<span class="nc" id="L99">            closeResources(conn, p);</span>
-<span class="nc" id="L100">        }</span>
-<span class="nc" id="L101">    }</span>
+<span class="pc" id="L99">            closeResources(conn, p);</span>
+<span class="fc" id="L100">        }</span>
+<span class="fc" id="L101">    }</span>
 
     public static ArrayList&lt;Produto&gt; listar() throws SQLException, ClassNotFoundException {
 <span class="nc" id="L104">        Connection conn = null;</span>

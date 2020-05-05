@@ -14,40 +14,40 @@ import model.PedidoProduto;
 <span class="nc" id="L14">public class PedidoProdutoService {</span>
 
     public static boolean containsProduto(ArrayList&lt;PedidoProduto&gt; produtos, PedidoProduto produto) {
-<span class="nc" id="L17">        return produtos.stream()</span>
-<span class="nc bnc" id="L18" title="All 2 branches missed.">                .filter(e -&gt; e.getProduto().getCodigo() == produto.getProduto().getCodigo())</span>
-<span class="nc" id="L19">                .findFirst()</span>
-<span class="nc" id="L20">                .isPresent();</span>
+<span class="fc" id="L17">        return produtos.stream()</span>
+<span class="pc bpc" id="L18" title="1 of 2 branches missed.">                .filter(e -&gt; e.getProduto().getCodigo() == produto.getProduto().getCodigo())</span>
+<span class="fc" id="L19">                .findFirst()</span>
+<span class="fc" id="L20">                .isPresent();</span>
     }
 
     public static void updateProdutos(Pedido pedidoAntes, ArrayList&lt;PedidoProduto&gt; produtos) throws SQLException, ClassNotFoundException {
-<span class="nc bnc" id="L24" title="All 2 branches missed.">        for (PedidoProduto pprod0 : produtos) {</span>
-<span class="nc" id="L25">            PedidoProduto p = null;</span>
-<span class="nc" id="L26">            int qtd = 0;</span>
-<span class="nc bnc" id="L27" title="All 2 branches missed.">            for (PedidoProduto pprod1 : pedidoAntes.getProdutos()) {</span>
-<span class="nc bnc" id="L28" title="All 2 branches missed.">                if (pprod0.getProduto().getCodigo() == pprod1.getProduto().getCodigo()) {</span>
-<span class="nc" id="L29">                    p = pprod0;</span>
-<span class="nc" id="L30">                    p.setCodigo(pprod1.getCodigo());</span>
-<span class="nc" id="L31">                    qtd = pprod1.getQuantidade() - p.getQuantidade();</span>
+<span class="fc bfc" id="L24" title="All 2 branches covered.">        for (PedidoProduto pprod0 : produtos) {</span>
+<span class="fc" id="L25">            PedidoProduto p = null;</span>
+<span class="fc" id="L26">            int qtd = 0;</span>
+<span class="fc bfc" id="L27" title="All 2 branches covered.">            for (PedidoProduto pprod1 : pedidoAntes.getProdutos()) {</span>
+<span class="pc bpc" id="L28" title="1 of 2 branches missed.">                if (pprod0.getProduto().getCodigo() == pprod1.getProduto().getCodigo()) {</span>
+<span class="fc" id="L29">                    p = pprod0;</span>
+<span class="fc" id="L30">                    p.setCodigo(pprod1.getCodigo());</span>
+<span class="fc" id="L31">                    qtd = pprod1.getQuantidade() - p.getQuantidade();</span>
                 }
-<span class="nc" id="L33">            }</span>
-<span class="nc bnc" id="L34" title="All 2 branches missed.">            if (p != null) {</span>
-<span class="nc" id="L35">                PedidoProdutoDao.alterar(p, pedidoAntes);</span>
-<span class="nc" id="L36">                p.setQuantidade(qtd);</span>
-<span class="nc" id="L37">                EstoqueService.adcionarEstoque(p);</span>
+<span class="fc" id="L33">            }</span>
+<span class="pc bpc" id="L34" title="1 of 2 branches missed.">            if (p != null) {</span>
+<span class="fc" id="L35">                PedidoProdutoDao.alterar(p, pedidoAntes);</span>
+<span class="fc" id="L36">                p.setQuantidade(qtd);</span>
+<span class="fc" id="L37">                EstoqueService.adcionarEstoque(p);</span>
             } else {
 <span class="nc" id="L39">                PedidoProdutoDao.salvar(pprod0, pedidoAntes);</span>
 <span class="nc" id="L40">                EstoqueService.removerEstoque(pprod0);</span>
             }
-<span class="nc" id="L42">        }</span>
+<span class="fc" id="L42">        }</span>
 
-<span class="nc bnc" id="L44" title="All 2 branches missed.">        for (PedidoProduto pprod0 : pedidoAntes.getProdutos()) {</span>
-<span class="nc bnc" id="L45" title="All 2 branches missed.">            if (!containsProduto(produtos, pprod0)) {</span>
+<span class="fc bfc" id="L44" title="All 2 branches covered.">        for (PedidoProduto pprod0 : pedidoAntes.getProdutos()) {</span>
+<span class="pc bpc" id="L45" title="1 of 2 branches missed.">            if (!containsProduto(produtos, pprod0)) {</span>
 <span class="nc" id="L46">                PedidoProdutoDao.apagar(pprod0);</span>
 <span class="nc" id="L47">                EstoqueService.adcionarEstoque(pprod0);</span>
             }
-<span class="nc" id="L49">        }</span>
-<span class="nc" id="L50">    }</span>
+<span class="fc" id="L49">        }</span>
+<span class="fc" id="L50">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

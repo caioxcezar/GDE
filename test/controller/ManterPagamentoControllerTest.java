@@ -11,7 +11,6 @@ import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.newCapture;
 import static org.easymock.EasyMock.replay;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -61,7 +60,7 @@ public class ManterPagamentoControllerTest {
 
         expect(request.getParameter("acao")).andReturn("confirmarOperacao");
         expect(request.getParameter("operacao")).andReturn("visualizar");
-        expect(request.getParameter("inputCodigo")).andReturn("");
+        expect(request.getParameter("inputCodigo")).andReturn("1").andReturn("1");
         expect(request.getParameter("inputPedido")).andReturn("3");
 
         replay(request);
@@ -78,8 +77,8 @@ public class ManterPagamentoControllerTest {
         response.sendRedirect(capture(strArgument));
 
         expect(request.getParameter("acao")).andReturn("confirmarOperacao");
-        expect(request.getParameter("operacao")).andReturn("visualizar");
-        expect(request.getParameter("inputCodigo")).andReturn("");
+        expect(request.getParameter("operacao")).andReturn("excluir");
+        expect(request.getParameter("inputCodigo")).andReturn("1").andReturn("1");
         expect(request.getParameter("inputPedido")).andReturn("3");
 
         replay(request);

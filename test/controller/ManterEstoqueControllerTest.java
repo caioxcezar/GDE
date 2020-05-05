@@ -31,7 +31,7 @@ public class ManterEstoqueControllerTest {
     }
 
     @Test
-    public void testConfirmarOperacao_inclusao() throws UnsupportedEncodingException, IOException, ServletException {
+    public void testConfirmarOperacao_inclusaoNovoProduto() throws UnsupportedEncodingException, IOException, ServletException {
         request.setCharacterEncoding("UTF-8");
         expect(request.getContextPath()).andReturn("");
         response.sendRedirect(capture(strArgument));
@@ -48,6 +48,24 @@ public class ManterEstoqueControllerTest {
         assertEquals("/estoque", strArgument.toString());
     }
 
+    @Test
+    public void testConfirmarOperacao_inclusaoMesmoProduto() throws UnsupportedEncodingException, IOException, ServletException {
+        request.setCharacterEncoding("UTF-8");
+        expect(request.getContextPath()).andReturn("");
+        response.sendRedirect(capture(strArgument));
+        
+        expect(request.getParameter("acao")).andReturn("confirmarOperacao");
+        expect(request.getParameter("operacao")).andReturn("incluir");
+        expect(request.getParameter("inputCodigo")).andReturn("");
+        expect(request.getParameter("inputPedido")).andReturn("4");
+        
+        replay(request);
+        replay(response);
+        
+        instance.processRequest(request, response);
+        assertEquals("/estoque", strArgument.toString());
+    }
+    
     @Test
     public void testConfirmarOperacao_exclusao() throws UnsupportedEncodingException, IOException, ServletException {
         request.setCharacterEncoding("UTF-8");
@@ -75,7 +93,7 @@ public class ManterEstoqueControllerTest {
         expect(request.getParameter("acao")).andReturn("confirmarOperacao");
         expect(request.getParameter("operacao")).andReturn("visualizar");
         expect(request.getParameter("inputCodigo")).andReturn("1").andReturn("1");
-        expect(request.getParameter("inputPedido")).andReturn("2");
+        expect(request.getParameter("inputPedido")).andReturn("4");
         
         replay(request);
         replay(response);

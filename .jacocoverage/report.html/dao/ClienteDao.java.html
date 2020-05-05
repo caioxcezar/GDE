@@ -12,177 +12,186 @@ import model.Cliente;
  *
  * @author ccezar
  */
-<span class="nc" id="L15">public class ClienteDao extends dao {</span>
+public class ClienteDao extends dao implements IClienteDao {
 
-    public static void salvar(Cliente cliente) throws SQLException, ClassNotFoundException {
-<span class="fc" id="L18">        Connection conn = null;</span>
-<span class="fc" id="L19">        PreparedStatement p = null;</span>
-<span class="fc" id="L20">        String sql = &quot;INSERT INTO gde.clientes_tb &quot;</span>
+<span class="fc" id="L17">    public static final ClienteDao INSTANCE = new ClienteDao();</span>
+    
+<span class="fc" id="L19">    private ClienteDao() { }</span>
+    
+    @Override
+    public void salvar(Cliente cliente) throws SQLException, ClassNotFoundException {
+<span class="nc" id="L23">        Connection conn = null;</span>
+<span class="nc" id="L24">        PreparedStatement p = null;</span>
+<span class="nc" id="L25">        String sql = &quot;INSERT INTO gde.clientes_tb &quot;</span>
                 + &quot;(cod_cli,nome_cli,telefone_cli,cnpj_cli,rua_cli,complemento_cli,numero_cli,bairro_cli,cidade_cli,cep_cli,estado_cli) &quot;
                 + &quot;VALUES (?,?,?,?,?,?,?,?,?,?,?);&quot;;
         try {
-<span class="fc" id="L24">            conn = DataBaseLocator.getInstance().getConnection();</span>
-<span class="fc" id="L25">            p = conn.prepareStatement(sql);</span>
-<span class="fc" id="L26">            p.setInt(1, cliente.getCodigo());</span>
-<span class="fc" id="L27">            p.setString(2, cliente.getNome());</span>
-<span class="fc" id="L28">            p.setString(3, cliente.getTelefone());</span>
-<span class="fc" id="L29">            p.setString(4, cliente.getCnpj());</span>
-<span class="fc" id="L30">            p.setString(5, cliente.getRua());</span>
-<span class="fc" id="L31">            p.setString(6, cliente.getComplemento());</span>
-<span class="fc" id="L32">            p.setInt(7, cliente.getNumero());</span>
-<span class="fc" id="L33">            p.setString(8, cliente.getBairro());</span>
-<span class="fc" id="L34">            p.setString(9, cliente.getCidade());</span>
-<span class="fc" id="L35">            p.setString(10, cliente.getCep());</span>
-<span class="fc" id="L36">            p.setString(11, cliente.getEstado().getSigla());</span>
-<span class="fc" id="L37">            p.execute();</span>
+<span class="nc" id="L29">            conn = DataBaseLocator.getInstance().getConnection();</span>
+<span class="nc" id="L30">            p = conn.prepareStatement(sql);</span>
+<span class="nc" id="L31">            p.setInt(1, cliente.getCodigo());</span>
+<span class="nc" id="L32">            p.setString(2, cliente.getNome());</span>
+<span class="nc" id="L33">            p.setString(3, cliente.getTelefone());</span>
+<span class="nc" id="L34">            p.setString(4, cliente.getCnpj());</span>
+<span class="nc" id="L35">            p.setString(5, cliente.getRua());</span>
+<span class="nc" id="L36">            p.setString(6, cliente.getComplemento());</span>
+<span class="nc" id="L37">            p.setInt(7, cliente.getNumero());</span>
+<span class="nc" id="L38">            p.setString(8, cliente.getBairro());</span>
+<span class="nc" id="L39">            p.setString(9, cliente.getCidade());</span>
+<span class="nc" id="L40">            p.setString(10, cliente.getCep());</span>
+<span class="nc" id="L41">            p.setString(11, cliente.getEstado().getSigla());</span>
+<span class="nc" id="L42">            p.execute();</span>
         } finally {
-<span class="pc" id="L39">            closeResources(conn, p);</span>
-<span class="fc" id="L40">        }</span>
-<span class="fc" id="L41">    }</span>
+<span class="nc" id="L44">            closeResources(conn, p);</span>
+<span class="nc" id="L45">        }</span>
+<span class="nc" id="L46">    }</span>
 
-    public static int lastId() throws SQLException, ClassNotFoundException {
-<span class="fc" id="L44">        Connection conn = null;</span>
-<span class="fc" id="L45">        Statement st = null;</span>
+    @Override
+    public int lastId() throws SQLException, ClassNotFoundException {
+<span class="nc" id="L50">        Connection conn = null;</span>
+<span class="nc" id="L51">        Statement st = null;</span>
         try {
-<span class="fc" id="L47">            conn = DataBaseLocator.getInstance().getConnection();</span>
-<span class="fc" id="L48">            st = conn.createStatement();</span>
-<span class="fc" id="L49">            Statement stmt = conn.createStatement();</span>
-<span class="fc" id="L50">            ResultSet rs = stmt.executeQuery(&quot;SELECT MAX(cod_cli) as max_cod FROM gde.clientes_tb&quot;);</span>
-<span class="fc" id="L51">            rs.next();</span>
-<span class="fc" id="L52">            return rs.getInt(&quot;max_cod&quot;);</span>
+<span class="nc" id="L53">            conn = DataBaseLocator.getInstance().getConnection();</span>
+<span class="nc" id="L54">            st = conn.createStatement();</span>
+<span class="nc" id="L55">            Statement stmt = conn.createStatement();</span>
+<span class="nc" id="L56">            ResultSet rs = stmt.executeQuery(&quot;SELECT MAX(cod_cli) as max_cod FROM gde.clientes_tb&quot;);</span>
+<span class="nc" id="L57">            rs.next();</span>
+<span class="nc" id="L58">            return rs.getInt(&quot;max_cod&quot;);</span>
         } finally {
-<span class="pc" id="L54">            closeResources(conn, st);</span>
+<span class="nc" id="L60">            closeResources(conn, st);</span>
         }
     }
 
-    public static void apagar(Cliente cliente) throws SQLException, ClassNotFoundException {
-<span class="fc" id="L59">        Connection conn = null;</span>
-<span class="fc" id="L60">        PreparedStatement p = null;</span>
-<span class="fc" id="L61">        String sql = &quot;DELETE FROM clientes_tb WHERE cod_cli = ?&quot;;</span>
+    @Override
+    public void apagar(Cliente cliente) throws SQLException, ClassNotFoundException {
+<span class="nc" id="L66">        Connection conn = null;</span>
+<span class="nc" id="L67">        PreparedStatement p = null;</span>
+<span class="nc" id="L68">        String sql = &quot;DELETE FROM clientes_tb WHERE cod_cli = ?&quot;;</span>
         try {
-<span class="fc" id="L63">            conn = DataBaseLocator.getInstance().getConnection();</span>
-<span class="fc" id="L64">            p = conn.prepareStatement(sql);</span>
-<span class="fc" id="L65">            p.setInt(1, cliente.getCodigo());</span>
-<span class="fc" id="L66">            p.execute();</span>
+<span class="nc" id="L70">            conn = DataBaseLocator.getInstance().getConnection();</span>
+<span class="nc" id="L71">            p = conn.prepareStatement(sql);</span>
+<span class="nc" id="L72">            p.setInt(1, cliente.getCodigo());</span>
+<span class="nc" id="L73">            p.execute();</span>
         } finally {
-<span class="pc" id="L68">            closeResources(conn, p);</span>
-<span class="fc" id="L69">        }</span>
-<span class="fc" id="L70">    }</span>
+<span class="nc" id="L75">            closeResources(conn, p);</span>
+<span class="nc" id="L76">        }</span>
+<span class="nc" id="L77">    }</span>
 
-    public static Cliente get(int cod) throws SQLException, ClassNotFoundException {
-<span class="fc" id="L73">        Connection conn = null;</span>
-<span class="fc" id="L74">        PreparedStatement p = null;</span>
-<span class="fc" id="L75">        ResultSet rs = null;</span>
-<span class="fc" id="L76">        String sql = &quot;SELECT * FROM clientes_tb WHERE cod_cli = ?&quot;;</span>
+    @Override
+    public Cliente get(int cod) throws SQLException, ClassNotFoundException {
+<span class="fc" id="L81">        Connection conn = null;</span>
+<span class="fc" id="L82">        PreparedStatement p = null;</span>
+<span class="fc" id="L83">        ResultSet rs = null;</span>
+<span class="fc" id="L84">        String sql = &quot;SELECT * FROM clientes_tb WHERE cod_cli = ?&quot;;</span>
         try {
-<span class="fc" id="L78">            conn = DataBaseLocator.getInstance().getConnection();</span>
-<span class="fc" id="L79">            p = conn.prepareStatement(sql);</span>
-<span class="fc" id="L80">            p.setInt(1, cod);</span>
-<span class="fc" id="L81">            rs = p.executeQuery();</span>
-<span class="fc" id="L82">            rs.next();</span>
-<span class="fc" id="L83">            return instanciarCliente(rs);</span>
+<span class="fc" id="L86">            conn = DataBaseLocator.getInstance().getConnection();</span>
+<span class="fc" id="L87">            p = conn.prepareStatement(sql);</span>
+<span class="fc" id="L88">            p.setInt(1, cod);</span>
+<span class="fc" id="L89">            rs = p.executeQuery();</span>
+<span class="fc" id="L90">            rs.next();</span>
+<span class="fc" id="L91">            return instanciarCliente(rs);</span>
         } finally {
-<span class="pc" id="L85">            closeResources(conn, p);</span>
+<span class="pc" id="L93">            closeResources(conn, p);</span>
         }
     }
 
-    public static void alterar(Cliente cliente) throws SQLException, ClassNotFoundException {
-<span class="fc" id="L90">        Connection conn = null;</span>
-<span class="fc" id="L91">        PreparedStatement p = null;</span>
-<span class="fc" id="L92">        String sql = &quot;UPDATE gde.clientes_tb &quot;</span>
+    @Override
+    public void alterar(Cliente cliente) throws SQLException, ClassNotFoundException {
+<span class="nc" id="L99">        Connection conn = null;</span>
+<span class="nc" id="L100">        PreparedStatement p = null;</span>
+<span class="nc" id="L101">        String sql = &quot;UPDATE gde.clientes_tb &quot;</span>
                 + &quot;SET numero_cli=?,complemento_cli=?,rua_cli=?,cidade_cli=?,&quot;
                 + &quot;bairro_cli=?,nome_cli=?,cnpj_cli=?,telefone_cli=?,cep_cli=?,bairro_cli=?&quot;
                 + &quot;WHERE cod_cli=?&quot;;
         try {
-<span class="fc" id="L97">            conn = DataBaseLocator.getInstance().getConnection();</span>
-<span class="fc" id="L98">            p = conn.prepareStatement(sql);</span>
-<span class="fc" id="L99">            p.setInt(1, cliente.getNumero());</span>
-<span class="fc" id="L100">            p.setString(2, cliente.getComplemento());</span>
-<span class="fc" id="L101">            p.setString(3, cliente.getRua());</span>
-<span class="fc" id="L102">            p.setString(4, cliente.getCidade());</span>
-<span class="fc" id="L103">            p.setString(5, cliente.getBairro());</span>
-<span class="fc" id="L104">            p.setString(6, cliente.getNome());</span>
-<span class="fc" id="L105">            p.setString(7, cliente.getCnpj());</span>
-<span class="fc" id="L106">            p.setString(8, cliente.getTelefone());</span>
-<span class="fc" id="L107">            p.setString(9, cliente.getCep());</span>
-<span class="fc" id="L108">            p.setString(10, cliente.getBairro());</span>
-<span class="fc" id="L109">            p.setInt(11, cliente.getCodigo());</span>
+<span class="nc" id="L106">            conn = DataBaseLocator.getInstance().getConnection();</span>
+<span class="nc" id="L107">            p = conn.prepareStatement(sql);</span>
+<span class="nc" id="L108">            p.setInt(1, cliente.getNumero());</span>
+<span class="nc" id="L109">            p.setString(2, cliente.getComplemento());</span>
+<span class="nc" id="L110">            p.setString(3, cliente.getRua());</span>
+<span class="nc" id="L111">            p.setString(4, cliente.getCidade());</span>
+<span class="nc" id="L112">            p.setString(5, cliente.getBairro());</span>
+<span class="nc" id="L113">            p.setString(6, cliente.getNome());</span>
+<span class="nc" id="L114">            p.setString(7, cliente.getCnpj());</span>
+<span class="nc" id="L115">            p.setString(8, cliente.getTelefone());</span>
+<span class="nc" id="L116">            p.setString(9, cliente.getCep());</span>
+<span class="nc" id="L117">            p.setString(10, cliente.getBairro());</span>
+<span class="nc" id="L118">            p.setInt(11, cliente.getCodigo());</span>
 
-<span class="fc" id="L111">            p.execute();</span>
+<span class="nc" id="L120">            p.execute();</span>
         } finally {
-<span class="pc" id="L113">            closeResources(conn, p);</span>
-<span class="fc" id="L114">        }</span>
-<span class="fc" id="L115">    }</span>
+<span class="nc" id="L122">            closeResources(conn, p);</span>
+<span class="nc" id="L123">        }</span>
+<span class="nc" id="L124">    }</span>
 
-    public static ArrayList&lt;Cliente&gt; listar() throws SQLException, ClassNotFoundException {
-<span class="nc" id="L118">        Connection conn = null;</span>
-<span class="nc" id="L119">        Statement st = null;</span>
-<span class="nc" id="L120">        ArrayList&lt;Cliente&gt; clientes = new ArrayList&lt;&gt;();</span>
+    public ArrayList&lt;Cliente&gt; listar() throws SQLException, ClassNotFoundException {
+<span class="nc" id="L127">        Connection conn = null;</span>
+<span class="nc" id="L128">        Statement st = null;</span>
+<span class="nc" id="L129">        ArrayList&lt;Cliente&gt; clientes = new ArrayList&lt;&gt;();</span>
         try {
-<span class="nc" id="L122">            conn = DataBaseLocator.getInstance().getConnection();</span>
-<span class="nc" id="L123">            st = conn.createStatement();</span>
-<span class="nc" id="L124">            Statement stmt = conn.createStatement();</span>
-<span class="nc" id="L125">            ResultSet rs = stmt.executeQuery(&quot;SELECT * FROM clientes_tb&quot;);</span>
-<span class="nc bnc" id="L126" title="All 2 branches missed.">            while (rs.next()) {</span>
-<span class="nc" id="L127">                clientes.add(instanciarCliente(rs));</span>
+<span class="nc" id="L131">            conn = DataBaseLocator.getInstance().getConnection();</span>
+<span class="nc" id="L132">            st = conn.createStatement();</span>
+<span class="nc" id="L133">            Statement stmt = conn.createStatement();</span>
+<span class="nc" id="L134">            ResultSet rs = stmt.executeQuery(&quot;SELECT * FROM clientes_tb&quot;);</span>
+<span class="nc bnc" id="L135" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L136">                clientes.add(instanciarCliente(rs));</span>
             }
-<span class="nc" id="L129">            return clientes;</span>
+<span class="nc" id="L138">            return clientes;</span>
         } finally {
-<span class="nc" id="L131">            closeResources(conn, st);</span>
+<span class="nc" id="L140">            closeResources(conn, st);</span>
         }
     }
 
-    public static ArrayList&lt;Cliente&gt; listar(String nome) throws SQLException, ClassNotFoundException {
-<span class="nc" id="L136">        Connection conn = null;</span>
-<span class="nc" id="L137">        PreparedStatement p = null;</span>
-<span class="nc" id="L138">        ResultSet rs = null;</span>
-<span class="nc" id="L139">        String sql = &quot;SELECT * FROM clientes_tb WHERE nome_cli like ?&quot;;</span>
-<span class="nc" id="L140">        ArrayList&lt;Cliente&gt; clientes = new ArrayList&lt;&gt;();</span>
+    public ArrayList&lt;Cliente&gt; listar(String nome) throws SQLException, ClassNotFoundException {
+<span class="nc" id="L145">        Connection conn = null;</span>
+<span class="nc" id="L146">        PreparedStatement p = null;</span>
+<span class="nc" id="L147">        ResultSet rs = null;</span>
+<span class="nc" id="L148">        String sql = &quot;SELECT * FROM clientes_tb WHERE nome_cli like ?&quot;;</span>
+<span class="nc" id="L149">        ArrayList&lt;Cliente&gt; clientes = new ArrayList&lt;&gt;();</span>
         try {
-<span class="nc" id="L142">            conn = DataBaseLocator.getInstance().getConnection();</span>
-<span class="nc" id="L143">            p = conn.prepareStatement(sql);</span>
-<span class="nc" id="L144">            p.setString(1, &quot;%&quot; + nome + &quot;%&quot;);</span>
-<span class="nc" id="L145">            rs = p.executeQuery();</span>
-<span class="nc bnc" id="L146" title="All 2 branches missed.">            while (rs.next()) {</span>
-<span class="nc" id="L147">                clientes.add(instanciarCliente(rs));</span>
+<span class="nc" id="L151">            conn = DataBaseLocator.getInstance().getConnection();</span>
+<span class="nc" id="L152">            p = conn.prepareStatement(sql);</span>
+<span class="nc" id="L153">            p.setString(1, &quot;%&quot; + nome + &quot;%&quot;);</span>
+<span class="nc" id="L154">            rs = p.executeQuery();</span>
+<span class="nc bnc" id="L155" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L156">                clientes.add(instanciarCliente(rs));</span>
             }
-<span class="nc" id="L149">            return clientes;</span>
+<span class="nc" id="L158">            return clientes;</span>
         } finally {
-<span class="nc" id="L151">            closeResources(conn, p);</span>
+<span class="nc" id="L160">            closeResources(conn, p);</span>
         }
     }
 
-    public static ArrayList&lt;Cliente&gt; listar(int cod) throws SQLException, ClassNotFoundException {
-<span class="nc" id="L156">        Connection conn = null;</span>
-<span class="nc" id="L157">        PreparedStatement p = null;</span>
-<span class="nc" id="L158">        ResultSet rs = null;</span>
-<span class="nc" id="L159">        String sql = &quot;SELECT * FROM clientes_tb WHERE cod_cli = ?&quot;;</span>
-<span class="nc" id="L160">        ArrayList&lt;Cliente&gt; clientes = new ArrayList&lt;&gt;();</span>
+    public ArrayList&lt;Cliente&gt; listar(int cod) throws SQLException, ClassNotFoundException {
+<span class="nc" id="L165">        Connection conn = null;</span>
+<span class="nc" id="L166">        PreparedStatement p = null;</span>
+<span class="nc" id="L167">        ResultSet rs = null;</span>
+<span class="nc" id="L168">        String sql = &quot;SELECT * FROM clientes_tb WHERE cod_cli = ?&quot;;</span>
+<span class="nc" id="L169">        ArrayList&lt;Cliente&gt; clientes = new ArrayList&lt;&gt;();</span>
         try {
-<span class="nc" id="L162">            conn = DataBaseLocator.getInstance().getConnection();</span>
-<span class="nc" id="L163">            p = conn.prepareStatement(sql);</span>
-<span class="nc" id="L164">            p.setInt(1, cod);</span>
-<span class="nc" id="L165">            rs = p.executeQuery();</span>
-<span class="nc bnc" id="L166" title="All 2 branches missed.">            while (rs.next()) {</span>
-<span class="nc" id="L167">                clientes.add(instanciarCliente(rs));</span>
+<span class="nc" id="L171">            conn = DataBaseLocator.getInstance().getConnection();</span>
+<span class="nc" id="L172">            p = conn.prepareStatement(sql);</span>
+<span class="nc" id="L173">            p.setInt(1, cod);</span>
+<span class="nc" id="L174">            rs = p.executeQuery();</span>
+<span class="nc bnc" id="L175" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L176">                clientes.add(instanciarCliente(rs));</span>
             }
-<span class="nc" id="L169">            return clientes;</span>
+<span class="nc" id="L178">            return clientes;</span>
         } finally {
-<span class="nc" id="L171">            closeResources(conn, p);</span>
+<span class="nc" id="L180">            closeResources(conn, p);</span>
         }
     }
 
-    private static Cliente instanciarCliente(ResultSet rs) throws SQLException, ClassNotFoundException {
-<span class="fc" id="L176">        return new Cliente(rs.getString(&quot;cnpj_cli&quot;),</span>
-<span class="fc" id="L177">                rs.getString(&quot;nome_cli&quot;),</span>
-<span class="fc" id="L178">                rs.getString(&quot;telefone_cli&quot;),</span>
-<span class="fc" id="L179">                rs.getInt(&quot;numero_cli&quot;),</span>
-<span class="fc" id="L180">                rs.getInt(&quot;cod_cli&quot;),</span>
-<span class="fc" id="L181">                rs.getString(&quot;cep_cli&quot;),</span>
-<span class="fc" id="L182">                rs.getString(&quot;rua_cli&quot;),</span>
-<span class="fc" id="L183">                rs.getString(&quot;bairro_cli&quot;), rs.getString(&quot;cidade_cli&quot;),</span>
-<span class="fc" id="L184">                rs.getString(&quot;complemento_cli&quot;),</span>
-<span class="fc" id="L185">                EstadoDao.get(rs.getString(&quot;estado_cli&quot;)));</span>
+    private Cliente instanciarCliente(ResultSet rs) throws SQLException, ClassNotFoundException {
+<span class="fc" id="L185">        return new Cliente(rs.getString(&quot;cnpj_cli&quot;),</span>
+<span class="fc" id="L186">                rs.getString(&quot;nome_cli&quot;),</span>
+<span class="fc" id="L187">                rs.getString(&quot;telefone_cli&quot;),</span>
+<span class="fc" id="L188">                rs.getInt(&quot;numero_cli&quot;),</span>
+<span class="fc" id="L189">                rs.getInt(&quot;cod_cli&quot;),</span>
+<span class="fc" id="L190">                rs.getString(&quot;cep_cli&quot;),</span>
+<span class="fc" id="L191">                rs.getString(&quot;rua_cli&quot;),</span>
+<span class="fc" id="L192">                rs.getString(&quot;bairro_cli&quot;), rs.getString(&quot;cidade_cli&quot;),</span>
+<span class="fc" id="L193">                rs.getString(&quot;complemento_cli&quot;),</span>
+<span class="fc" id="L194">                EstadoDao.get(rs.getString(&quot;estado_cli&quot;)));</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>
