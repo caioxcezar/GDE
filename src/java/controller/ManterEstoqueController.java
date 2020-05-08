@@ -3,23 +3,22 @@ package controller;
 import dao.EstoqueDao;
 import dao.PedidoDao;
 import java.io.IOException;
-import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Calendar;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Estoque;
 import model.Pedido;
-import model.PedidoProduto;
+import service.EstoqueService;
 
 /**
  *
  * @author ccezar
  */
 public class ManterEstoqueController extends HttpServlet {
-
+    private EstoqueService estoqueService = new EstoqueService();
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -63,52 +62,16 @@ public class ManterEstoqueController extends HttpServlet {
     }
 
     private void confirmarOperacao(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+        String retorno;
         try {
-            String operacao = request.getParameter("operacao");
-            int codigo = 0;
-            if (!request.getParameter("inputCodigo").equals("")) {
-                codigo = Integer.parseInt(request.getParameter("inputCodigo"));
-            } else {
-                codigo = EstoqueDao.lastId() + 1;
-            }
-            Date data = new Date(Calendar.getInstance().getTime().getTime());
-
-            Pedido pedido = PedidoDao.get(Integer.parseInt(request.getParameter("inputPedido")));
-            switch (operacao) {
-                case "incluir": {
-                    for (PedidoProduto produto : pedido.getProdutos()) {
-                        ArrayList<Estoque> produtosEstoque = EstoqueDao.listarCodProduto(produto.getProduto());
-                        if (produtosEstoque.size() > 1) {
-                            throw new Exception(String.format(
-                                    "Erro ao salvar no estoque, produto %s repetido",
-                                    produto.getProduto().getNome()));
-                        } else if (produtosEstoque.size() == 0) {
-                            Estoque estoque = new Estoque(codigo, produto.getQuantidade(), produto.getProduto(), data, pedido);
-                            EstoqueDao.salvar(estoque);
-                            codigo++;
-                        } else {
-                            Estoque estoque = produtosEstoque.get(0);
-                            estoque.setQuantidade(estoque.getQuantidade() + produto.getQuantidade());
-                            estoque.setPedido(pedido);
-                            estoque.setDataAlteracao(data);
-                            EstoqueDao.alterar(estoque);
-                        }
-                    }
-                    pedido.setEstado("Pago");
-                    PedidoDao.alterar(pedido);
-                    break;
-                }
-                case "excluir":{
-                    Estoque estoque = EstoqueDao.get(codigo);
-                    EstoqueDao.apagar(estoque);
-                    break;
-                }
-                case "visualizar":{
-                    break;
-                }
+            retorno = estoqueService.confirmarOperacao(request.getParameter("operacao"),
+                    request.getParameter("inputCodigo"),
+                    request.getParameter("inputPedido"));
+            if (retorno.contains("Erro durante a operação: ")) {
+                throw new ServletException(retorno);
             }
             response.sendRedirect(request.getContextPath() + "/estoque");
-        } catch (Exception e) {
+        } catch (IOException | ServletException e) {
             throw new ServletException("Erro ao processar controller: " + e.getMessage());
         }
     }

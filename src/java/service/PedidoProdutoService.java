@@ -1,6 +1,5 @@
 package service;
 
-import dao.PedidoDao;
 import dao.PedidoProdutoDao;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -12,15 +11,16 @@ import model.PedidoProduto;
  * @author caioc
  */
 public class PedidoProdutoService {
-
-    public static boolean containsProduto(ArrayList<PedidoProduto> produtos, PedidoProduto produto) {
+    private EstoqueService estoqueService = new EstoqueService();
+    
+    private boolean containsProduto(ArrayList<PedidoProduto> produtos, PedidoProduto produto) {
         return produtos.stream()
                 .filter(e -> e.getProduto().getCodigo() == produto.getProduto().getCodigo())
                 .findFirst()
                 .isPresent();
     }
 
-    public static void updateProdutos(Pedido pedidoAntes, ArrayList<PedidoProduto> produtos) throws SQLException, ClassNotFoundException {
+    protected void updateProdutos(Pedido pedidoAntes, ArrayList<PedidoProduto> produtos) throws SQLException, ClassNotFoundException {
         for (PedidoProduto pprod0 : produtos) {
             PedidoProduto p = null;
             int qtd = 0;
@@ -34,17 +34,17 @@ public class PedidoProdutoService {
             if (p != null) {
                 PedidoProdutoDao.alterar(p, pedidoAntes);
                 p.setQuantidade(qtd);
-                EstoqueService.adcionarEstoque(p);
+                estoqueService.addEstoque(p);
             } else {
                 PedidoProdutoDao.salvar(pprod0, pedidoAntes);
-                EstoqueService.removerEstoque(pprod0);
+                estoqueService.rmEstoque(pprod0);
             }
         }
 
         for (PedidoProduto pprod0 : pedidoAntes.getProdutos()) {
             if (!containsProduto(produtos, pprod0)) {
                 PedidoProdutoDao.apagar(pprod0);
-                EstoqueService.adcionarEstoque(pprod0);
+                estoqueService.addEstoque(pprod0);
             }
         }
     }

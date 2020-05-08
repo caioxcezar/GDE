@@ -8,15 +8,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.Categoria;
-import model.Produto;
+import service.ProdutoService;
 
 /**
  *
  * @author ccezar
  */
 public class ManterProdutoController extends HttpServlet {
-
+    private  final ProdutoService produtoService = new ProdutoService();
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -55,37 +54,20 @@ public class ManterProdutoController extends HttpServlet {
             e.printStackTrace();
         }
     }
-private void confirmarOperacao(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+private void confirmarOperacao(HttpServletRequest request, HttpServletResponse response) throws ServletException {        
+        String retorno = "";
         try {
-            String operacao = request.getParameter("operacao");
-            int codigo = 0;
-            if (!request.getParameter("inputCodigo").equals("")) {
-                codigo = Integer.parseInt(request.getParameter("inputCodigo"));
-            } else {
-                codigo = ProdutoDao.lastId() + 1;
+            retorno = produtoService.confirmarOperacao(request.getParameter("operacao"),
+                    request.getParameter("inputCodigo"),
+                    request.getParameter("inputNome"),
+                    request.getParameter("inputValor"),
+                    request.getParameter("inputCategoria"),
+                    request.getParameter("inputDescricao"));
+            if (retorno.contains("Erro durante a operação: ")) {
+                throw new ServletException(retorno);
             }
-
-            String nome = request.getParameter("inputNome");
-            String strValor = request.getParameter("inputValor").replace(',', '.');
-            float valor = Float.parseFloat(strValor);
-            Categoria categoria = CategoriaDao.get(Integer.parseInt(request.getParameter("inputCategoria")));
-            String descricao = request.getParameter("inputDescricao");
-            
-            Produto produto = new Produto(codigo, nome, descricao, categoria, valor);
-            switch (operacao) {
-                case "incluir":
-                    ProdutoDao.salvar(produto);
-                    break;
-                case "excluir":
-                    ProdutoDao.apagar(produto);
-                    break;
-                case "alterar":
-                    ProdutoDao.alterar(produto);
-                    break;
-            }
-            //request.getRequestDispatcher("/categorias.jsp").forward(request, response);
             response.sendRedirect(request.getContextPath() + "/produtos");
-        } catch (Exception e) {
+        } catch (IOException | ServletException e) {
             throw new ServletException("Erro ao processar controller: " + e.getMessage());
         }
     }

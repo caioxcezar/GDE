@@ -4,20 +4,22 @@ import dao.ClienteDao;
 import dao.EstadoDao;
 import dao.IClienteDao;
 import java.io.IOException;
-import java.sql.SQLException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Cliente;
 import model.Estado;
+import service.ClienteService;
 
 /**
  *
  * @author ccezar
  */
 public class ManterClienteController extends HttpServlet {
+
     public IClienteDao cliDao = ClienteDao.INSTANCE;
+    private final ClienteService clienteService = new ClienteService();
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -95,15 +97,8 @@ public class ManterClienteController extends HttpServlet {
     }
 
     private void confirmarOperacao(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+        String retorno;
         try {
-            String operacao = request.getParameter("operacao");
-            int codigo = 0;
-            if (!request.getParameter("inputCodigo").equals("")) {
-                codigo = Integer.parseInt(request.getParameter("inputCodigo"));
-            } else {
-                codigo = cliDao.lastId() + 1;
-            }
-
             String cnpj = request.getParameter("inputCnpj");
             String nome = request.getParameter("inputNome");
             String telefone = request.getParameter("inputTelefone");
@@ -115,21 +110,15 @@ public class ManterClienteController extends HttpServlet {
             String complemento = request.getParameter("inputComplemento");
             Estado estado = EstadoDao.get(request.getParameter("inputEstado"));
 
-            Cliente cliente = new Cliente(cnpj, nome, telefone, numero, codigo, cep, rua, bairro, cidade, complemento, estado);
-            switch (operacao) {
-                case "incluir":
-                    cliDao.salvar(cliente);
-                    break;
-                case "excluir":
-                    cliDao.apagar(cliente);
-                    break;
-                case "alterar":
-                    cliDao.alterar(cliente);
+            Cliente cliente = new Cliente(cnpj, nome, telefone, numero, -1, cep, rua, bairro, cidade, complemento, estado);
+            retorno = clienteService.confirmarOperacao(request.getParameter("operacao"), request.getParameter("inputCodigo"), cliente);
+            if (retorno.contains("Erro durante a operação: ")) {
+                throw new ServletException(retorno);
             }
-            //request.getRequestDispatcher("/categorias.jsp").forward(request, response);
             response.sendRedirect(request.getContextPath() + "/clientes");
-        } catch (IOException | ClassNotFoundException | NumberFormatException | SQLException e) {
+        } catch (Exception e) {
             throw new ServletException("Erro ao processar controller: " + e.getMessage());
         }
+
     }
 }

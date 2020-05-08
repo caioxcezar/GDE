@@ -8,12 +8,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Cargo;
+import service.CargoService;
 
 /**
  *
  * @author ccezar
  */
-<span class="fc" id="L16">public class ManterCargoController extends HttpServlet {</span>
+<span class="fc" id="L17">public class ManterCargoController extends HttpServlet {</span>
+
+<span class="fc" id="L19">    private final CargoService cargoService = new CargoService();</span>
 
     /**
      * Processes requests for both HTTP &lt;code&gt;GET&lt;/code&gt; and &lt;code&gt;POST&lt;/code&gt;
@@ -26,17 +29,17 @@ import model.Cargo;
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-<span class="fc" id="L29">        request.setCharacterEncoding(&quot;UTF-8&quot;);</span>
-<span class="fc" id="L30">        String acao = request.getParameter(&quot;acao&quot;);</span>
-<span class="pc bpc" id="L31" title="7 of 10 branches missed.">        switch (acao) {</span>
+<span class="fc" id="L32">        request.setCharacterEncoding(&quot;UTF-8&quot;);</span>
+<span class="fc" id="L33">        String acao = request.getParameter(&quot;acao&quot;);</span>
+<span class="pc bpc" id="L34" title="7 of 10 branches missed.">        switch (acao) {</span>
             case &quot;prepararOperacao&quot;:
-<span class="nc" id="L33">                prepararOperacao(request, response);</span>
-<span class="nc" id="L34">                break;</span>
+<span class="nc" id="L36">                prepararOperacao(request, response);</span>
+<span class="nc" id="L37">                break;</span>
             case &quot;confirmarOperacao&quot;:
-<span class="fc" id="L36">                confirmarOperacao(request, response);</span>
+<span class="fc" id="L39">                confirmarOperacao(request, response);</span>
                 break;
         }
-<span class="fc" id="L39">    }</span>
+<span class="fc" id="L42">    }</span>
 
     // &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;HttpServlet methods. Click on the + sign on the left to edit the code.&quot;&gt;
     /**
@@ -50,8 +53,8 @@ import model.Cargo;
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-<span class="nc" id="L53">        processRequest(request, response);</span>
-<span class="nc" id="L54">    }</span>
+<span class="nc" id="L56">        processRequest(request, response);</span>
+<span class="nc" id="L57">    }</span>
 
     /**
      * Handles the HTTP &lt;code&gt;POST&lt;/code&gt; method.
@@ -64,8 +67,8 @@ import model.Cargo;
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-<span class="nc" id="L67">        processRequest(request, response);</span>
-<span class="nc" id="L68">    }</span>
+<span class="nc" id="L70">        processRequest(request, response);</span>
+<span class="nc" id="L71">    }</span>
 
     /**
      * Returns a short description of the servlet.
@@ -74,54 +77,39 @@ import model.Cargo;
      */
     @Override
     public String getServletInfo() {
-<span class="nc" id="L77">        return &quot;Short description&quot;;</span>
+<span class="nc" id="L80">        return &quot;Short description&quot;;</span>
     }// &lt;/editor-fold&gt;
 
     private void prepararOperacao(HttpServletRequest request, HttpServletResponse response) {
         try {
-<span class="nc" id="L82">            String operacao = request.getParameter(&quot;operacao&quot;);</span>
-<span class="nc" id="L83">            request.setAttribute(&quot;operacao&quot;, operacao);</span>
-<span class="nc bnc" id="L84" title="All 2 branches missed.">            if (!operacao.equals(&quot;incluir&quot;)) {</span>
-<span class="nc" id="L85">                int cod = Integer.parseInt(request.getParameter(&quot;cod&quot;));</span>
-<span class="nc" id="L86">                request.setAttribute(&quot;cargo&quot;, CargoDao.get(cod));</span>
+<span class="nc" id="L85">            String operacao = request.getParameter(&quot;operacao&quot;);</span>
+<span class="nc" id="L86">            request.setAttribute(&quot;operacao&quot;, operacao);</span>
+<span class="nc bnc" id="L87" title="All 2 branches missed.">            if (!operacao.equals(&quot;incluir&quot;)) {</span>
+<span class="nc" id="L88">                int cod = Integer.parseInt(request.getParameter(&quot;cod&quot;));</span>
+<span class="nc" id="L89">                request.setAttribute(&quot;cargo&quot;, CargoDao.get(cod));</span>
             }
-<span class="nc" id="L88">            RequestDispatcher view = request.getRequestDispatcher(&quot;/manterCargo.jsp&quot;);</span>
-<span class="nc" id="L89">            view.forward(request, response);</span>
-<span class="nc" id="L90">        } catch (Exception e) {</span>
-<span class="nc" id="L91">            e.printStackTrace();</span>
-<span class="nc" id="L92">        }</span>
-<span class="nc" id="L93">    }</span>
+<span class="nc" id="L91">            RequestDispatcher view = request.getRequestDispatcher(&quot;/manterCargo.jsp&quot;);</span>
+<span class="nc" id="L92">            view.forward(request, response);</span>
+<span class="nc" id="L93">        } catch (Exception e) {</span>
+<span class="nc" id="L94">            e.printStackTrace();</span>
+<span class="nc" id="L95">        }</span>
+<span class="nc" id="L96">    }</span>
 
     private void confirmarOperacao(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+<span class="fc" id="L99">        String retorno = &quot;&quot;;</span>
         try {
-<span class="fc" id="L97">            String operacao = request.getParameter(&quot;operacao&quot;);</span>
-<span class="fc" id="L98">            int codigo = 0;</span>
-<span class="fc bfc" id="L99" title="All 2 branches covered.">            if (!request.getParameter(&quot;inputCodigo&quot;).equals(&quot;&quot;)) {</span>
-<span class="fc" id="L100">                codigo = Integer.parseInt(request.getParameter(&quot;inputCodigo&quot;));</span>
-            } else {
-<span class="fc" id="L102">                codigo = CargoDao.lastId() + 1;</span>
+<span class="fc" id="L101">            retorno = cargoService.confirmarOperacao(request.getParameter(&quot;operacao&quot;),</span>
+<span class="fc" id="L102">                    request.getParameter(&quot;inputCodigo&quot;),</span>
+<span class="fc" id="L103">                    request.getParameter(&quot;inputNome&quot;),</span>
+<span class="fc" id="L104">                    request.getParameter(&quot;inputDescricao&quot;));</span>
+<span class="pc bpc" id="L105" title="1 of 2 branches missed.">            if (retorno.contains(&quot;Erro durante a operação: &quot;)) {</span>
+<span class="nc" id="L106">                throw new ServletException(retorno);</span>
             }
-            
-<span class="fc" id="L105">            String nome = request.getParameter(&quot;inputNome&quot;);</span>
-<span class="fc" id="L106">            String descricao = request.getParameter(&quot;inputDescricao&quot;);</span>
-<span class="fc" id="L107">            Cargo cargo = new Cargo(codigo, nome, descricao);</span>
-<span class="pc bpc" id="L108" title="5 of 14 branches missed.">            switch (operacao) {</span>
-                case &quot;incluir&quot;:
-<span class="fc" id="L110">                    CargoDao.salvar(cargo);</span>
-<span class="fc" id="L111">                    break;</span>
-                case &quot;excluir&quot;:
-<span class="fc" id="L113">                    CargoDao.apagar(cargo);</span>
-<span class="fc" id="L114">                    break;</span>
-                case &quot;alterar&quot;:
-<span class="fc" id="L116">                    CargoDao.alterar(cargo);</span>
-                    break;
-            }
-            //request.getRequestDispatcher(&quot;/cargos.jsp&quot;).forward(request, response);
-<span class="fc" id="L120">            response.sendRedirect(request.getContextPath() + &quot;/cargos&quot;);</span>
-<span class="nc" id="L121">        } catch (Exception e) {</span>
-<span class="nc" id="L122">            throw new ServletException(&quot;Erro ao processar controller: &quot; + e.getMessage());</span>
-<span class="fc" id="L123">        }</span>
-<span class="fc" id="L124">    }</span>
+<span class="fc" id="L108">            response.sendRedirect(request.getContextPath() + &quot;/cargos&quot;);</span>
+<span class="nc" id="L109">        } catch (IOException | ServletException e) {</span>
+<span class="nc" id="L110">            throw new ServletException(&quot;Erro ao processar controller: &quot; + e.getMessage());</span>
+<span class="fc" id="L111">        }</span>
+<span class="fc" id="L112">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

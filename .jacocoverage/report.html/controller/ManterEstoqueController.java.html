@@ -3,23 +3,22 @@
 import dao.EstoqueDao;
 import dao.PedidoDao;
 import java.io.IOException;
-import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Calendar;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Estoque;
 import model.Pedido;
-import model.PedidoProduto;
+import service.EstoqueService;
 
 /**
  *
  * @author ccezar
  */
-<span class="fc" id="L21">public class ManterEstoqueController extends HttpServlet {</span>
-
+<span class="fc" id="L19">public class ManterEstoqueController extends HttpServlet {</span>
+<span class="fc" id="L20">    private EstoqueService estoqueService = new EstoqueService();</span>
+    
     /**
      * Processes requests for both HTTP &lt;code&gt;GET&lt;/code&gt; and &lt;code&gt;POST&lt;/code&gt;
      * methods.
@@ -31,87 +30,51 @@ import model.PedidoProduto;
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-<span class="fc" id="L34">        request.setCharacterEncoding(&quot;UTF-8&quot;);</span>
-<span class="fc" id="L35">        String acao = request.getParameter(&quot;acao&quot;);</span>
-<span class="pc bpc" id="L36" title="7 of 10 branches missed.">        switch (acao) {</span>
+<span class="fc" id="L33">        request.setCharacterEncoding(&quot;UTF-8&quot;);</span>
+<span class="fc" id="L34">        String acao = request.getParameter(&quot;acao&quot;);</span>
+<span class="pc bpc" id="L35" title="7 of 10 branches missed.">        switch (acao) {</span>
             case &quot;prepararOperacao&quot;:
-<span class="nc" id="L38">                prepararOperacao(request, response);</span>
-<span class="nc" id="L39">                break;</span>
+<span class="nc" id="L37">                prepararOperacao(request, response);</span>
+<span class="nc" id="L38">                break;</span>
             case &quot;confirmarOperacao&quot;:
-<span class="fc" id="L41">                confirmarOperacao(request, response);</span>
+<span class="fc" id="L40">                confirmarOperacao(request, response);</span>
                 break;
         }
-<span class="fc" id="L44">    }</span>
+<span class="fc" id="L43">    }</span>
 
     private void prepararOperacao(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         try {
-<span class="nc" id="L48">            String operacao = request.getParameter(&quot;operacao&quot;);</span>
-<span class="nc" id="L49">            request.setAttribute(&quot;operacao&quot;, operacao);</span>
-<span class="nc" id="L50">            ArrayList&lt;Pedido&gt; pedidos = new ArrayList&lt;&gt;();</span>
-<span class="nc bnc" id="L51" title="All 2 branches missed.">            if (!operacao.equals(&quot;incluir&quot;)) {</span>
-<span class="nc" id="L52">                Estoque estoque = EstoqueDao.get(Integer.parseInt(request.getParameter(&quot;cod&quot;)));</span>
-<span class="nc" id="L53">                request.setAttribute(&quot;estoque&quot;, estoque);</span>
-<span class="nc" id="L54">                pedidos.add(estoque.getPedido());</span>
-<span class="nc" id="L55">            } else {</span>
-<span class="nc" id="L56">                pedidos = PedidoDao.listarPendentesInterno();</span>
+<span class="nc" id="L47">            String operacao = request.getParameter(&quot;operacao&quot;);</span>
+<span class="nc" id="L48">            request.setAttribute(&quot;operacao&quot;, operacao);</span>
+<span class="nc" id="L49">            ArrayList&lt;Pedido&gt; pedidos = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L50" title="All 2 branches missed.">            if (!operacao.equals(&quot;incluir&quot;)) {</span>
+<span class="nc" id="L51">                Estoque estoque = EstoqueDao.get(Integer.parseInt(request.getParameter(&quot;cod&quot;)));</span>
+<span class="nc" id="L52">                request.setAttribute(&quot;estoque&quot;, estoque);</span>
+<span class="nc" id="L53">                pedidos.add(estoque.getPedido());</span>
+<span class="nc" id="L54">            } else {</span>
+<span class="nc" id="L55">                pedidos = PedidoDao.listarPendentesInterno();</span>
             }
-<span class="nc" id="L58">            request.setAttribute(&quot;pedidos&quot;, pedidos);</span>
-<span class="nc" id="L59">            request.getRequestDispatcher(&quot;/manterEstoque.jsp&quot;).forward(request, response);</span>
-<span class="nc" id="L60">        } catch (Exception ex) {</span>
-<span class="nc" id="L61">            throw new ServletException(ex.getMessage());</span>
-<span class="nc" id="L62">        }</span>
-<span class="nc" id="L63">    }</span>
+<span class="nc" id="L57">            request.setAttribute(&quot;pedidos&quot;, pedidos);</span>
+<span class="nc" id="L58">            request.getRequestDispatcher(&quot;/manterEstoque.jsp&quot;).forward(request, response);</span>
+<span class="nc" id="L59">        } catch (Exception ex) {</span>
+<span class="nc" id="L60">            throw new ServletException(ex.getMessage());</span>
+<span class="nc" id="L61">        }</span>
+<span class="nc" id="L62">    }</span>
 
     private void confirmarOperacao(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+        String retorno;
         try {
-<span class="fc" id="L67">            String operacao = request.getParameter(&quot;operacao&quot;);</span>
-<span class="fc" id="L68">            int codigo = 0;</span>
-<span class="fc bfc" id="L69" title="All 2 branches covered.">            if (!request.getParameter(&quot;inputCodigo&quot;).equals(&quot;&quot;)) {</span>
-<span class="fc" id="L70">                codigo = Integer.parseInt(request.getParameter(&quot;inputCodigo&quot;));</span>
-            } else {
-<span class="fc" id="L72">                codigo = EstoqueDao.lastId() + 1;</span>
+<span class="fc" id="L67">            retorno = estoqueService.confirmarOperacao(request.getParameter(&quot;operacao&quot;),</span>
+<span class="fc" id="L68">                    request.getParameter(&quot;inputCodigo&quot;),</span>
+<span class="fc" id="L69">                    request.getParameter(&quot;inputPedido&quot;));</span>
+<span class="pc bpc" id="L70" title="1 of 2 branches missed.">            if (retorno.contains(&quot;Erro durante a operação: &quot;)) {</span>
+<span class="nc" id="L71">                throw new ServletException(retorno);</span>
             }
-<span class="fc" id="L74">            Date data = new Date(Calendar.getInstance().getTime().getTime());</span>
-
-<span class="fc" id="L76">            Pedido pedido = PedidoDao.get(Integer.parseInt(request.getParameter(&quot;inputPedido&quot;)));</span>
-<span class="pc bpc" id="L77" title="4 of 13 branches missed.">            switch (operacao) {</span>
-                case &quot;incluir&quot;: {
-<span class="fc bfc" id="L79" title="All 2 branches covered.">                    for (PedidoProduto produto : pedido.getProdutos()) {</span>
-<span class="fc" id="L80">                        ArrayList&lt;Estoque&gt; produtosEstoque = EstoqueDao.listarCodProduto(produto.getProduto());</span>
-<span class="pc bpc" id="L81" title="1 of 2 branches missed.">                        if (produtosEstoque.size() &gt; 1) {</span>
-<span class="nc" id="L82">                            throw new Exception(String.format(</span>
-                                    &quot;Erro ao salvar no estoque, produto %s repetido&quot;,
-<span class="nc" id="L84">                                    produto.getProduto().getNome()));</span>
-<span class="fc bfc" id="L85" title="All 2 branches covered.">                        } else if (produtosEstoque.size() == 0) {</span>
-<span class="fc" id="L86">                            Estoque estoque = new Estoque(codigo, produto.getQuantidade(), produto.getProduto(), data, pedido);</span>
-<span class="fc" id="L87">                            EstoqueDao.salvar(estoque);</span>
-<span class="fc" id="L88">                            codigo++;</span>
-<span class="fc" id="L89">                        } else {</span>
-<span class="fc" id="L90">                            Estoque estoque = produtosEstoque.get(0);</span>
-<span class="fc" id="L91">                            estoque.setQuantidade(estoque.getQuantidade() + produto.getQuantidade());</span>
-<span class="fc" id="L92">                            estoque.setPedido(pedido);</span>
-<span class="fc" id="L93">                            estoque.setDataAlteracao(data);</span>
-<span class="fc" id="L94">                            EstoqueDao.alterar(estoque);</span>
-                        }
-<span class="fc" id="L96">                    }</span>
-<span class="fc" id="L97">                    pedido.setEstado(&quot;Pago&quot;);</span>
-<span class="fc" id="L98">                    PedidoDao.alterar(pedido);</span>
-<span class="fc" id="L99">                    break;</span>
-                }
-                case &quot;excluir&quot;:{
-<span class="fc" id="L102">                    Estoque estoque = EstoqueDao.get(codigo);</span>
-<span class="fc" id="L103">                    EstoqueDao.apagar(estoque);</span>
-<span class="fc" id="L104">                    break;</span>
-                }
-                case &quot;visualizar&quot;:{
-                    break;
-                }
-            }
-<span class="fc" id="L110">            response.sendRedirect(request.getContextPath() + &quot;/estoque&quot;);</span>
-<span class="nc" id="L111">        } catch (Exception e) {</span>
-<span class="nc" id="L112">            throw new ServletException(&quot;Erro ao processar controller: &quot; + e.getMessage());</span>
-<span class="fc" id="L113">        }</span>
-<span class="fc" id="L114">    }</span>
+<span class="fc" id="L73">            response.sendRedirect(request.getContextPath() + &quot;/estoque&quot;);</span>
+<span class="nc" id="L74">        } catch (IOException | ServletException e) {</span>
+<span class="nc" id="L75">            throw new ServletException(&quot;Erro ao processar controller: &quot; + e.getMessage());</span>
+<span class="fc" id="L76">        }</span>
+<span class="fc" id="L77">    }</span>
 
     // &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;HttpServlet methods. Click on the + sign on the left to edit the code.&quot;&gt;
     /**
@@ -125,8 +88,8 @@ import model.PedidoProduto;
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-<span class="nc" id="L128">        processRequest(request, response);</span>
-<span class="nc" id="L129">    }</span>
+<span class="nc" id="L91">        processRequest(request, response);</span>
+<span class="nc" id="L92">    }</span>
 
     /**
      * Handles the HTTP &lt;code&gt;POST&lt;/code&gt; method.
@@ -139,8 +102,8 @@ import model.PedidoProduto;
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-<span class="nc" id="L142">        processRequest(request, response);</span>
-<span class="nc" id="L143">    }</span>
+<span class="nc" id="L105">        processRequest(request, response);</span>
+<span class="nc" id="L106">    }</span>
 
     /**
      * Returns a short description of the servlet.
@@ -149,7 +112,7 @@ import model.PedidoProduto;
      */
     @Override
     public String getServletInfo() {
-<span class="nc" id="L152">        return &quot;Short description&quot;;</span>
+<span class="nc" id="L115">        return &quot;Short description&quot;;</span>
     }// &lt;/editor-fold&gt;
 
 }

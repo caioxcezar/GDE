@@ -62,7 +62,7 @@ public class ManterClienteControllerTest {
         try {
             instance.processRequest(request, response);
         } catch (ServletException ex) {
-            assertEquals("Erro ao processar controller: For input string: \"p\"", ex.getMessage());
+            assertEquals("Erro ao processar controller: Erro durante a operação: For input string: \"p\"", ex.getMessage());
         }
     }
 

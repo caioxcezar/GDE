@@ -51,6 +51,7 @@ public class ManterPedidoControllerTest {
         expect(request.getParameter("inputTipo")).andReturn("Interno");
         expect(request.getParameter("inputFuncionario")).andReturn("1");
         expect(request.getParameter("inputCliente")).andReturn("1");
+        expect(request.getParameter("inputEstado")).andReturn("Pendente");
 
         replay(request);
         replay(response);
@@ -58,7 +59,7 @@ public class ManterPedidoControllerTest {
         try {
             instance.processRequest(request, response);
         } catch (ServletException ex) {
-            assertEquals("Erro ao processar controller: Por favor escolha um produto", ex.getMessage());
+            assertEquals("Erro durante a operação: Por favor escolha um produto", ex.getMessage());
         }
     }
 
@@ -105,7 +106,7 @@ public class ManterPedidoControllerTest {
         try {
             instance.processRequest(request, response);
         } catch (ServletException ex) {
-            assertEquals("Erro ao processar controller: Produto HD 2TB indisponivel nessa quantidade, por favor fazer pedido interno", ex.getMessage());
+            assertEquals("Erro durante a operação: Produto HD 2TB indisponivel nessa quantidade, por favor fazer pedido interno", ex.getMessage());
         }
     }
 
@@ -140,7 +141,7 @@ public class ManterPedidoControllerTest {
 
         expect(request.getParameter("acao")).andReturn("confirmarOperacao");
         expect(request.getParameter("operacao")).andReturn("alterar");
-        expect(request.getParameter("inputCodigo")).andReturn("6").andReturn("6");
+        expect(request.getParameter("inputCodigo")).andReturn("6");
         Estoque estoque = EstoqueDao.get(1);
         int maxEstoque = estoque.getQuantidade()+1;
         expect(request.getParameter("hiddenProdutos")).andReturn("1,"+maxEstoque+";");
@@ -155,11 +156,11 @@ public class ManterPedidoControllerTest {
         try {
             instance.processRequest(request, response);
         } catch (ServletException ex) {
-            assertEquals("Erro ao processar controller: Produto HD 2TB indisponivel nessa quantidade, por favor fazer pedido interno", ex.getMessage());
+            assertEquals("Erro durante a operação: Produto HD 2TB indisponivel nessa quantidade, por favor fazer pedido interno", ex.getMessage());
         }
     }
 
-    @Test
+   @Test
     public void test6ConfirmarOperacao_alterar_igual_estoque() throws UnsupportedEncodingException, IOException, ServletException, SQLException, ClassNotFoundException  {
         request.setCharacterEncoding("UTF-8");
         expect(request.getContextPath()).andReturn("");

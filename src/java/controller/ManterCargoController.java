@@ -8,12 +8,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Cargo;
+import service.CargoService;
 
 /**
  *
  * @author ccezar
  */
 public class ManterCargoController extends HttpServlet {
+
+    private final CargoService cargoService = new CargoService();
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -93,32 +96,17 @@ public class ManterCargoController extends HttpServlet {
     }
 
     private void confirmarOperacao(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+        String retorno = "";
         try {
-            String operacao = request.getParameter("operacao");
-            int codigo = 0;
-            if (!request.getParameter("inputCodigo").equals("")) {
-                codigo = Integer.parseInt(request.getParameter("inputCodigo"));
-            } else {
-                codigo = CargoDao.lastId() + 1;
+            retorno = cargoService.confirmarOperacao(request.getParameter("operacao"),
+                    request.getParameter("inputCodigo"),
+                    request.getParameter("inputNome"),
+                    request.getParameter("inputDescricao"));
+            if (retorno.contains("Erro durante a operação: ")) {
+                throw new ServletException(retorno);
             }
-            
-            String nome = request.getParameter("inputNome");
-            String descricao = request.getParameter("inputDescricao");
-            Cargo cargo = new Cargo(codigo, nome, descricao);
-            switch (operacao) {
-                case "incluir":
-                    CargoDao.salvar(cargo);
-                    break;
-                case "excluir":
-                    CargoDao.apagar(cargo);
-                    break;
-                case "alterar":
-                    CargoDao.alterar(cargo);
-                    break;
-            }
-            //request.getRequestDispatcher("/cargos.jsp").forward(request, response);
             response.sendRedirect(request.getContextPath() + "/cargos");
-        } catch (Exception e) {
+        } catch (IOException | ServletException e) {
             throw new ServletException("Erro ao processar controller: " + e.getMessage());
         }
     }

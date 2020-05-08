@@ -3,21 +3,22 @@ package controller;
 import dao.NotaFiscalDao;
 import dao.PedidoDao;
 import java.io.IOException;
-import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Calendar;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.NotaFiscal;
 import model.Pedido;
+import service.PagamentoService;
 
 /**
  *
  * @author caioc
  */
 public class ManterPagamentoController extends HttpServlet {
+
+    private final PagamentoService pagamentoService = new PagamentoService();
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -62,36 +63,18 @@ public class ManterPagamentoController extends HttpServlet {
     }
 
     private void confirmarOperacao(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+        String retorno;
         try {
-            String operacao = request.getParameter("operacao");
-            int codigo = 0;
-            if (!request.getParameter("inputCodigo").equals("")) {
-                codigo = Integer.parseInt(request.getParameter("inputCodigo"));
-            } else {
-                codigo = NotaFiscalDao.lastId() + 1;
+            retorno = pagamentoService.confirmarOperacao(request.getParameter("operacao"),
+                    request.getParameter("inputCodigo"),
+                    request.getParameter("inputPedido"));
+            if (retorno.contains("Erro durante a operação: ")) {
+                throw new ServletException(retorno);
             }
-            Pedido pedido = PedidoDao.get(Integer.parseInt(request.getParameter("inputPedido")));
-            Date data = new Date(Calendar.getInstance().getTime().getTime());
-
-            NotaFiscal nFical = new NotaFiscal(codigo, data, pedido);
-            switch (operacao) {
-                case "incluir":
-                    NotaFiscalDao.salvar(nFical);
-                    pedido.setEstado("Pago");
-                    PedidoDao.alterar(pedido);
-                    break;
-                case "excluir": {
-                    NotaFiscalDao.apagar(nFical);
-                    break;
-                }
-                case "visualizar": {
-                    break;
-                }
-            }
-            //request.getRequestDispatcher("/pedidos.jsp").forward(request, response);
             response.sendRedirect(request.getContextPath() + "/notasFiscais");
-        } catch (Exception e) {
+        } catch (IOException | ServletException e) {
             throw new ServletException("Erro ao processar controller: " + e.getMessage());
+
         }
     }
 

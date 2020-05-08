@@ -1,33 +1,29 @@
 package controller;
 
 import dao.ClienteDao;
-import dao.EstoqueDao;
 import dao.FuncionarioDao;
 import dao.PedidoDao;
-import dao.PedidoProdutoDao;
 import dao.ProdutoDao;
 import java.io.IOException;
-import java.sql.Date;
+import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.Cliente;
-import model.Estoque;
 import model.Funcionario;
 import model.Pedido;
 import model.PedidoProduto;
-import service.EstoqueService;
-import service.PedidoProdutoService;
+import service.PedidoService;
 
 /**
  *
  * @author caioc
  */
 public class ManterPedidoController extends HttpServlet {
+
     public ClienteDao cliDao = ClienteDao.INSTANCE;
+    private final PedidoService pedidoService = new PedidoService();
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -102,83 +98,32 @@ public class ManterPedidoController extends HttpServlet {
             if (!operacao.equals("incluir")) {
                 Pedido pedido = PedidoDao.get(Integer.parseInt(request.getParameter("cod")));
                 request.setAttribute("pedido", pedido);
-                for (PedidoProduto pprod : pedido.getProdutos()) {
+                pedido.getProdutos().forEach((pprod) -> {
                     produtos.append(String.format("%d,%d;", pprod.getProduto().getCodigo(), pprod.getQuantidade()));
-                }
+                });
             }
             request.setAttribute("hiddenProdutos", produtos.toString());
             request.getRequestDispatcher("/manterPedido.jsp").forward(request, response);
-        } catch (Exception ex) {
+        } catch (IOException | ClassNotFoundException | NumberFormatException | SQLException | ServletException ex) {
             throw new ServletException(ex.getMessage());
         }
     }
 
     private void confirmarOperacao(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+        String retorno;
         try {
-            String operacao = request.getParameter("operacao");
-            int codigo = 0;
-            if (!request.getParameter("inputCodigo").equals("")) {
-                codigo = Integer.parseInt(request.getParameter("inputCodigo"));
-            } else {
-                codigo = PedidoDao.lastId() + 1;
-            }
-            String strProdutos = request.getParameter("hiddenProdutos");
-            if (strProdutos.equals("")) {
-                throw new ServletException("Por favor escolha um produto");
-            }
-            ArrayList<PedidoProduto> produtos = new ArrayList<>();
-            String tipo = request.getParameter("inputTipo");
-            for (String strProd : strProdutos.split(";")) {
-                if (!strProd.equals("")) {
-                    String[] prod = strProd.split(",");
-                    PedidoProduto produto = new PedidoProduto(
-                            Integer.parseInt(prod[1]),
-                            ProdutoDao.get(Integer.parseInt(prod[0])));
-                    if (!EstoqueService.verificarDisponibilidade(produto) && tipo.equals("Externo") && !operacao.equals("excluir")) {
-                        throw new ServletException(
-                                String.format("Produto %s indisponivel nessa quantidade, por favor fazer pedido interno",
-                                        produto.getProduto().getNome()));
-                    }
-                    produtos.add(produto);
-                }
-            }
-
-            Funcionario funcionario = FuncionarioDao.get(Integer.parseInt(request.getParameter("inputFuncionario")));
-            Cliente cliente = cliDao.get(Integer.parseInt(request.getParameter("inputCliente")));
-            Date data = new Date(Calendar.getInstance().getTime().getTime());
-            String estado = request.getParameter("inputEstado");
-
-            Pedido pedido = new Pedido(codigo, produtos, funcionario, cliente, data, estado, tipo);
-            switch (operacao) {
-                case "incluir":
-                    pedido.setEstado("Pendente");
-                    PedidoDao.salvar(pedido);
-                    for (PedidoProduto pProd : pedido.getProdutos()) {
-                        PedidoProdutoDao.salvar(pProd, pedido);
-                        if (pedido.getTipo().equals("Externo")) {
-                            Estoque estoque = EstoqueDao.listarCodProduto(pProd.getProduto()).get(0);
-                            estoque.setQuantidade(estoque.getQuantidade() - pProd.getQuantidade());
-                            estoque.setDataAlteracao(data);
-                            EstoqueDao.alterar(estoque);
-                        }
-                    }
-                    break;
-                case "excluir": {
-                    for (PedidoProduto pProd : PedidoDao.get(codigo).getProdutos()) {
-                        PedidoProdutoDao.apagar(pProd);
-                        EstoqueService.adcionarEstoque(pProd);
-                    }
-                    PedidoDao.apagar(pedido);
-                    break;
-                }
-                case "alterar": {
-                    PedidoProdutoService.updateProdutos(PedidoDao.get(codigo), pedido.getProdutos());
-                    PedidoDao.alterar(pedido);
-                    break;
-                }
+            retorno = pedidoService.confirmarOperacao(request.getParameter("operacao"),
+                    request.getParameter("inputCodigo"),
+                    request.getParameter("hiddenProdutos"),
+                    request.getParameter("inputTipo"),
+                    request.getParameter("inputFuncionario"),
+                    request.getParameter("inputCliente"),
+                    request.getParameter("inputEstado"));
+            if (retorno.contains("Erro durante a operação: ")) {
+                throw new ServletException(retorno);
             }
             response.sendRedirect(request.getContextPath() + "/pedidos");
-        } catch (Exception e) {
+        } catch (IOException e) {
             throw new ServletException("Erro ao processar controller: " + e.getMessage());
         }
     }
