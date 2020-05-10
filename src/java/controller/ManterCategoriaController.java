@@ -10,12 +10,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Categoria;
+import service.CategoriaService;
 
 /**
  *
  * @author ccezar
  */
 public class ManterCategoriaController extends HttpServlet {
+
+    private final CategoriaService categoriaService = new CategoriaService();
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -95,38 +98,16 @@ public class ManterCategoriaController extends HttpServlet {
     }
 
     private void confirmarOperacao(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+        String retorno;
         try {
-            String operacao = request.getParameter("operacao");
-            int codigo = 0;
-            if (!request.getParameter("inputCodigo").equals("")) {
-                codigo = Integer.parseInt(request.getParameter("inputCodigo"));
-            } else {
-                codigo = CategoriaDao.lastId() + 1;
+            retorno = categoriaService.confirmarOperacao(request.getParameter("operacao"), 
+                    request.getParameter("inputCodigo"), 
+                    request.getParameter("inputNome"), 
+                    request.getParameter("inputDescricao"),
+                    request.getParameter("inputData"));
+            if (retorno.contains("Erro durante a operação: ")) {
+                throw new ServletException(retorno);
             }
-            
-            String nome = request.getParameter("inputNome");
-            String descricao = request.getParameter("inputDescricao");
-            if(request.getParameter("inputData").equals("")){
-               throw new ServletException("Por favor escolha um produto");
-
-            }
-            Date data = Date.valueOf(request.getParameter("inputData"));
-            if(data.compareTo(new Date(Calendar.getInstance().getTime().getTime()))>0){
-                 throw new ServletException("Data Errada");         
-            }
-            Categoria categoria = new Categoria(codigo, nome, descricao, data);
-            switch (operacao) {
-                case "incluir":
-                    CategoriaDao.salvar(categoria);
-                    break;
-                case "excluir":
-                    CategoriaDao.apagar(categoria);
-                    break;
-                case "alterar":
-                    CategoriaDao.alterar(categoria);
-                    break;
-            }
-            //request.getRequestDispatcher("/categorias.jsp").forward(request, response);
             response.sendRedirect(request.getContextPath() + "/categorias");
         } catch (Exception e) {
             throw new ServletException("Erro ao processar controller: " + e.getMessage());

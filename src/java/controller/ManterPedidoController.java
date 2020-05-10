@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Funcionario;
 import model.Pedido;
-import model.PedidoProduto;
 import service.PedidoService;
 
 /**

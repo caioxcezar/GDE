@@ -96,7 +96,8 @@ public class PedidoService {
             }
         } catch (ClassNotFoundException | NumberFormatException | SQLException | ServletException e) {
             retorno = "Erro durante a operação: " + e.getMessage();
+        } finally {
+            return retorno;
         }
-        return retorno;
     }
 }

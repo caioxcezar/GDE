@@ -46,7 +46,8 @@ public class PagamentoService {
             }
         } catch (Exception e) {
             retorno = "Erro durante a operação: " + e.getMessage();
+        } finally {
+            return retorno;
         }
-        return retorno;
     }
 }

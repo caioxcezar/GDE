@@ -35,7 +35,8 @@ public class ClienteService {
             }
         } catch (ClassNotFoundException | NumberFormatException | SQLException e) {
             retorno = "Erro durante a operação: " + e.getMessage();
+        } finally {
+            return retorno;
         }
-        return retorno;
     }
 }
