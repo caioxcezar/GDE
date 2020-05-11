@@ -57,7 +57,9 @@ public class PedidoService {
                     produtos.add(produto);
                 }
             }
-
+            if (produtos.size() == 0) {
+                throw new ServletException("Favor escolher pelo menos um produto");
+            }
             Funcionario funcionario = FuncionarioDao.get(Integer.parseInt(strFuncionario));
             Cliente cliente = cliDao.get(Integer.parseInt(strCliente));
             Date data = new Date(Calendar.getInstance().getTime().getTime());
