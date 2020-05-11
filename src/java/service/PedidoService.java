@@ -22,6 +22,7 @@ import model.PedidoProduto;
  * @author caioc
  */
 public class PedidoService {
+
     private final EstoqueService estoqueService = new EstoqueService();
     private final ClienteDao cliDao;
     private final PedidoProdutoService pedidoProdutoService = new PedidoProdutoService();
@@ -29,19 +30,16 @@ public class PedidoService {
     public PedidoService() {
         this.cliDao = ClienteDao.INSTANCE;
     }
-    
+
     public String confirmarOperacao(String operacao, String strCodigo, String strProdutos, String tipo, String strFuncionario, String strCliente, String estado) {
         String retorno = "";
         try {
             int codigo = 0;
-            
+
             if (!strCodigo.equals("")) {
                 codigo = Integer.parseInt(strCodigo);
             } else {
                 codigo = PedidoDao.lastId() + 1;
-            }
-            if (strProdutos.equals("")) {
-                throw new ServletException("Por favor escolha um produto");
             }
             ArrayList<PedidoProduto> produtos = new ArrayList<>();
             for (String strProd : strProdutos.split(";")) {
@@ -52,13 +50,13 @@ public class PedidoService {
                             ProdutoDao.get(Integer.parseInt(prod[0])));
                     if (!estoqueService.verificarDisponibilidade(produto) && tipo.equals("Externo") && !operacao.equals("excluir")) {
                         throw new ServletException(String.format("Produto %s indisponivel nessa quantidade, por favor fazer pedido interno",
-                                        produto.getProduto().getNome()));
+                                produto.getProduto().getNome()));
                     }
                     produtos.add(produto);
                 }
             }
-            if (produtos.size() == 0) {
-                throw new ServletException("Favor escolher pelo menos um produto");
+            if (produtos.isEmpty()) {
+                throw new ServletException("Por favor escolha um produto");
             }
             Funcionario funcionario = FuncionarioDao.get(Integer.parseInt(strFuncionario));
             Cliente cliente = cliDao.get(Integer.parseInt(strCliente));
@@ -95,6 +93,8 @@ public class PedidoService {
                     retorno = "Alterado com sucesso";
                     break;
                 }
+                default:
+                    throw new ServletException("Por favor escolha uma operação valida");
             }
         } catch (ClassNotFoundException | NumberFormatException | SQLException | ServletException e) {
             retorno = "Erro durante a operação: " + e.getMessage();
