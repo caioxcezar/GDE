@@ -48,7 +48,7 @@ public class PedidoService {
 <span class="fc" id="L48">                    PedidoProduto produto = new PedidoProduto(</span>
 <span class="fc" id="L49">                            Integer.parseInt(prod[1]),</span>
 <span class="fc" id="L50">                            ProdutoDao.get(Integer.parseInt(prod[0])));</span>
-<span class="pc bpc" id="L51" title="2 of 6 branches missed.">                    if (!estoqueService.verificarDisponibilidade(produto) &amp;&amp; tipo.equals(&quot;Externo&quot;) &amp;&amp; !operacao.equals(&quot;excluir&quot;)) {</span>
+<span class="pc bpc" id="L51" title="1 of 6 branches missed.">                    if (!estoqueService.verificarDisponibilidade(produto) &amp;&amp; tipo.equals(&quot;Externo&quot;) &amp;&amp; !operacao.equals(&quot;excluir&quot;)) {</span>
 <span class="fc" id="L52">                        throw new ServletException(String.format(&quot;Produto %s indisponivel nessa quantidade, por favor fazer pedido interno&quot;,</span>
 <span class="fc" id="L53">                                produto.getProduto().getNome()));</span>
                     }

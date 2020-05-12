@@ -38,7 +38,7 @@ public class EstoqueServiceTest {
 
     @Test
     public void test4Excluir() throws SQLException, ClassNotFoundException {
-        assertEquals("Estoque excluido com sucesso", cs.confirmarOperacao("excluir", "1", "1"));
+        assertEquals("Estoque excluido com sucesso", cs.confirmarOperacao("excluir", "2", "1"));
     }
 
     @Test

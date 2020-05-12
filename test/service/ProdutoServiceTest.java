@@ -30,13 +30,13 @@ public class ProdutoServiceTest {
     @Test
     public void test2Alterar() throws SQLException, ClassNotFoundException {
         assertEquals("Alteraco com sucesso",
-                ps.confirmarOperacao("alterar", "2", "Teclado", "100.00", "1", "USB"));
+                ps.confirmarOperacao("alterar", "3", "Teclado", "100.00", "1", "USB"));
     }
 
     @Test
     public void test3Excluir() throws SQLException, ClassNotFoundException {
         assertEquals("Excluido com sucesso",
-                ps.confirmarOperacao("excluir", "2", "Teclado", "80.00", "1", "USB"));
+                ps.confirmarOperacao("excluir", "3", "Teclado", "80.00", "1", "USB"));
     }
 
     @Test
