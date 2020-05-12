@@ -7,23 +7,27 @@
 public class Cliente extends Pessoa {
     private String cnpj;
 
+<span class="fc" id="L10">    public Cliente() {</span>
+        
+<span class="fc" id="L12">    }</span>
+    
     public Cliente(String cnpj, String nome, String telefone) {
-<span class="fc" id="L11">        super(nome, telefone);</span>
-<span class="fc" id="L12">        this.cnpj = cnpj;</span>
-<span class="fc" id="L13">    }</span>
+<span class="nc" id="L15">        super(nome, telefone);</span>
+<span class="nc" id="L16">        this.cnpj = cnpj;</span>
+<span class="nc" id="L17">    }</span>
 
     public Cliente(String cnpj, String nome, String telefone, int numero, int codigo, String cep, String rua, String bairro, String cidade, String complemento, Estado estado) {
-<span class="fc" id="L16">        super(nome, telefone, numero, codigo, cep, rua, bairro, cidade, complemento, estado);</span>
-<span class="fc" id="L17">        this.cnpj = cnpj;</span>
-<span class="fc" id="L18">    }</span>
+<span class="fc" id="L20">        super(nome, telefone, numero, codigo, cep, rua, bairro, cidade, complemento, estado);</span>
+<span class="fc" id="L21">        this.cnpj = cnpj;</span>
+<span class="fc" id="L22">    }</span>
 
     public String getCnpj() {
-<span class="fc" id="L21">        return cnpj;</span>
+<span class="nc" id="L25">        return cnpj;</span>
     }
 
     public void setCnpj(String cnpj) {
-<span class="nc" id="L25">        this.cnpj = cnpj;</span>
-<span class="nc" id="L26">    }</span>
+<span class="nc" id="L29">        this.cnpj = cnpj;</span>
+<span class="nc" id="L30">    }</span>
     
     
     

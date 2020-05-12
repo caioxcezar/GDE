@@ -7,6 +7,10 @@ package model;
 public class Cliente extends Pessoa {
     private String cnpj;
 
+    public Cliente() {
+        
+    }
+    
     public Cliente(String cnpj, String nome, String telefone) {
         super(nome, telefone);
         this.cnpj = cnpj;

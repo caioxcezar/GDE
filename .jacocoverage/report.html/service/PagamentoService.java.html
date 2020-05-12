@@ -27,7 +27,7 @@ import model.Pedido;
 <span class="fc" id="L27">            Date data = new Date(Calendar.getInstance().getTime().getTime());</span>
 
 <span class="fc" id="L29">            NotaFiscal nFical = new NotaFiscal(codigo, data, pedido);</span>
-<span class="pc bpc" id="L30" title="5 of 14 branches missed.">            switch (operacao) {</span>
+<span class="pc bpc" id="L30" title="3 of 14 branches missed.">            switch (operacao) {</span>
                 case &quot;incluir&quot;:
 <span class="fc" id="L32">                    NotaFiscalDao.salvar(nFical);</span>
 <span class="fc" id="L33">                    pedido.setEstado(&quot;Pago&quot;);</span>
@@ -44,10 +44,11 @@ import model.Pedido;
                     break;
                 }
             }
-<span class="nc" id="L47">        } catch (Exception e) {</span>
-<span class="nc" id="L48">            retorno = &quot;Erro durante a operação: &quot; + e.getMessage();</span>
-<span class="fc" id="L49">        }</span>
-<span class="fc" id="L50">        return retorno;</span>
+<span class="fc" id="L47">        } catch (Exception e) {</span>
+<span class="fc" id="L48">            retorno = &quot;Erro durante a operação: &quot; + e.getMessage();</span>
+        } finally {
+<span class="pc" id="L50">            return retorno;</span>
+        }
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

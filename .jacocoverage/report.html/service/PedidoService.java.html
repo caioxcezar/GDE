@@ -22,48 +22,48 @@ import model.PedidoProduto;
  * @author caioc
  */
 public class PedidoService {
-<span class="fc" id="L25">    private final EstoqueService estoqueService = new EstoqueService();</span>
-    private final ClienteDao cliDao;
-<span class="fc" id="L27">    private final PedidoProdutoService pedidoProdutoService = new PedidoProdutoService();</span>
 
-<span class="fc" id="L29">    public PedidoService() {</span>
-<span class="fc" id="L30">        this.cliDao = ClienteDao.INSTANCE;</span>
-<span class="fc" id="L31">    }</span>
-    
+<span class="fc" id="L26">    private final EstoqueService estoqueService = new EstoqueService();</span>
+    private final ClienteDao cliDao;
+<span class="fc" id="L28">    private final PedidoProdutoService pedidoProdutoService = new PedidoProdutoService();</span>
+
+<span class="fc" id="L30">    public PedidoService() {</span>
+<span class="fc" id="L31">        this.cliDao = ClienteDao.INSTANCE;</span>
+<span class="fc" id="L32">    }</span>
+
     public String confirmarOperacao(String operacao, String strCodigo, String strProdutos, String tipo, String strFuncionario, String strCliente, String estado) {
-<span class="fc" id="L34">        String retorno = &quot;&quot;;</span>
+<span class="fc" id="L35">        String retorno = &quot;&quot;;</span>
         try {
-<span class="fc" id="L36">            int codigo = 0;</span>
-            
-<span class="fc bfc" id="L38" title="All 2 branches covered.">            if (!strCodigo.equals(&quot;&quot;)) {</span>
-<span class="fc" id="L39">                codigo = Integer.parseInt(strCodigo);</span>
+<span class="fc" id="L37">            int codigo = 0;</span>
+
+<span class="fc bfc" id="L39" title="All 2 branches covered.">            if (!strCodigo.equals(&quot;&quot;)) {</span>
+<span class="fc" id="L40">                codigo = Integer.parseInt(strCodigo);</span>
             } else {
-<span class="fc" id="L41">                codigo = PedidoDao.lastId() + 1;</span>
+<span class="fc" id="L42">                codigo = PedidoDao.lastId() + 1;</span>
             }
-<span class="fc bfc" id="L43" title="All 2 branches covered.">            if (strProdutos.equals(&quot;&quot;)) {</span>
-<span class="fc" id="L44">                throw new ServletException(&quot;Por favor escolha um produto&quot;);</span>
-            }
-<span class="fc" id="L46">            ArrayList&lt;PedidoProduto&gt; produtos = new ArrayList&lt;&gt;();</span>
-<span class="fc bfc" id="L47" title="All 2 branches covered.">            for (String strProd : strProdutos.split(&quot;;&quot;)) {</span>
-<span class="pc bpc" id="L48" title="1 of 2 branches missed.">                if (!strProd.equals(&quot;&quot;)) {</span>
-<span class="fc" id="L49">                    String[] prod = strProd.split(&quot;,&quot;);</span>
-<span class="fc" id="L50">                    PedidoProduto produto = new PedidoProduto(</span>
-<span class="fc" id="L51">                            Integer.parseInt(prod[1]),</span>
-<span class="fc" id="L52">                            ProdutoDao.get(Integer.parseInt(prod[0])));</span>
-<span class="pc bpc" id="L53" title="2 of 6 branches missed.">                    if (!estoqueService.verificarDisponibilidade(produto) &amp;&amp; tipo.equals(&quot;Externo&quot;) &amp;&amp; !operacao.equals(&quot;excluir&quot;)) {</span>
-<span class="fc" id="L54">                        throw new ServletException(String.format(&quot;Produto %s indisponivel nessa quantidade, por favor fazer pedido interno&quot;,</span>
-<span class="fc" id="L55">                                        produto.getProduto().getNome()));</span>
+<span class="fc" id="L44">            ArrayList&lt;PedidoProduto&gt; produtos = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L45" title="All 2 branches covered.">            for (String strProd : strProdutos.split(&quot;;&quot;)) {</span>
+<span class="fc bfc" id="L46" title="All 2 branches covered.">                if (!strProd.equals(&quot;&quot;)) {</span>
+<span class="fc" id="L47">                    String[] prod = strProd.split(&quot;,&quot;);</span>
+<span class="fc" id="L48">                    PedidoProduto produto = new PedidoProduto(</span>
+<span class="fc" id="L49">                            Integer.parseInt(prod[1]),</span>
+<span class="fc" id="L50">                            ProdutoDao.get(Integer.parseInt(prod[0])));</span>
+<span class="pc bpc" id="L51" title="2 of 6 branches missed.">                    if (!estoqueService.verificarDisponibilidade(produto) &amp;&amp; tipo.equals(&quot;Externo&quot;) &amp;&amp; !operacao.equals(&quot;excluir&quot;)) {</span>
+<span class="fc" id="L52">                        throw new ServletException(String.format(&quot;Produto %s indisponivel nessa quantidade, por favor fazer pedido interno&quot;,</span>
+<span class="fc" id="L53">                                produto.getProduto().getNome()));</span>
                     }
-<span class="fc" id="L57">                    produtos.add(produto);</span>
+<span class="fc" id="L55">                    produtos.add(produto);</span>
                 }
             }
-
+<span class="fc bfc" id="L58" title="All 2 branches covered.">            if (produtos.isEmpty()) {</span>
+<span class="fc" id="L59">                throw new ServletException(&quot;Por favor escolha um produto&quot;);</span>
+            }
 <span class="fc" id="L61">            Funcionario funcionario = FuncionarioDao.get(Integer.parseInt(strFuncionario));</span>
 <span class="fc" id="L62">            Cliente cliente = cliDao.get(Integer.parseInt(strCliente));</span>
 <span class="fc" id="L63">            Date data = new Date(Calendar.getInstance().getTime().getTime());</span>
 
 <span class="fc" id="L65">            Pedido pedido = new Pedido(codigo, produtos, funcionario, cliente, data, estado, tipo);</span>
-<span class="pc bpc" id="L66" title="5 of 14 branches missed.">            switch (operacao) {</span>
+<span class="pc bpc" id="L66" title="3 of 14 branches missed.">            switch (operacao) {</span>
                 case &quot;incluir&quot;:
 <span class="fc" id="L68">                    pedido.setEstado(&quot;Pendente&quot;);</span>
 <span class="fc" id="L69">                    PedidoDao.salvar(pedido);</span>
@@ -91,13 +91,16 @@ public class PedidoService {
 <span class="fc" id="L91">                    pedidoProdutoService.updateProdutos(PedidoDao.get(codigo), pedido.getProdutos());</span>
 <span class="fc" id="L92">                    PedidoDao.alterar(pedido);</span>
 <span class="fc" id="L93">                    retorno = &quot;Alterado com sucesso&quot;;</span>
-                    break;
+<span class="fc" id="L94">                    break;</span>
                 }
+                default:
+<span class="fc" id="L97">                    throw new ServletException(&quot;Por favor escolha uma operação valida&quot;);</span>
             }
-<span class="fc" id="L97">        } catch (ClassNotFoundException | NumberFormatException | SQLException | ServletException e) {</span>
-<span class="fc" id="L98">            retorno = &quot;Erro durante a operação: &quot; + e.getMessage();</span>
-<span class="fc" id="L99">        }</span>
-<span class="fc" id="L100">        return retorno;</span>
+<span class="fc" id="L99">        } catch (ClassNotFoundException | NumberFormatException | SQLException | ServletException e) {</span>
+<span class="fc" id="L100">            retorno = &quot;Erro durante a operação: &quot; + e.getMessage();</span>
+        } finally {
+<span class="pc" id="L102">            return retorno;</span>
+        }
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

@@ -16,10 +16,10 @@ import service.ClienteService;
  *
  * @author ccezar
  */
-<span class="fc" id="L19">public class ManterClienteController extends HttpServlet {</span>
+<span class="nc" id="L19">public class ManterClienteController extends HttpServlet {</span>
 
-<span class="fc" id="L21">    public IClienteDao cliDao = ClienteDao.INSTANCE;</span>
-<span class="fc" id="L22">    private final ClienteService clienteService = new ClienteService();</span>
+<span class="nc" id="L21">    public IClienteDao cliDao = ClienteDao.INSTANCE;</span>
+<span class="nc" id="L22">    private final ClienteService clienteService = new ClienteService();</span>
     /**
      * Processes requests for both HTTP &lt;code&gt;GET&lt;/code&gt; and &lt;code&gt;POST&lt;/code&gt;
      * methods.
@@ -31,17 +31,17 @@ import service.ClienteService;
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-<span class="fc" id="L34">        request.setCharacterEncoding(&quot;UTF-8&quot;);</span>
-<span class="fc" id="L35">        String acao = request.getParameter(&quot;acao&quot;);</span>
-<span class="pc bpc" id="L36" title="7 of 10 branches missed.">        switch (acao) {</span>
+<span class="nc" id="L34">        request.setCharacterEncoding(&quot;UTF-8&quot;);</span>
+<span class="nc" id="L35">        String acao = request.getParameter(&quot;acao&quot;);</span>
+<span class="nc bnc" id="L36" title="All 10 branches missed.">        switch (acao) {</span>
             case &quot;prepararOperacao&quot;:
 <span class="nc" id="L38">                prepararOperacao(request, response);</span>
 <span class="nc" id="L39">                break;</span>
             case &quot;confirmarOperacao&quot;:
-<span class="fc" id="L41">                confirmarOperacao(request, response);</span>
+<span class="nc" id="L41">                confirmarOperacao(request, response);</span>
                 break;
         }
-<span class="fc" id="L44">    }</span>
+<span class="nc" id="L44">    }</span>
 
     /**
      * Handles the HTTP &lt;code&gt;GET&lt;/code&gt; method.
@@ -99,27 +99,27 @@ import service.ClienteService;
     private void confirmarOperacao(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         String retorno;
         try {
-<span class="fc" id="L102">            String cnpj = request.getParameter(&quot;inputCnpj&quot;);</span>
-<span class="fc" id="L103">            String nome = request.getParameter(&quot;inputNome&quot;);</span>
-<span class="fc" id="L104">            String telefone = request.getParameter(&quot;inputTelefone&quot;);</span>
-<span class="fc" id="L105">            int numero = Integer.parseInt(request.getParameter(&quot;inputNumero&quot;));</span>
-<span class="fc" id="L106">            String cep = request.getParameter(&quot;inputCep&quot;);</span>
-<span class="fc" id="L107">            String rua = request.getParameter(&quot;inputRua&quot;);</span>
-<span class="fc" id="L108">            String bairro = request.getParameter(&quot;inputBairro&quot;);</span>
-<span class="fc" id="L109">            String cidade = request.getParameter(&quot;inputCidade&quot;);</span>
-<span class="fc" id="L110">            String complemento = request.getParameter(&quot;inputComplemento&quot;);</span>
-<span class="fc" id="L111">            Estado estado = EstadoDao.get(request.getParameter(&quot;inputEstado&quot;));</span>
+<span class="nc" id="L102">            String cnpj = request.getParameter(&quot;inputCnpj&quot;);</span>
+<span class="nc" id="L103">            String nome = request.getParameter(&quot;inputNome&quot;);</span>
+<span class="nc" id="L104">            String telefone = request.getParameter(&quot;inputTelefone&quot;);</span>
+<span class="nc" id="L105">            int numero = Integer.parseInt(request.getParameter(&quot;inputNumero&quot;));</span>
+<span class="nc" id="L106">            String cep = request.getParameter(&quot;inputCep&quot;);</span>
+<span class="nc" id="L107">            String rua = request.getParameter(&quot;inputRua&quot;);</span>
+<span class="nc" id="L108">            String bairro = request.getParameter(&quot;inputBairro&quot;);</span>
+<span class="nc" id="L109">            String cidade = request.getParameter(&quot;inputCidade&quot;);</span>
+<span class="nc" id="L110">            String complemento = request.getParameter(&quot;inputComplemento&quot;);</span>
+<span class="nc" id="L111">            Estado estado = EstadoDao.get(request.getParameter(&quot;inputEstado&quot;));</span>
 
-<span class="fc" id="L113">            Cliente cliente = new Cliente(cnpj, nome, telefone, numero, -1, cep, rua, bairro, cidade, complemento, estado);</span>
-<span class="fc" id="L114">            retorno = clienteService.confirmarOperacao(request.getParameter(&quot;operacao&quot;), request.getParameter(&quot;inputCodigo&quot;), cliente);</span>
-<span class="fc bfc" id="L115" title="All 2 branches covered.">            if (retorno.contains(&quot;Erro durante a operação: &quot;)) {</span>
-<span class="fc" id="L116">                throw new ServletException(retorno);</span>
+<span class="nc" id="L113">            Cliente cliente = new Cliente(cnpj, nome, telefone, numero, -1, cep, rua, bairro, cidade, complemento, estado);</span>
+<span class="nc" id="L114">            retorno = clienteService.confirmarOperacao(request.getParameter(&quot;operacao&quot;), request.getParameter(&quot;inputCodigo&quot;), cliente);</span>
+<span class="nc bnc" id="L115" title="All 2 branches missed.">            if (retorno.contains(&quot;Erro durante a operação: &quot;)) {</span>
+<span class="nc" id="L116">                throw new ServletException(retorno);</span>
             }
-<span class="fc" id="L118">            response.sendRedirect(request.getContextPath() + &quot;/clientes&quot;);</span>
-<span class="fc" id="L119">        } catch (Exception e) {</span>
-<span class="fc" id="L120">            throw new ServletException(&quot;Erro ao processar controller: &quot; + e.getMessage());</span>
-<span class="fc" id="L121">        }</span>
+<span class="nc" id="L118">            response.sendRedirect(request.getContextPath() + &quot;/clientes&quot;);</span>
+<span class="nc" id="L119">        } catch (Exception e) {</span>
+<span class="nc" id="L120">            throw new ServletException(&quot;Erro ao processar controller: &quot; + e.getMessage());</span>
+<span class="nc" id="L121">        }</span>
 
-<span class="fc" id="L123">    }</span>
+<span class="nc" id="L123">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

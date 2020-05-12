@@ -16,9 +16,9 @@ import service.PagamentoService;
  *
  * @author caioc
  */
-<span class="fc" id="L19">public class ManterPagamentoController extends HttpServlet {</span>
+<span class="nc" id="L19">public class ManterPagamentoController extends HttpServlet {</span>
 
-<span class="fc" id="L21">    private final PagamentoService pagamentoService = new PagamentoService();</span>
+<span class="nc" id="L21">    private final PagamentoService pagamentoService = new PagamentoService();</span>
 
     /**
      * Processes requests for both HTTP &lt;code&gt;GET&lt;/code&gt; and &lt;code&gt;POST&lt;/code&gt;
@@ -31,17 +31,17 @@ import service.PagamentoService;
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-<span class="fc" id="L34">        request.setCharacterEncoding(&quot;UTF-8&quot;);</span>
-<span class="fc" id="L35">        String acao = request.getParameter(&quot;acao&quot;);</span>
-<span class="pc bpc" id="L36" title="7 of 10 branches missed.">        switch (acao) {</span>
+<span class="nc" id="L34">        request.setCharacterEncoding(&quot;UTF-8&quot;);</span>
+<span class="nc" id="L35">        String acao = request.getParameter(&quot;acao&quot;);</span>
+<span class="nc bnc" id="L36" title="All 10 branches missed.">        switch (acao) {</span>
             case &quot;prepararOperacao&quot;:
 <span class="nc" id="L38">                prepararOperacao(request, response);</span>
 <span class="nc" id="L39">                break;</span>
             case &quot;confirmarOperacao&quot;:
-<span class="fc" id="L41">                confirmarOperacao(request, response);</span>
+<span class="nc" id="L41">                confirmarOperacao(request, response);</span>
                 break;
         }
-<span class="fc" id="L44">    }</span>
+<span class="nc" id="L44">    }</span>
 
     private void prepararOperacao(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         try {
@@ -65,18 +65,18 @@ import service.PagamentoService;
     private void confirmarOperacao(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         String retorno;
         try {
-<span class="fc" id="L68">            retorno = pagamentoService.confirmarOperacao(request.getParameter(&quot;operacao&quot;),</span>
-<span class="fc" id="L69">                    request.getParameter(&quot;inputCodigo&quot;),</span>
-<span class="fc" id="L70">                    request.getParameter(&quot;inputPedido&quot;));</span>
-<span class="pc bpc" id="L71" title="1 of 2 branches missed.">            if (retorno.contains(&quot;Erro durante a operação: &quot;)) {</span>
+<span class="nc" id="L68">            retorno = pagamentoService.confirmarOperacao(request.getParameter(&quot;operacao&quot;),</span>
+<span class="nc" id="L69">                    request.getParameter(&quot;inputCodigo&quot;),</span>
+<span class="nc" id="L70">                    request.getParameter(&quot;inputPedido&quot;));</span>
+<span class="nc bnc" id="L71" title="All 2 branches missed.">            if (retorno.contains(&quot;Erro durante a operação: &quot;)) {</span>
 <span class="nc" id="L72">                throw new ServletException(retorno);</span>
             }
-<span class="fc" id="L74">            response.sendRedirect(request.getContextPath() + &quot;/notasFiscais&quot;);</span>
+<span class="nc" id="L74">            response.sendRedirect(request.getContextPath() + &quot;/notasFiscais&quot;);</span>
 <span class="nc" id="L75">        } catch (IOException | ServletException e) {</span>
 <span class="nc" id="L76">            throw new ServletException(&quot;Erro ao processar controller: &quot; + e.getMessage());</span>
 
-<span class="fc" id="L78">        }</span>
-<span class="fc" id="L79">    }</span>
+<span class="nc" id="L78">        }</span>
+<span class="nc" id="L79">    }</span>
 
     // &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;HttpServlet methods. Click on the + sign on the left to edit the code.&quot;&gt;
     /**

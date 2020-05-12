@@ -10,12 +10,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Categoria;
+import service.CategoriaService;
 
 /**
  *
  * @author ccezar
  */
-<span class="nc" id="L18">public class ManterCategoriaController extends HttpServlet {</span>
+<span class="nc" id="L19">public class ManterCategoriaController extends HttpServlet {</span>
+
+<span class="nc" id="L21">    private final CategoriaService categoriaService = new CategoriaService();</span>
 
     /**
      * Processes requests for both HTTP &lt;code&gt;GET&lt;/code&gt; and &lt;code&gt;POST&lt;/code&gt;
@@ -28,17 +31,17 @@ import model.Categoria;
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-<span class="nc" id="L31">        request.setCharacterEncoding(&quot;UTF-8&quot;);</span>
-<span class="nc" id="L32">        String acao = request.getParameter(&quot;acao&quot;);</span>
-<span class="nc bnc" id="L33" title="All 10 branches missed.">        switch (acao) {</span>
+<span class="nc" id="L34">        request.setCharacterEncoding(&quot;UTF-8&quot;);</span>
+<span class="nc" id="L35">        String acao = request.getParameter(&quot;acao&quot;);</span>
+<span class="nc bnc" id="L36" title="All 10 branches missed.">        switch (acao) {</span>
             case &quot;prepararOperacao&quot;:
-<span class="nc" id="L35">                prepararOperacao(request, response);</span>
-<span class="nc" id="L36">                break;</span>
+<span class="nc" id="L38">                prepararOperacao(request, response);</span>
+<span class="nc" id="L39">                break;</span>
             case &quot;confirmarOperacao&quot;:
-<span class="nc" id="L38">                confirmarOperacao(request, response);</span>
+<span class="nc" id="L41">                confirmarOperacao(request, response);</span>
                 break;
         }
-<span class="nc" id="L41">    }</span>
+<span class="nc" id="L44">    }</span>
 
     // &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;HttpServlet methods. Click on the + sign on the left to edit the code.&quot;&gt;
     /**
@@ -52,8 +55,8 @@ import model.Categoria;
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-<span class="nc" id="L55">        processRequest(request, response);</span>
-<span class="nc" id="L56">    }</span>
+<span class="nc" id="L58">        processRequest(request, response);</span>
+<span class="nc" id="L59">    }</span>
 
     /**
      * Handles the HTTP &lt;code&gt;POST&lt;/code&gt; method.
@@ -66,8 +69,8 @@ import model.Categoria;
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-<span class="nc" id="L69">        processRequest(request, response);</span>
-<span class="nc" id="L70">    }</span>
+<span class="nc" id="L72">        processRequest(request, response);</span>
+<span class="nc" id="L73">    }</span>
 
     /**
      * Returns a short description of the servlet.
@@ -76,62 +79,40 @@ import model.Categoria;
      */
     @Override
     public String getServletInfo() {
-<span class="nc" id="L79">        return &quot;Short description&quot;;</span>
+<span class="nc" id="L82">        return &quot;Short description&quot;;</span>
     }// &lt;/editor-fold&gt;
 
     private void prepararOperacao(HttpServletRequest request, HttpServletResponse response) {
         try {
-<span class="nc" id="L84">            String operacao = request.getParameter(&quot;operacao&quot;);</span>
-<span class="nc" id="L85">            request.setAttribute(&quot;operacao&quot;, operacao);</span>
-<span class="nc bnc" id="L86" title="All 2 branches missed.">            if (!operacao.equals(&quot;incluir&quot;)) {</span>
-<span class="nc" id="L87">                int cod = Integer.parseInt(request.getParameter(&quot;cod&quot;));</span>
-<span class="nc" id="L88">                request.setAttribute(&quot;categoria&quot;, CategoriaDao.get(cod));</span>
+<span class="nc" id="L87">            String operacao = request.getParameter(&quot;operacao&quot;);</span>
+<span class="nc" id="L88">            request.setAttribute(&quot;operacao&quot;, operacao);</span>
+<span class="nc bnc" id="L89" title="All 2 branches missed.">            if (!operacao.equals(&quot;incluir&quot;)) {</span>
+<span class="nc" id="L90">                int cod = Integer.parseInt(request.getParameter(&quot;cod&quot;));</span>
+<span class="nc" id="L91">                request.setAttribute(&quot;categoria&quot;, CategoriaDao.get(cod));</span>
             }
-<span class="nc" id="L90">            RequestDispatcher view = request.getRequestDispatcher(&quot;/manterCategoria.jsp&quot;);</span>
-<span class="nc" id="L91">            view.forward(request, response);</span>
-<span class="nc" id="L92">        } catch (Exception e) {</span>
-<span class="nc" id="L93">            e.printStackTrace();</span>
-<span class="nc" id="L94">        }</span>
-<span class="nc" id="L95">    }</span>
+<span class="nc" id="L93">            RequestDispatcher view = request.getRequestDispatcher(&quot;/manterCategoria.jsp&quot;);</span>
+<span class="nc" id="L94">            view.forward(request, response);</span>
+<span class="nc" id="L95">        } catch (Exception e) {</span>
+<span class="nc" id="L96">            e.printStackTrace();</span>
+<span class="nc" id="L97">        }</span>
+<span class="nc" id="L98">    }</span>
 
     private void confirmarOperacao(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+        String retorno;
         try {
-<span class="nc" id="L99">            String operacao = request.getParameter(&quot;operacao&quot;);</span>
-<span class="nc" id="L100">            int codigo = 0;</span>
-<span class="nc bnc" id="L101" title="All 2 branches missed.">            if (!request.getParameter(&quot;inputCodigo&quot;).equals(&quot;&quot;)) {</span>
-<span class="nc" id="L102">                codigo = Integer.parseInt(request.getParameter(&quot;inputCodigo&quot;));</span>
-            } else {
-<span class="nc" id="L104">                codigo = CategoriaDao.lastId() + 1;</span>
+<span class="nc" id="L103">            retorno = categoriaService.confirmarOperacao(request.getParameter(&quot;operacao&quot;), </span>
+<span class="nc" id="L104">                    request.getParameter(&quot;inputCodigo&quot;), </span>
+<span class="nc" id="L105">                    request.getParameter(&quot;inputNome&quot;), </span>
+<span class="nc" id="L106">                    request.getParameter(&quot;inputDescricao&quot;),</span>
+<span class="nc" id="L107">                    request.getParameter(&quot;inputData&quot;));</span>
+<span class="nc bnc" id="L108" title="All 2 branches missed.">            if (retorno.contains(&quot;Erro durante a operação: &quot;)) {</span>
+<span class="nc" id="L109">                throw new ServletException(retorno);</span>
             }
-            
-<span class="nc" id="L107">            String nome = request.getParameter(&quot;inputNome&quot;);</span>
-<span class="nc" id="L108">            String descricao = request.getParameter(&quot;inputDescricao&quot;);</span>
-<span class="nc bnc" id="L109" title="All 2 branches missed.">            if(request.getParameter(&quot;inputData&quot;).equals(&quot;&quot;)){</span>
-<span class="nc" id="L110">               throw new ServletException(&quot;Por favor escolha um produto&quot;);</span>
-
-            }
-<span class="nc" id="L113">            Date data = Date.valueOf(request.getParameter(&quot;inputData&quot;));</span>
-<span class="nc bnc" id="L114" title="All 2 branches missed.">            if(data.compareTo(new Date(Calendar.getInstance().getTime().getTime()))&gt;0){</span>
-<span class="nc" id="L115">                 throw new ServletException(&quot;Data Errada&quot;);         </span>
-            }
-<span class="nc" id="L117">            Categoria categoria = new Categoria(codigo, nome, descricao, data);</span>
-<span class="nc bnc" id="L118" title="All 14 branches missed.">            switch (operacao) {</span>
-                case &quot;incluir&quot;:
-<span class="nc" id="L120">                    CategoriaDao.salvar(categoria);</span>
-<span class="nc" id="L121">                    break;</span>
-                case &quot;excluir&quot;:
-<span class="nc" id="L123">                    CategoriaDao.apagar(categoria);</span>
-<span class="nc" id="L124">                    break;</span>
-                case &quot;alterar&quot;:
-<span class="nc" id="L126">                    CategoriaDao.alterar(categoria);</span>
-                    break;
-            }
-            //request.getRequestDispatcher(&quot;/categorias.jsp&quot;).forward(request, response);
-<span class="nc" id="L130">            response.sendRedirect(request.getContextPath() + &quot;/categorias&quot;);</span>
-<span class="nc" id="L131">        } catch (Exception e) {</span>
-<span class="nc" id="L132">            throw new ServletException(&quot;Erro ao processar controller: &quot; + e.getMessage());</span>
-<span class="nc" id="L133">        }</span>
-<span class="nc" id="L134">    }</span>
+<span class="nc" id="L111">            response.sendRedirect(request.getContextPath() + &quot;/categorias&quot;);</span>
+<span class="nc" id="L112">        } catch (Exception e) {</span>
+<span class="nc" id="L113">            throw new ServletException(&quot;Erro ao processar controller: &quot; + e.getMessage());</span>
+<span class="nc" id="L114">        }</span>
+<span class="nc" id="L115">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

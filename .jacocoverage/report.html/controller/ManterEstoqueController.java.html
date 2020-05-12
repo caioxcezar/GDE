@@ -16,8 +16,8 @@ import service.EstoqueService;
  *
  * @author ccezar
  */
-<span class="fc" id="L19">public class ManterEstoqueController extends HttpServlet {</span>
-<span class="fc" id="L20">    private EstoqueService estoqueService = new EstoqueService();</span>
+<span class="nc" id="L19">public class ManterEstoqueController extends HttpServlet {</span>
+<span class="nc" id="L20">    private EstoqueService estoqueService = new EstoqueService();</span>
     
     /**
      * Processes requests for both HTTP &lt;code&gt;GET&lt;/code&gt; and &lt;code&gt;POST&lt;/code&gt;
@@ -30,17 +30,17 @@ import service.EstoqueService;
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-<span class="fc" id="L33">        request.setCharacterEncoding(&quot;UTF-8&quot;);</span>
-<span class="fc" id="L34">        String acao = request.getParameter(&quot;acao&quot;);</span>
-<span class="pc bpc" id="L35" title="7 of 10 branches missed.">        switch (acao) {</span>
+<span class="nc" id="L33">        request.setCharacterEncoding(&quot;UTF-8&quot;);</span>
+<span class="nc" id="L34">        String acao = request.getParameter(&quot;acao&quot;);</span>
+<span class="nc bnc" id="L35" title="All 10 branches missed.">        switch (acao) {</span>
             case &quot;prepararOperacao&quot;:
 <span class="nc" id="L37">                prepararOperacao(request, response);</span>
 <span class="nc" id="L38">                break;</span>
             case &quot;confirmarOperacao&quot;:
-<span class="fc" id="L40">                confirmarOperacao(request, response);</span>
+<span class="nc" id="L40">                confirmarOperacao(request, response);</span>
                 break;
         }
-<span class="fc" id="L43">    }</span>
+<span class="nc" id="L43">    }</span>
 
     private void prepararOperacao(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         try {
@@ -64,17 +64,17 @@ import service.EstoqueService;
     private void confirmarOperacao(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         String retorno;
         try {
-<span class="fc" id="L67">            retorno = estoqueService.confirmarOperacao(request.getParameter(&quot;operacao&quot;),</span>
-<span class="fc" id="L68">                    request.getParameter(&quot;inputCodigo&quot;),</span>
-<span class="fc" id="L69">                    request.getParameter(&quot;inputPedido&quot;));</span>
-<span class="pc bpc" id="L70" title="1 of 2 branches missed.">            if (retorno.contains(&quot;Erro durante a operação: &quot;)) {</span>
+<span class="nc" id="L67">            retorno = estoqueService.confirmarOperacao(request.getParameter(&quot;operacao&quot;),</span>
+<span class="nc" id="L68">                    request.getParameter(&quot;inputCodigo&quot;),</span>
+<span class="nc" id="L69">                    request.getParameter(&quot;inputPedido&quot;));</span>
+<span class="nc bnc" id="L70" title="All 2 branches missed.">            if (retorno.contains(&quot;Erro durante a operação: &quot;)) {</span>
 <span class="nc" id="L71">                throw new ServletException(retorno);</span>
             }
-<span class="fc" id="L73">            response.sendRedirect(request.getContextPath() + &quot;/estoque&quot;);</span>
+<span class="nc" id="L73">            response.sendRedirect(request.getContextPath() + &quot;/estoque&quot;);</span>
 <span class="nc" id="L74">        } catch (IOException | ServletException e) {</span>
 <span class="nc" id="L75">            throw new ServletException(&quot;Erro ao processar controller: &quot; + e.getMessage());</span>
-<span class="fc" id="L76">        }</span>
-<span class="fc" id="L77">    }</span>
+<span class="nc" id="L76">        }</span>
+<span class="nc" id="L77">    }</span>
 
     // &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;HttpServlet methods. Click on the + sign on the left to edit the code.&quot;&gt;
     /**

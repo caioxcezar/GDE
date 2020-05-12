@@ -26,7 +26,7 @@ import model.Produto;
 <span class="fc" id="L26">            Categoria categoria = CategoriaDao.get(Integer.parseInt(strCategoria));</span>
             
 <span class="fc" id="L28">            Produto produto = new Produto(codigo, nome, descricao, categoria, valor);</span>
-<span class="pc bpc" id="L29" title="5 of 14 branches missed.">            switch (operacao) {</span>
+<span class="pc bpc" id="L29" title="3 of 14 branches missed.">            switch (operacao) {</span>
                 case &quot;incluir&quot;:
 <span class="fc" id="L31">                    ProdutoDao.salvar(produto);</span>
 <span class="fc" id="L32">                    retorno = &quot;Incluido com sucesso&quot;;</span>
@@ -40,10 +40,11 @@ import model.Produto;
 <span class="fc" id="L40">                    retorno = &quot;Alteraco com sucesso&quot;;</span>
                     break;
             }
-<span class="nc" id="L43">        } catch (Exception e) {</span>
-<span class="nc" id="L44">            retorno = &quot;Erro durante a operação: &quot; + e.getMessage();</span>
-<span class="fc" id="L45">        }</span>
-<span class="fc" id="L46">        return retorno;</span>
+<span class="fc" id="L43">        } catch (Exception e) {</span>
+<span class="fc" id="L44">            retorno = &quot;Erro durante a operação: &quot; + e.getMessage();</span>
+        } finally {
+<span class="pc" id="L46">            return retorno;</span>
+        }
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

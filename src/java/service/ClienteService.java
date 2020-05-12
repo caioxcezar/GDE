@@ -1,6 +1,7 @@
 package service;
 
 import dao.ClienteDao;
+import dao.IClienteDao;
 import java.sql.SQLException;
 import model.Cliente;
 
@@ -9,7 +10,7 @@ import model.Cliente;
  * @author caioc
  */
 public class ClienteService {
-    private final ClienteDao cliDao = ClienteDao.INSTANCE;
+    public IClienteDao cliDao = ClienteDao.INSTANCE;
     public String confirmarOperacao(String operacao, String strCodigo, Cliente cliente) {
         String retorno = "";
         try {

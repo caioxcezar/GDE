@@ -2,7 +2,6 @@ package service;
 
 import dao.CargoDao;
 import java.sql.SQLException;
-import javax.servlet.ServletException;
 import model.Cargo;
 
 /**
@@ -31,7 +30,7 @@ public class CargoService {
                     break;
                 case "alterar":
                     CargoDao.alterar(cargo);
-                    retorno = "Alteraco com sucesso";
+                    retorno = "Alterado com sucesso";
                     break;
             }
             

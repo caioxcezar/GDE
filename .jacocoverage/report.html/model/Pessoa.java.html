@@ -9,105 +9,108 @@ public abstract class Pessoa {
     private int numero, codigo;
     private String rua, bairro, cidade, complemento, cep;
     private Estado estado;
+    
+<span class="fc" id="L13">    public Pessoa() {</span>
 
-<span class="fc" id="L13">    public Pessoa(String nome, String telefone) {</span>
-<span class="fc" id="L14">        this.nome = nome;</span>
-<span class="fc" id="L15">        this.telefone = telefone;</span>
-<span class="fc" id="L16">    }</span>
+<span class="fc" id="L15">    }</span>
+<span class="nc" id="L16">    public Pessoa(String nome, String telefone) {</span>
+<span class="nc" id="L17">        this.nome = nome;</span>
+<span class="nc" id="L18">        this.telefone = telefone;</span>
+<span class="nc" id="L19">    }</span>
 
-<span class="fc" id="L18">    public Pessoa(String nome, String telefone, int numero, int codigo, String cep, String rua, String bairro, String cidade, String complemento, Estado estado) {</span>
-<span class="fc" id="L19">        this.nome = nome;</span>
-<span class="fc" id="L20">        this.telefone = telefone;</span>
-<span class="fc" id="L21">        this.numero = numero;</span>
-<span class="fc" id="L22">        this.codigo = codigo;</span>
-<span class="fc" id="L23">        this.cep = cep;</span>
-<span class="fc" id="L24">        this.rua = rua;</span>
-<span class="fc" id="L25">        this.bairro = bairro;</span>
-<span class="fc" id="L26">        this.cidade = cidade;</span>
-<span class="fc" id="L27">        this.complemento = complemento;</span>
-<span class="fc" id="L28">        this.estado = estado;</span>
-<span class="fc" id="L29">    }</span>
+<span class="fc" id="L21">    public Pessoa(String nome, String telefone, int numero, int codigo, String cep, String rua, String bairro, String cidade, String complemento, Estado estado) {</span>
+<span class="fc" id="L22">        this.nome = nome;</span>
+<span class="fc" id="L23">        this.telefone = telefone;</span>
+<span class="fc" id="L24">        this.numero = numero;</span>
+<span class="fc" id="L25">        this.codigo = codigo;</span>
+<span class="fc" id="L26">        this.cep = cep;</span>
+<span class="fc" id="L27">        this.rua = rua;</span>
+<span class="fc" id="L28">        this.bairro = bairro;</span>
+<span class="fc" id="L29">        this.cidade = cidade;</span>
+<span class="fc" id="L30">        this.complemento = complemento;</span>
+<span class="fc" id="L31">        this.estado = estado;</span>
+<span class="fc" id="L32">    }</span>
 
     public Estado getEstado() {
-<span class="fc" id="L32">        return estado;</span>
+<span class="nc" id="L35">        return estado;</span>
     }
 
     public void setEstado(Estado estado) {
-<span class="nc" id="L36">        this.estado = estado;</span>
-<span class="nc" id="L37">    }</span>
+<span class="nc" id="L39">        this.estado = estado;</span>
+<span class="nc" id="L40">    }</span>
 
     public int getCodigo() {
-<span class="fc" id="L40">        return codigo;</span>
+<span class="fc" id="L43">        return codigo;</span>
     }
 
     public void setCodigo(int codigo) {
-<span class="fc" id="L44">        this.codigo = codigo;</span>
-<span class="fc" id="L45">    }</span>
+<span class="fc" id="L47">        this.codigo = codigo;</span>
+<span class="fc" id="L48">    }</span>
 
 
     public String getComplemento() {
-<span class="fc" id="L49">        return complemento;</span>
+<span class="nc" id="L52">        return complemento;</span>
     }
 
     public void setComplemento(String complemento) {
-<span class="nc" id="L53">        this.complemento = complemento;</span>
-<span class="nc" id="L54">    }</span>
+<span class="nc" id="L56">        this.complemento = complemento;</span>
+<span class="nc" id="L57">    }</span>
 
     public String getNome() {
-<span class="fc" id="L57">        return nome;</span>
+<span class="nc" id="L60">        return nome;</span>
     }
 
     public void setNome(String nome) {
-<span class="nc" id="L61">        this.nome = nome;</span>
-<span class="nc" id="L62">    }</span>
+<span class="nc" id="L64">        this.nome = nome;</span>
+<span class="nc" id="L65">    }</span>
 
     public String getTelefone() {
-<span class="fc" id="L65">        return telefone;</span>
+<span class="nc" id="L68">        return telefone;</span>
     }
 
     public void setTelefone(String telefone) {
-<span class="nc" id="L69">        this.telefone = telefone;</span>
-<span class="nc" id="L70">    }</span>
+<span class="nc" id="L72">        this.telefone = telefone;</span>
+<span class="nc" id="L73">    }</span>
 
     public int getNumero() {
-<span class="fc" id="L73">        return numero;</span>
+<span class="nc" id="L76">        return numero;</span>
     }
 
     public void setNumero(int numero) {
-<span class="nc" id="L77">        this.numero = numero;</span>
-<span class="nc" id="L78">    }</span>
+<span class="nc" id="L80">        this.numero = numero;</span>
+<span class="nc" id="L81">    }</span>
 
     public String getRua() {
-<span class="fc" id="L81">        return rua;</span>
+<span class="nc" id="L84">        return rua;</span>
     }
 
     public void setRua(String rua) {
-<span class="nc" id="L85">        this.rua = rua;</span>
-<span class="nc" id="L86">    }</span>
+<span class="nc" id="L88">        this.rua = rua;</span>
+<span class="nc" id="L89">    }</span>
 
     public String getBairro() {
-<span class="fc" id="L89">        return bairro;</span>
+<span class="nc" id="L92">        return bairro;</span>
     }
 
     public void setBairro(String bairro) {
-<span class="nc" id="L93">        this.bairro = bairro;</span>
-<span class="nc" id="L94">    }</span>
+<span class="nc" id="L96">        this.bairro = bairro;</span>
+<span class="nc" id="L97">    }</span>
 
     public String getCidade() {
-<span class="fc" id="L97">        return cidade;</span>
+<span class="nc" id="L100">        return cidade;</span>
     }
 
     public void setCidade(String cidade) {
-<span class="nc" id="L101">        this.cidade = cidade;</span>
-<span class="nc" id="L102">    }</span>
+<span class="nc" id="L104">        this.cidade = cidade;</span>
+<span class="nc" id="L105">    }</span>
 
     public String getCep() {
-<span class="fc" id="L105">        return cep;</span>
+<span class="nc" id="L108">        return cep;</span>
     }
 
     public void setCep(String cep) {
-<span class="nc" id="L109">        this.cep = cep;</span>
-<span class="nc" id="L110">    }</span>
+<span class="nc" id="L112">        this.cep = cep;</span>
+<span class="nc" id="L113">    }</span>
     
 
 }

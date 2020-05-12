@@ -9,7 +9,10 @@ public abstract class Pessoa {
     private int numero, codigo;
     private String rua, bairro, cidade, complemento, cep;
     private Estado estado;
+    
+    public Pessoa() {
 
+    }
     public Pessoa(String nome, String telefone) {
         this.nome = nome;
         this.telefone = telefone;
